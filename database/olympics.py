@@ -40,7 +40,8 @@ def need_help(command_line_arguments):
     has_argument = command_line_arguments.athletes_noc or command_line_arguments.gold_nocs or command_line_arguments.year_athletes_gold
     if not has_argument or command_line_arguments.help:
         return True
-    else False
+    else:
+        return False
 
 def get_command_line_arguments():
     """ @return: returns query and query title based on command line argument input
