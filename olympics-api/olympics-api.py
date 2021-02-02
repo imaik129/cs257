@@ -66,13 +66,27 @@ def make_athlete_dictionaries(connection):
 
 
 @app.route('/games')
-def get_games():
+def get_games(connection):
     """list of games dictionary sorted by year"""
+    games_list = []
+    for game in make_games_dictionaries(connection):
+        games_list.append(game)
+    return json.dumps(games_list)
 
 @app.route('/nocs')
-def get_nocs():
+def get_nocs(connection):
     """list of nocs dictionary alphabetized by NOC abbreviation"""
-
+    nocs_list = []
+    for noc in make_noc_dictionaries(connection):
+        nocs_list.append(noc)
+    return json.dumps(nocs_list)
 @app.route('/medalists/games/<games_id>')
 def get_medalists():
     """list of medalist dictionaries of medalists in specified olympic games"""
+    medalist_list = []
+    noc = flask.request.args.get('noc')
+    for medalist in make_athlete_dictionaries(connection):
+        if noc is not None and noc != make_athlete_dictionaries(connection)['noc']:
+            continue
+        medalist_list.append(medalist)
+    return json.dumps(medalist_list)
