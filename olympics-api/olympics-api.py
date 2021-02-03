@@ -4,6 +4,16 @@ import psycopg2
 import json
 import flask
 
+app = flask.Flask(__name__)
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser('')
+    parser.add_argument('host', help='the host on which this application is running')
+    parser.add_argument('port', type=int, help='the port on which this application is listening')
+    arguments = parser.parse_args()
+    app.run(host=arguments.host, port=arguments.port, debug=True)
+
+
 def connect_to_database():
     from config import password
     from config import database
@@ -30,7 +40,8 @@ def sort_query(query,connection):
 {'id': id, 'year': year, 'season': season, 'city': city}
 """
 def make_games_dictionaries(connection):
-    query = """SELECT * FROM olympic_games;"""
+    query = """SELECT * FROM olympic_games
+    ORDER BY year DESC;"""
     result_list = []
     cursor = sort_by_query(query, connection)
     for row in cursor:
@@ -40,10 +51,10 @@ def make_games_dictionaries(connection):
 """method that makes nocs list of dictionaries
 {'abbreviation': abbreviation, 'name': name}"""
 def make_noc_dictionaries(connection):
-    query = """SELECT noc, team
-    FROM nocs, teams, main_events
-    WHERE nocs.nocs_id = main_events.nocs_id
-    AND teams.team_id = meain_events.team_id"""
+    query = """SELECT DISTINCT noc, noc_full
+    FROM nocs, noc_regions
+    WHERE noc_regions.noc_abbreviation = nocs.noc
+    ORDER BY noc;"""
     result_list = []
     cursor = sort_by_query(query, connection)
     for row in cursor:
@@ -53,11 +64,24 @@ def make_noc_dictionaries(connection):
 """method that makes athlete list of dictionaries
 {'athlete_id': athlete_id, 'athlete_name': athlete_name, 'athlete_sex':athlete_sex, 'sport':sport, 'event':event, 'medal':medal
 }"""
-def make_athlete_dictionaries(connection):
-    query = """SELECT athlete_id, athletes_name, sex, medal, sport_category,detailed_event, medal, oly_game_id
-    FROM athletes, main_events, detailed_events, medals
+def make_athlete_dictionaries(connection, oly_game_id):
+    query = """SELECT athlete_id, athlete_name, sex, sport_categories.wport_category, detailed_event, medal
+    FROM athletes, main_events, detailed_events, medals, olympic_games
     WHERE athletes.athlete_id = main_events.athlete_id
-     """
+    AND main_events.oly_game_id = """ + oly_game_id + """
+    AND medals.medal_id = main_events.medal_ID
+    AND detailed_events.detailed_event_id = main_events.detailed_event_id
+    AND sport_categories.sport_category_id = main_events.sport_category_id;
+    """
+
+    """SELECT athletes.athlete_id, athletes.athlete_name, sex, sport_categories.sport_category, detailed_event, medal
+    FROM athletes, main_events, detailed_events, medals, olympic_games, sport_categories
+    WHERE athletes.athlete_id = main_events.athlete_id
+    AND main_events.oly_game_id = 2
+    AND medals.medal_id = main_events.medal_ID
+    AND detailed_events.detailed_event_id = main_events.detailed_event_id
+    AND sport_categories.sport_category_id = main_events.sport_category_id;"""
+
     result_list = []
     cursor = sort_by_query(query, connection)
     for row in cursor:
@@ -66,24 +90,28 @@ def make_athlete_dictionaries(connection):
 
 
 @app.route('/games')
-def get_games(connection):
+def get_games():
     """list of games dictionary sorted by year"""
     games_list = []
+    connection = connect_to_database()
     for game in make_games_dictionaries(connection):
         games_list.append(game)
     return json.dumps(games_list)
 
 @app.route('/nocs')
-def get_nocs(connection):
+def get_nocs():
     """list of nocs dictionary alphabetized by NOC abbreviation"""
     nocs_list = []
+    connection = connect_to_database()
     for noc in make_noc_dictionaries(connection):
         nocs_list.append(noc)
     return json.dumps(nocs_list)
+
 @app.route('/medalists/games/<games_id>')
 def get_medalists():
     """list of medalist dictionaries of medalists in specified olympic games"""
     medalist_list = []
+    connection = connect_to_database()
     noc = flask.request.args.get('noc')
     for medalist in make_athlete_dictionaries(connection):
         if noc is not None and noc != make_athlete_dictionaries(connection)['noc']:
