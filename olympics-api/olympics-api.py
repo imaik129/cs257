@@ -118,7 +118,7 @@ def get_games():
 
 @app.route('/nocs')
 def get_nocs():
-    """returns json list of dictionaries of noc attributes""""
+    """returns json list of dictionaries of noc attributes"""
     nocs_list = []
     connection = connect_to_database()
     for noc in make_noc_dictionaries(connection):
