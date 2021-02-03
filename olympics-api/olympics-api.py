@@ -1,4 +1,4 @@
-
+"""Authors: Victor Huang, Kyosuke Imai"""
 import argparse
 import psycopg2
 import json
@@ -8,6 +8,7 @@ import sys
 app = flask.Flask(__name__)
 
 def connect_to_database():
+    """connect program to database using config.py"""
     from config import password
     from config import database
     from config import user
@@ -20,6 +21,7 @@ def connect_to_database():
         exit()
 
 def sort_query(query,connection):
+    """"""
     try:
         cursor = connection.cursor()
         this_query = query
@@ -68,24 +70,34 @@ def make_athlete_dictionaries(connection, oly_game_id):
     AND sport_categories.sport_category_id = main_events.sport_category_id
     AND (medal = 'Gold' OR medal = 'Silver' OR medal = 'Bronze'  )
     ;"""
-    # query = ["SELECT DISTINCT athletes.athlete_ID, athlete_name, sex, sport_category, detailed_event, medal", "
-    # FROM athletes, main_events, olympic_games, detailed_events, medals, sport_categories, nocs",
-    # "WHERE olympic_games.oly_game_ID = " + oly_game_id,
-    # "AND olympic_games.oly_game_ID = main_events.oly_game_ID"
-    # "AND athletes.athlete_ID = main_events.athlete_ID",
-    # "AND detailed_events.detailed_event_id = main_events.detailed_event_id",
-    # "AND medals.medal_id = main_events.medal_id", "
-    # AND sport_categories.sport_category_id = main_events.sport_category_id",
-    # "AND (medal = 'Gold' OR medal = 'Silver' OR medal = 'Bronze');"],
-
-
-
 
     result_list = []
     cursor = sort_query(query, connection)
     for row in cursor:
         result_list.append({'athlete_id': row[0], 'athlete_name': row[1], 'athlete_sex': row[2], 'sport': row[3], 'event': row[4], 'medal': row[5]})
     return result_list
+
+
+def make_athlete_dictionaries_with_nocs(connection, oly_game_id, nocs):
+    query = """SELECT DISTINCT athletes.athlete_ID, athlete_name, sex, sport_category, detailed_event, medal
+    FROM athletes, main_events, olympic_games, detailed_events, medals, sport_categories, nocs
+    WHERE olympic_games.oly_game_ID = """ + oly_game_id + """
+    AND olympic_games.oly_game_ID = main_events.oly_game_ID
+    AND athletes.athlete_ID = main_events.athlete_ID
+    AND detailed_events.detailed_event_id = main_events.detailed_event_id
+    AND medals.medal_id = main_events.medal_id
+    AND sport_categories.sport_category_id = main_events.sport_category_id
+    AND nocs.noc = '""" + nocs + """'
+    AND nocs.nocs_id = main_events.noc_id
+    AND (medal = 'Gold' OR medal = 'Silver' OR medal = 'Bronze'  )
+    ; """
+
+    result_list = []
+    cursor = sort_query(query, connection)
+    for row in cursor:
+        result_list.append({'athlete_id': row[0], 'athlete_name': row[1], 'athlete_sex': row[2], 'sport': row[3], 'event': row[4], 'medal': row[5]})
+    return result_list
+
 
 @app.route('/')
 def hello():
@@ -109,17 +121,28 @@ def get_nocs():
         nocs_list.append(noc)
     return json.dumps(nocs_list)
 
+
 @app.route('/medalists/games/<games_id>')
-def get_medalists(games_id):
+def get_medalists_noc(games_id):
     """list of medalist dictionaries of medalists in specified olympic games"""
     medalist_list = []
+    oly_game_id = games_id
     connection = connect_to_database()
     noc = flask.request.args.get('noc')
-    for medalist in make_athlete_dictionaries(connection, games_id):
-        if noc is not None and noc != make_athlete_dictionaries(connection, games_id)['noc']:
-            query.insert(5, "AND nocs.noc = " + noc)
-        medalist_list.append(medalist)
+    string_noc = str(noc)
+    if noc:
+        for medalist in make_athlete_dictionaries_with_nocs(connection, oly_game_id, string_noc):
+            medalist_list.append(medalist)
+
+    else:
+        for medalist in make_athlete_dictionaries(connection, oly_game_id):
+            medalist_list.append(medalist)
+
     return json.dumps(medalist_list)
+
+
+
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('')
