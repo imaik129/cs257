@@ -77,7 +77,7 @@ def make_athlete_dictionaries(connection, oly_game_id):
         result_list.append({'athlete_id': row[0], 'athlete_name': row[1], 'athlete_sex': row[2], 'sport': row[3], 'event': row[4], 'medal': row[5]})
     return result_list
 
-
+"""Creating the athlete dictionary for methods below"""
 def make_athlete_dictionaries_with_nocs(connection, oly_game_id, nocs):
     query = """SELECT DISTINCT athletes.athlete_ID, athlete_name, sex, sport_category, detailed_event, medal
     FROM athletes, main_events, olympic_games, detailed_events, medals, sport_categories, nocs
@@ -91,18 +91,19 @@ def make_athlete_dictionaries_with_nocs(connection, oly_game_id, nocs):
     AND nocs.nocs_id = main_events.noc_id
     AND (medal = 'Gold' OR medal = 'Silver' OR medal = 'Bronze'  )
     ; """
-
+"""Create a result_list list to store through querey"""
     result_list = []
     cursor = sort_query(query, connection)
     for row in cursor:
         result_list.append({'athlete_id': row[0], 'athlete_name': row[1], 'athlete_sex': row[2], 'sport': row[3], 'event': row[4], 'medal': row[5]})
     return result_list
 
-
+"""The greeting "page for users"""
 @app.route('/')
 def hello():
-    return 'Hello, Citizen of CS257.'
+    return 'Hello, Welcome to our Olympics database!'
 
+"""Returns all olympic games"""
 @app.route('/games')
 def get_games():
     """list of games dictionary sorted by year"""
@@ -112,6 +113,7 @@ def get_games():
         games_list.append(game)
     return json.dumps(games_list)
 
+"""Returns all olympic NOCS"""
 @app.route('/nocs')
 def get_nocs():
     """list of nocs dictionary alphabetized by NOC abbreviation"""
@@ -122,22 +124,26 @@ def get_nocs():
     return json.dumps(nocs_list)
 
 
+"""Returns all medalists who won a medal at a center olympic game given by the user via HTML"""
 @app.route('/medalists/games/<games_id>')
 def get_medalists_noc(games_id):
-    """list of medalist dictionaries of medalists in specified olympic games"""
+    """List of medalist dictionaries of medalists in specified olympic games"""
     medalist_list = []
     oly_game_id = games_id
     connection = connect_to_database()
     noc = flask.request.args.get('noc')
     string_noc = str(noc)
+    
+    """Optional parameter, if the user decides to enter a NOC, return all olympians who won a medal from that NOC at that olympic game"""
     if noc:
         for medalist in make_athlete_dictionaries_with_nocs(connection, oly_game_id, string_noc):
             medalist_list.append(medalist)
-
+    """If the user decides does not enter a NOC, return all olympians who won a medal at that olympic game"""
     else:
         for medalist in make_athlete_dictionaries(connection, oly_game_id):
             medalist_list.append(medalist)
 
+    """Returns a list of medal winners for a game or for a certain NOC at that gamex"""
     return json.dumps(medalist_list)
 
 
