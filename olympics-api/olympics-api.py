@@ -74,7 +74,7 @@ def make_athlete_dictionaries(connection, oly_game_id):
     AND sport_categories.sport_category_id = main_events.sport_category_id;
     """
 
-    """SELECT athletes.athlete_id, athletes.athlete_name, sex, sport_categories.sport_category, detailed_event, medal
+    """SELECT athletes.athlete_id, athlete_name, sex, sport_categories.sport_category, detailed_event, medal
     FROM athletes, main_events, detailed_events, medals, olympic_games, sport_categories
     WHERE athletes.athlete_id = main_events.athlete_id
     AND main_events.oly_game_id = 2
