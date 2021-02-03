@@ -1,3 +1,3 @@
 database = 'olympics'
-user = ''
-password = ''
+user = 'kyosuke912'
+password = 'New-York0912'

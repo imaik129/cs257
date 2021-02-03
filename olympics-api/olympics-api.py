@@ -58,35 +58,28 @@ def make_noc_dictionaries(connection):
 {'athlete_id': athlete_id, 'athlete_name': athlete_name, 'athlete_sex':athlete_sex, 'sport':sport, 'event':event, 'medal':medal
 }"""
 def make_athlete_dictionaries(connection, oly_game_id):
-    query = """SELECT athletes.athlete_id, athlete_name, sex, sport_categories.sport_category, detailed_event, medal
-    FROM athletes, main_events, detailed_events, medals, olympic_games, sport_categories
-    WHERE athletes.athlete_id = main_events.athlete_id
-    AND main_events.oly_game_id = """ + oly_game_id + """
-    AND medals.medal_id = main_events.medal_ID
+    query = """SELECT DISTINCT athletes.athlete_ID, athlete_name, sex, sport_category, detailed_event, medal
+    FROM athletes, main_events, olympic_games, detailed_events, medals, sport_categories
+    WHERE olympic_games.oly_game_ID = """ + oly_game_id + """
+    AND olympic_games.oly_game_ID = main_events.oly_game_ID
+    AND athletes.athlete_ID = main_events.athlete_ID
     AND detailed_events.detailed_event_id = main_events.detailed_event_id
-    AND sport_categories.sport_category_id = main_events.sport_category_id;
-    """
+    AND medals.medal_id = main_events.medal_id
+    AND sport_categories.sport_category_id = main_events.sport_category_id
+    AND (medal = 'Gold' OR medal = 'Silver' OR medal = 'Bronze'  )
+    ;"""
+    # query = ["SELECT DISTINCT athletes.athlete_ID, athlete_name, sex, sport_category, detailed_event, medal", "
+    # FROM athletes, main_events, olympic_games, detailed_events, medals, sport_categories, nocs",
+    # "WHERE olympic_games.oly_game_ID = " + oly_game_id,
+    # "AND olympic_games.oly_game_ID = main_events.oly_game_ID"
+    # "AND athletes.athlete_ID = main_events.athlete_ID",
+    # "AND detailed_events.detailed_event_id = main_events.detailed_event_id",
+    # "AND medals.medal_id = main_events.medal_id", "
+    # AND sport_categories.sport_category_id = main_events.sport_category_id",
+    # "AND (medal = 'Gold' OR medal = 'Silver' OR medal = 'Bronze');"],
 
-    """SELECT athletes.athlete_id, athlete_name, sex, sport_categories.sport_category, detailed_event, medal
-    FROM athletes, main_events, detailed_events, medals, olympic_games, sport_categories
-    WHERE athletes.athlete_id = main_events.athlete_id
-    AND medals.medal_id = main_events.medal_ID
-    AND detailed_events.detailed_event_id = main_events.detailed_event_id
-    AND sport_categories.sport_category_id = main_events.sport_category_id;
-    """
 
-    # query = """SELECT athletes.athlete_id, athlete_name, sex, sport_categories.sport_category, detailed_event, medal
-    # FROM athletes, main_events, detailed_events, medals, olympic_games, sport_categories
-    # WHERE athletes.athlete_id = main_events.athlete_id
-    # AND medals.medal_id = main_events.medal_id
-    # AND detailed_events.detailed_event_id = main_events.detailed_event_id
-    # AND sport_categories.sport_category_id = main_events.sport_category_id;"
-    #
-    # WHERE main_events.oly_game_id = 2
-    # AND athletes.athlete_id = main_events.athlete_id
-    # AND medals.medal_id = main_events.medal_id
-    # AND detailed_events.detailed_event_id = main_events.detailed_event_id
-    # AND sport_categories.sport_category_id = main_events.sport_category_id;"""
+
 
     result_list = []
     cursor = sort_query(query, connection)
@@ -124,7 +117,7 @@ def get_medalists(games_id):
     noc = flask.request.args.get('noc')
     for medalist in make_athlete_dictionaries(connection, games_id):
         if noc is not None and noc != make_athlete_dictionaries(connection, games_id)['noc']:
-            continue
+            query.insert(5, "AND nocs.noc = " + noc)
         medalist_list.append(medalist)
     return json.dumps(medalist_list)
 
