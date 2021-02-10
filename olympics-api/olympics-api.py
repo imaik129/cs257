@@ -97,6 +97,7 @@ def make_athlete_dictionaries_with_nocs(connection, oly_game_id, nocs):
     AND (medal = 'Gold' OR medal = 'Silver' OR medal = 'Bronze'  )
     ; """
 
+
     result_list = []
     cursor = sort_query(query, connection)
     for row in cursor:
