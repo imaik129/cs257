@@ -35,7 +35,7 @@ def connection_to_database():
 def get_help():
     return flask.render_template('help.html')
 
-def get_home_query():
+def get_homepage_query():
     '''
     Placeholder
     '''
@@ -56,8 +56,8 @@ def get_songs():
     return json.dumps(top_20_songs_list)
 
 def get_search_results():
-    category_to_search_by= flask.request.args.get('category_to_search_by')
-    category_to_search_for= flask.request.args.get('category_to_search_for')
+    category_to_search_by = flask.request.args.get('category_to_search_by')
+    category_to_search_for = flask.request.args.get('category_to_search_for')
     result_size= flask.request.args.get('result_size')
     search_string= flask.request.args.get('search_string')
 
@@ -84,7 +84,6 @@ def get_search_results():
 
 @app.route('/search/category_to_search_by={category}&category_to_search_for={category}&result_size={chosen result size per page}&search_string=(user search string)')
 def get_results():
-
     pass
     return json.dumps(results_list)
 
@@ -103,7 +102,7 @@ def get_all_playlists():
         exit()
 
 @app.route('/your_playlists')
-def get_all_playlists():
+def get_list_of_playlists():
     pass
     return json.dumps(playlists_list)
 
