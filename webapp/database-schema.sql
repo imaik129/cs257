@@ -27,7 +27,7 @@ CREATE TABLE song_characteristics (
 
 CREATE TABLE genre_details (
   genre_id SERIAL,
-  genre_name text,
+  genre_name text
 );
 
 CREATE TABLE genre_characteristics (
@@ -39,20 +39,16 @@ CREATE TABLE genre_characteristics (
 
 CREATE TABLE song_artist_link (
   artist_id int,
-  song_id int,
+  song_id int
 );
 
 CREATE TABLE artist_genre_link (
   artist_id int,
-  genre_id int,
+  genre_id int
 );
 
 CREATE TABLE all_playlists (
   playlist_id int,
   playlist_name text,
-  song_id int,
+  song_id int
 );
-
--- CREATE TABLE playlist_1 (
---   song_id int,
--- );

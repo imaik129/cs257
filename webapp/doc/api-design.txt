@@ -2,14 +2,14 @@
 Authors: Kevin Phung, Kyosuke Imai
 
 REQUEST: /your_playlists
-RESPONSE: A JSON list of strings, each of which represents the name of a playlist
+RESPONSE: A JSON list of strings, each of which represents the name of a playlist.
 
 
 REQUEST: /playlist_name
 GET parameter:
 	playlist_name (required)
 
-RESPONSE: A JSON list of dictionaries, each of which represents one song within the playlist sorted by popularity. Each song dictionary will  have the following fields:
+RESPONSE: A JSON list of dictionaries, each of which represents one song within the playlist sorted by popularity. Each song dictionary will have the following fields:
 
 	Song Name -- (string) the name of the song
 	artist	-- (string) The name of the artist
@@ -20,7 +20,7 @@ RESPONSE: A JSON list of dictionaries, each of which represents one song within 
 	danceability	--(int) The relative of the track being danceable (rated between 0 and 1)
 
 REQUEST: /home
-RESPONSE: A JSON list of 20 dictionaries, each of which represents one of the top 20 songs sorted by popularity. Each song dictionary will  have the following fields:
+RESPONSE: A JSON list of 20 dictionaries, each of which represents one of the top 20 songs sorted by popularity. Each song dictionary will have the following fields:
 
 	Song Name -- (string) the name of the song
 	artist	-- (string) The name of the artist
