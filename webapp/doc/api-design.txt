@@ -67,3 +67,10 @@ GET parameters:
 
 RESPONSE:
 	A JSON list of dictionaries each of which represents a song within the chosen playlist and one of the metrics
+
+Others:
+
+REQUEST: any faulty request
+
+RESPONSE:
+	the string "ERROR. Faulty request was sent."
