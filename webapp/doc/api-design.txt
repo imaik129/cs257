@@ -5,7 +5,7 @@ REQUEST: /your_playlists
 RESPONSE: A JSON list of strings, each of which represents the name of a playlist
 
 
-REQUEST: /playlist_name={actual_playlist_name}
+REQUEST: /playlist_name
 GET parameter:
 	playlist_name (required)
 
@@ -20,7 +20,7 @@ RESPONSE: A JSON list of dictionaries, each of which represents one song within 
 	danceability	--(int) The relative of the track being danceable (rated between 0 and 1)
 
 REQUEST: /home
-RESPONSE: A JSON list of 20 dictionaries, each of which represents one song within the playlist sorted by popularity. Each song dictionary will  have the following fields:
+RESPONSE: A JSON list of 20 dictionaries, each of which represents one of the top 20 songs sorted by popularity. Each song dictionary will  have the following fields:
 
 	Song Name -- (string) the name of the song
 	artist	-- (string) The name of the artist
@@ -28,10 +28,10 @@ RESPONSE: A JSON list of 20 dictionaries, each of which represents one song with
 	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
 
 
-REQUEST: /search
+REQUEST: /search_songs
 GET parameters:
-	search_string(required)
-	min_year(optional, default: -infinity)
+	search_string(required) : Searches by song name and artist
+	min_year(optional, default: -infinity) : Only returns songs that were released after this year
 
 RESPONSE: A JSON list of  dictionaries, each of which represents one song within the data sorted by popularity. Each song dictionary will  have the following fields:
 	Song Name -- (string) the name of the song
@@ -40,13 +40,30 @@ RESPONSE: A JSON list of  dictionaries, each of which represents one song within
 	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
 	tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
 	duration	--(int) The length of the track in seconds.
-	danceability	--(int) The relative of the track being danceable (rated between 0 and 1)
+	danceability	--(int) The relative metric of the track being danceable (rated between 0 and 1)
 
 
-REQUEST: /data_visualizer/x={chosen_x_value}&y={chosen_y_value}
-GET parameters: 
-	x-value (required)
-	y-value (required)
-		
+REQUEST: /search_genre_details
+GET parameters:
+	search_string(required) : Searches by genre
+
+RESPONSE: A JSON list of strings, each of which is an artist that has made music in that genre
+
+REQUEST: /search_artist_details
+GET parameters:
+	search_string(required) : Searches by artist
+
+RESPONSE: A JSON list of dictionaries, each of which represents one artist within the database. Each dictionary will have the following fields:
+
+	tempo	--(int) The average tempo of all their tracks in Beats Per Minute(BPM) with a range of (0-244)
+	duration	--(int) The average length of all their track in seconds.
+	danceability	--(int) The average relative metric of their tracks being danceable (rated between 0 and 1)
+
+
+REQUEST: /data_visualizer
+GET parameters:
+	x-value (required): Choose one of the user's playlists
+	y-value (required,default=tempo): Choose between tempo,duration,danceability
+
 RESPONSE:
-	A JSON list of dictionaries each of which represents a x value and the corresponding y value
+	A JSON list of dictionaries each of which represents a song within the chosen playlist and one of the metrics
