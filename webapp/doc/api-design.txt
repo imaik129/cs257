@@ -1,0 +1,42 @@
+REQUEST: /your_playlists
+RESPONSE: A JSON list of strings, each of which represents the name of a playlist
+
+
+REQUEST: /playlist_name={actual playlist name}
+RESPONSE: A JSON list of dictionaries, each of which represents one song within the playlist sorted by popularity. Each song dictionary will  have the following fields:
+
+	Song Name -- (string) the name of the song
+	artist	-- (string) The name of the artist
+	Year	-- (string) The year the song was released?
+	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
+	tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
+	duration	--(int) The length of the track in seconds.
+	danceability	--(int) The relative of the track being danceable (rated between 0 and 1)
+
+REQUEST: /home
+RESPONSE: A JSON list of 20 dictionaries, each of which represents one song within the playlist sorted by popularity. Each song dictionary will  have the following fields:
+
+	Song Name -- (string) the name of the song
+	artist	-- (string) The name of the artist
+	Year	-- (string) The year the song was released?
+	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
+
+
+REQUEST: /search/(category)={search string}&(result size)={chosen result size per page}
+RESPONSE: A JSON list of  dictionaries, each of which represents one song within the data sorted by popularity. Each song dictionary will  have the following fields:
+
+	Song Name -- (string) the name of the song
+	artist	-- (string) The name of the artist
+	Year	-- (string) The year the song was released?
+	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
+	tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
+	duration	--(int) The length of the track in seconds.
+	danceability	--(int) The relative of the track being danceable (rated between 0 and 1)
+
+REQUEST: /search/(category_to_search_by)={category}$(category_to_search_for)={category}&(result size)={chosen result size per page}&search_string=(user search string)
+RESPONSE: A JSON list of  dictionaries, each of which represents one song within the data sorted by popularity. Each song dictionary will  have the following fields:
+
+
+
+REQUEST: /data_visualizer/x={chosen x value}&y={chosen y value}
+RESPONSE: a graph?
