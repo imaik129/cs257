@@ -18,10 +18,10 @@ class song_details:
 		self.name = name
 		self.release_year = release_year
 		self.popularity= popularity
-	def __hash__(self):
-		return hash(self.name)
-	def __eq__(self, other):
-		return self.name == other.name
+	# def __hash__(self):
+	# 	return hash(self.name)
+	# def __eq__(self, other):
+	# 	return self.name == other.name
 
 def create_song_details_table(all_rows):
     song_details_table = []
