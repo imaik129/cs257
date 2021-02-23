@@ -43,7 +43,7 @@ def get_search_details():
         print(e)
         exit()
 
-@app.route('/search_songs')
+@api.route('/search_songs')
 def song_results():
     cursor=get_search_details()
     song_details_list = []
@@ -59,10 +59,3 @@ def song_results():
 
     cursor.close()
     return json.dumps(song_details_list)
-
-
-# @api.route('/dogs/')
-# def get_dogs():
-#     dogs = [{'name':'Ruby', 'birth_year':2003, 'death_year':2016, 'description':'a very good dog'},
-#             {'name':'Maisie', 'birth_year':2017, 'death_year':None, 'description':'a very good dog'}]
-#     return json.dumps(dogs)

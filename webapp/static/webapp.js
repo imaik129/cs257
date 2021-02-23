@@ -18,18 +18,19 @@ function onSearchButton(){
   var searchString = document.getElementById('search_string')
   var url = getAPIBaseURL() + '/search_songs?search=' + searchString.value;
   // var url= 'http://localhost:5000/search_songs?search=' + searchString;
+  // var url= 'http://localhost:5000/api/search_songs?search=hello';
   fetch(url, {method: 'get'})
   .then((response) => response.json())
   .then(function(songs){
     var listBody = '';
     for (var k = 0; k < songs.length; k++)  {
         var song = songs[k];
-        listBody += '<li>' + song['name']
-                  + ', ' + song['release_year']
-                  + '-' + song['popularity']
-                  + ', ' + song['tempo']
-                  + ', ' + song['duration']
-                  + ', ' + song['danceability'];
+        listBody += '<li>name:' + song['song_name']
+                  + ',release_year: ' + song['release_year']
+                  + ',popularity:' + song['popularity']
+                  + ',tempo: ' + song['tempo']
+                  + ',duration: ' + song['duration']
+                  + ',danceability: ' + song['danceability'];
                   + '</li>\n';
                 }
 
