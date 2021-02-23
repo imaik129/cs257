@@ -18,9 +18,7 @@ function onSearchButton(){
   var searchString = document.getElementById('search_string')
   var url = getAPIBaseURL() + '/search_songs?search=' + searchString.value;
   // var url= 'http://localhost:5000/search_songs?search=' + searchString;
-  fetch(url, {method: 'get'})
-  .then((response) => response.json())
-  .then(function(songs){
+  fetch(url, {method: 'get'}).then((response) => response.json()).then(function(songs){
     var listBody = '';
     for (var k = 0; k < songs.length; k++)  {
         var song = songs[k];
