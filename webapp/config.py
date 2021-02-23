@@ -1,3 +1,3 @@
-user='jondich'
+user='kevin'
 password=''
 database='spotify'

@@ -5,7 +5,7 @@ from config import *
 import psycopg2
 import argparse
 
-# api = flask.Blueprint('api', __name__)
+api = flask.Blueprint('api', __name__)
 app = flask.Flask(__name__)
 
 
@@ -31,7 +31,8 @@ def get_search_details():
         SELECT song_details.song_name, song_details.release_year, song_details.popularity, song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability \
         FROM song_details,song_characteristics \
         WHERE LOWER(song_details.song_name) LIKE LOWER('%" + song_name + "%') AND song_details.song_id=song_characteristics.song_id \
-        ORDER BY popularity DESC;"
+        ORDER BY popularity DESC\
+        LIMIT 10;"
 
     connection = connection_to_database()
     try:
@@ -65,10 +66,3 @@ def song_results():
 #     dogs = [{'name':'Ruby', 'birth_year':2003, 'death_year':2016, 'description':'a very good dog'},
 #             {'name':'Maisie', 'birth_year':2017, 'death_year':None, 'description':'a very good dog'}]
 #     return json.dumps(dogs)
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser('An API to retrieve data from the olympics database')
-    parser.add_argument('host', help='the host on which this application is running')
-    parser.add_argument('port', type=int, help='the port on which this application is listening')
-    arguments = parser.parse_args()
-    app.run(host=arguments.host, port=arguments.port, debug=True)

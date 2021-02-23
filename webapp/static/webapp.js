@@ -1,27 +1,12 @@
 
 window.onload = initialize;
 
-function onSearchButton(){
-  var searchString = document.getElementById('search_string')
-  var url = getAPIBaseURL() + '/search_songs?search=' + searchString;
-  fetch(url, {method: 'get'})
-  .then((response) => response.json())
-  .then(function(search){
-    // var listBody = '';
-    // for (var k = 0; k < cats.length; k++) {
-    //     var cat = cats[k];
-    //     listBody += '<li>' + cat['name']
-    //               + ', ' + cat['birth_year']
-    //               + '-' + cat['death_year']
-    //               + ', ' + cat['description'];
-    //               + '</li>\n';
-    // }
-  }
-}
 
 function initialize(){
     var searchButton = document.getElementById('search_button');
-    button.onclick = onSearchButton;
+    if (searchButton) {
+        searchButton.onclick = onSearchButton;
+    }
 }
 
 function getAPIBaseURL() {
@@ -29,32 +14,32 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
+function onSearchButton(){
+  var searchString = document.getElementById('search_string')
+  var url = getAPIBaseURL() + '/search_songs?search=' + searchString.value;
+  // var url= 'http://localhost:5000/search_songs?search=' + searchString;
+  fetch(url, {method: 'get'})
+  .then((response) => response.json())
+  .then(function(songs){
+    var listBody = '';
+    for (var k = 0; k < songs.length; k++)  {
+        var song = songs[k];
+        listBody += '<li>' + song['name']
+                  + ', ' + song['release_year']
+                  + '-' + song['popularity']
+                  + ', ' + song['tempo']
+                  + ', ' + song['duration']
+                  + ', ' + song['danceability'];
+                  + '</li>\n';
+                }
 
-// function onCatsButton() {
-//     var url = getAPIBaseURL() + '/search_songs?search=' ;
-//
-//     fetch(url, {method: 'get'})
-//
-//     .then((response) => response.json())
-//
-//     .then(function(search) {
-//         var listBody = '';
-//         for (var k = 0; k < cats.length; k++) {
-//             var cat = cats[k];
-//             listBody += '<li>' + cat['name']
-//                       + ', ' + cat['birth_year']
-//                       + '-' + cat['death_year']
-//                       + ', ' + cat['description'];
-//                       + '</li>\n';
-//         }
-//
-//         var animalListElement = document.getElementById('animal_list');
-//         if (animalListElement) {
-//             animalListElement.innerHTML = listBody;
-//         }
-//     })
-//
-//     .catch(function(error) {
-//         console.log(error);
-//     });
-// }
+                var songs_list_element = document.getElementById('songs_list');
+                if (songs_list_element) {
+                    songs_list_element.innerHTML = listBody;
+                }
+            })
+
+            .catch(function(error) {
+                console.log(error);
+            });
+          }
