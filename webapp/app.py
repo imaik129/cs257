@@ -18,6 +18,7 @@ def home():
 @app.route('/<path:path>')
 def shared_header_catchall(path):
     return flask.render_template(path)
+    # return flask.render_template('index.html')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('A tiny Flask application, including API')
