@@ -1,3 +1,3 @@
-password= 'TEST'
-user= 'kevin'
-database= 'spotify'
+user='jondich'
+password=''
+database='spotify'

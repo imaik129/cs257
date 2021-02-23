@@ -1,19 +1,11 @@
 #!/usr/bin/env python3
-'''
-    webapp.py
-    Jeff Ondich
-    6 November 2020
-
-    A tiny Flask web application, including API, to be used
-    as a template for setting up your web app assignment.
-'''
 import sys
 import argparse
 import flask
 import api
 
 app = flask.Flask(__name__, static_folder='static', template_folder='templates')
-app.register_blueprint(api.api, url_prefix='/api')
+# app.register_blueprint(api.api, url_prefix='/api')
 
 # This route delivers the user your site's home page.
 @app.route('/')
