@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+"""authors: Kevin Phung, Kyosuke Imai"""
 import sys
 import argparse
 import flask

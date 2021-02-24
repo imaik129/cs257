@@ -1,3 +1,4 @@
+//authors: Kevin Phung, Kyosuke Imai
 window.onload = initialize;
 
 

@@ -1,9 +1,6 @@
-/*
-    webapp.css
-    Jeff Ondich
-    6 November 2020
 
-    CSS for the tiny web app for CS257.
+/*
+    Authors: Kevin Phung, Kyosuke Imai
 */
 
 body {
@@ -11,4 +8,3 @@ body {
     font-family: Helvetica;
     background: #ddffdd;
 }
-
