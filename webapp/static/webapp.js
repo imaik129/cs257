@@ -17,8 +17,7 @@ function getAPIBaseURL() {
 function onSearchButton(){
   var searchString = document.getElementById('search_string')
   var url = getAPIBaseURL() + '/search_songs?search=' + searchString.value;
-  // var url= 'http://localhost:5000/search_songs?search=' + searchString;
-  // var url= 'http://localhost:5000/api/search_songs?search=hello';
+  
   fetch(url, {method: 'get'})
   .then((response) => response.json())
   .then(function(songs){
