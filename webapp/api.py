@@ -27,17 +27,19 @@ def get_search_details():
         cursor: the cursor object to iterate over
     '''
     song_name = flask.request.args.get('search')
+    song_name = '%' +  song_name + '%'
     query = "\
         SELECT song_details.song_name, song_details.release_year, song_details.popularity, song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability \
         FROM song_details,song_characteristics \
-        WHERE LOWER(song_details.song_name) LIKE LOWER('%" + song_name + "%') AND song_details.song_id=song_characteristics.song_id \
+        WHERE LOWER(song_details.song_name) LIKE LOWER(%s) AND song_details.song_id=song_characteristics.song_id \
         ORDER BY popularity DESC\
         LIMIT 10;"
+
 
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
-        cursor.execute(query)
+        cursor.execute(query, (song_name,))
         return cursor
     except Exception as e:
         print(e)
