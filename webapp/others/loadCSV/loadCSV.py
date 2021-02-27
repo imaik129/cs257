@@ -13,21 +13,20 @@ class song_row:
         self.danceability = danceability
 
 class song_details:
-	"""athlete object that takes in name and sex"""
-	def __init__(self, name, release_year,popularity):
-		self.name = name
-		self.release_year = release_year
-		self.popularity= popularity
-
+    def __init__(self, name, artists_name, release_year,popularity):
+        self.name = name
+        self.artists_name = artists_name
+        self.release_year = release_year
+        self.popularity= popularity
 
 def create_song_details_table(all_rows):
     song_details_table = []
     song_details_dict = {}
     index = 1
     for song_row in all_rows:
-        one_song_details = song_details(song_row.song_name, song_row.release_year, song_row.popularity)
+        one_song_details = song_details(song_row.song_name, song_row.artist, song_row.release_year, song_row.popularity)
         if one_song_details not in song_details_dict:
-            this_row = [index, song_row.song_name, song_row.release_year, song_row.popularity]
+            this_row = [index, song_row.song_name, song_row.artist, song_row.release_year, song_row.popularity]
             song_details_table.append(this_row)
             song_details_dict[one_song_details] = index
             index = index + 1
@@ -222,7 +221,7 @@ def main():
 
 
     song_details_table, song_details_dict = create_song_details_table(song_rows)
-    song_details_header =["song_ID", "song_name", "release_year","popularity"]
+    song_details_header =["song_ID", "song_name", "artist_names", "release_year","popularity"]
     print_table(song_details_table, "song_details.csv", song_details_header)
 
     song_characteristics_table, song_characteristics_dict = create_song_characteristics_table(song_rows)
@@ -268,8 +267,8 @@ def main():
 
     #---------------------------------------------------------------
 
-    song_artist_link_table = create_song_artist_link_table(song_rows, song_details_dict, artist_details_dict)
-    song_artist_link_table_header = ["song_id", "artist_id"]
-    print_table(song_artist_link_table, "song_artist_link.csv", song_artist_link_table_header)
+    # song_artist_link_table = create_song_artist_link_table(song_rows, song_details_dict, artist_details_dict)
+    # song_artist_link_table_header = ["song_id", "artist_id"]
+    # print_table(song_artist_link_table, "song_artist_link.csv", song_artist_link_table_header)
 if __name__ == '__main__':
     main()
