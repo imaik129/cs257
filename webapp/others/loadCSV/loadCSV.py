@@ -149,42 +149,34 @@ def create_genre_characteristics_table(all_rows):
     return genre_characteristics_table, genre_characteristics_dict
 
 
+#---------------------------------------------------------------------
+
+#I want to connect the song_index and artist_index
+#The way to do this is by comparing artist_name as value in artist_details_dict
+#and artist_name in song_rows (list of song_row objects).
+# to get the artist_id
 
 
+# def create_song_artist_link_table(song_rows, song_details_dictionary, artist_details_dict):
+#     song_artist_link_table = []
+#     artist_dict_keys = list(artist_details_dict.keys())
+#     if there are multiple strings sperated by comma in song_rows.artists, make a new song row object
+#     with another song_id and artist name
+#     and add to song_details_dictionary
+#     stip the artist name of the square brackets []
+#     for song_row in song_rows:
+#         one_song_details = song_details(song_row.song_name, song_row.release_year, song_row.popularity)
+#         print(song_details_dictionary.keys)
+#         song_id = song_details_dictionary[one_song_details]
+#         song_id = song_details_dict[one_song_details]
+#         for artist_name in artist_dict_keys:
+#             if song_row.artist == artist_name.name:
+#                  this_row = [song_id, artist_id]
+#                  song_artist_link_table.append(this_row)
+#     return song_artist_link_table
 
 
-
-
-
-
-def create_main_events_table(athlete_dict, team_dict, NOC_dict, olympic_games_dict, sport_category_dict, detailed_event_dict, medal_dict, all_rows):
-	""" return main events table(that displays all the IDs accordingly) given the dictionary of each of the elements in the table as a parameter.
-		main table: event_ID (huge), athlete_ID, Age(unchanged), Height(unchanged), Weight (unchanged),
-		team_ID, country_table_ID, Olympics_game_ID, sport_category_ID, detailed_events_ID
-	"""
-	main_events_table = []
-	index = 1
-	for row_obj in all_rows:
-		# make athlete object to find its id from the dictionary
-		an_athlete = athlete(row_obj.athe_name, row_obj.sex)
-		athlete_id = athlete_dict[an_athlete]
-
-		team_id = team_dict[row_obj.team]
-		sport_category_id = sport_category_dict[row_obj.sport_category]
-		detailed_event_id = detailed_event_dict[row_obj.detailed_event]
-		medal_id = medal_dict[row_obj.medal]
-		NOC_id = NOC_dict[row_obj.NOC]
-
-		an_oly_game = olympic_game(row_obj.year, row_obj.season, row_obj.city)
-		oly_game_id = olympic_games_dict[an_oly_game]
-
-		# athlete Age	Height	Weight remains as they are
-		this_row = [index, athlete_id, row_obj.age, row_obj.height, row_obj.weight, team_id, NOC_id, oly_game_id, sport_category_id, detailed_event_id, medal_id]
-		main_events_table.append(this_row)
-		index = index + 1
-	return main_events_table
-
-
+#---------------------------------------------------------
 def make_csv_row(this_row):
 	if len(this_row) < 1:
 		print("yooo! your row aint right!")
@@ -216,7 +208,10 @@ def print_table(table_list, file_name, header_list):
 	outfile.close()
 
 def main():
+    #----------------------------------------------------------------------------
     song_rows = []
+    for song_roww in song_rows:
+        print(song_roww)
     with open('TestSearch.csv') as file:
         read_in_file = list((csv.reader(file, skipinitialspace=True)))
 
@@ -234,7 +229,7 @@ def main():
     song_characteristics_header = ["song_ID", "tempo", "duration","danceability"]
     print_table(song_characteristics_table, "song_characteristics.csv", song_characteristics_header)
 
-
+    #--------------------------------------------------------------------------------------
     artist_rows = []
     with open('data_by_artist.csv') as file:
         read_in_file = list((csv.reader(file, skipinitialspace=True)))
@@ -244,7 +239,6 @@ def main():
             this_row = artist_row(row[0], row[9], row[3], row[2])
             artist_rows.append(this_row)
 
-
     artist_details_table, artist_details_dict = create_artist_details_table(artist_rows)
     artist_details_header =["artist_ID", "artist_name"]
     print_table(artist_details_table, "artist_details.csv", artist_details_header)
@@ -253,7 +247,7 @@ def main():
     artist_characteristics_header = ["artist_ID", "average tempo", " average duration","average danceability"]
     print_table(artist_characteristics_table, "artist_characteristics.csv", artist_characteristics_header)
 
-
+    #---------------------------------------------------------------------------------
     genre_rows = []
     with open('data_by_genres.csv') as file:
         read_in_file = list((csv.reader(file, skipinitialspace=True)))
@@ -269,10 +263,13 @@ def main():
     print_table(genre_details_table, "genre_details.csv", genre_details_header)
 
     genre_characteristics_table, genre_characteristics_dict = create_genre_characteristics_table(genre_rows)
-    genre_characteristics_header = ["genre_ID", "average tempo", " average duration","average danceability"]
+    genre_characteristics_header = ["getnre_ID", "average tempo", " average duration","average danceability"]
     print_table(genre_characteristics_table, "genre_characteristics.csv", genre_characteristics_header)
 
+    #---------------------------------------------------------------
 
-
+    song_artist_link_table = create_song_artist_link_table(song_rows, song_details_dict, artist_details_dict)
+    song_artist_link_table_header = ["song_id", "artist_id"]
+    print_table(song_artist_link_table, "song_artist_link.csv", song_artist_link_table_header)
 if __name__ == '__main__':
     main()
