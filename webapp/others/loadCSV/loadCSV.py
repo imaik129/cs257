@@ -58,16 +58,18 @@ def create_song_characteristics_table(all_rows):
     return song_characteristics_table, song_characteristics_dict
 
 class artist_row:
-    def __init__(self, artist_name, tempo, duration,danceability):
+    def __init__(self, artist_name, tempo, duration,danceability,genres):
         self.artist_name = artist_name
         self.tempo = tempo
         self.duration = duration
         self.danceability = danceability
+        self.genres= genres
 
 
 class artist_details:
-    def __init__(self, name):
+    def __init__(self, name,genres):
         self.name = name
+        self.genres= genres
 
     def __hash__(self):
         return hash(self.name)
@@ -80,9 +82,9 @@ def create_artist_details_table(all_rows):
     artist_details_dict = {}
     index = 1
     for artist_row in all_rows:
-        one_artist_details = artist_details(artist_row.artist_name)
+        one_artist_details = artist_details(artist_row.artist_name, artist_row.genres)
         if one_artist_details not in artist_details_dict:
-            this_row = [index, artist_row.artist_name,]
+            this_row = [index, artist_row.artist_name]
             artist_details_table.append(this_row)
             artist_details_dict[one_artist_details] = index
             index = index + 1
@@ -113,23 +115,13 @@ def create_song_artist_link_table(song_details_dict,artist_details_dict):
     for item in song_details_dict:
         song_ID= song_details_dict.get(item)
         str_artists_names=item.artists_name
-        # artist_list= json.loads(str_artists_names)
         artist_list=ast.literal_eval(str_artists_names)
-        # if len(artist_list)>1:
-            # for artist in artist_list:
-        #         artist_ID= ar
         for artist in artist_list:
             artist_ID= artist_details_dict.get(artist)
             this_row=[song_ID,artist_ID]
             link_table.append(this_row)
-        # this_row=[song_ID,artist_list]
-        # link_table.append(this_row)
 
     return link_table
-
-
-
-
 
 #---------------------------------------------------------------------
 
@@ -141,9 +133,14 @@ class genre_row:
         self.danceability = danceability
 
 class genre_details:
-	"""athlete object that takes in name and sex"""
-	def __init__(self, name):
-		self.name = name
+    def __init__(self, name):
+        self.name = name
+
+    def __hash__(self):
+        return hash(self.name)
+
+    def __eq__(self, other):
+        return self.name == other
 
 def create_genre_details_table(all_rows):
     genre_details_table = []
@@ -179,31 +176,19 @@ def create_genre_characteristics_table(all_rows):
     return genre_characteristics_table, genre_characteristics_dict
 
 
-#---------------------------------------------------------------------
+def create_artist_genre_link_table(artist_details_dict,genre_details_dict):
+    link_table=[]
+    for item in artist_details_dict:
+        artist_ID= artist_details_dict.get(item)
+        str_genres_names=item.genres
+        genres_list=ast.literal_eval(str_genres_names)
+        for genres in genres_list:
+            genre_ID= genre_details_dict.get(genres)
+            this_row=[artist_ID,genre_ID]
+            link_table.append(this_row)
 
-#I want to connect the song_index and artist_index
-#The way to do this is by comparing artist_name as value in artist_details_dict
-#and artist_name in song_rows (list of song_row objects).
-# to get the artist_id
+    return link_table
 
-
-# def create_link_table(song_rows, song_details_dictionary, artist_details_dict):
-#     song_artist_link_table = []
-#     artist_dict_keys = list(artist_details_dict.keys())
-#     if there are multiple strings sperated by comma in song_rows.artists, make a new song row object
-#     with another song_id and artist name
-#     and add to song_details_dictionary
-#     stip the artist name of the square brackets []
-#     for song_row in song_rows:
-#         one_song_details = song_details(song_row.song_name, song_row.release_year, song_row.popularity)
-#         print(song_details_dictionary.keys)
-#         song_id = song_details_dictionary[one_song_details]
-#         song_id = song_details_dict[one_song_details]
-#         for artist_name in artist_dict_keys:
-#             if song_row.artist == artist_name.name:
-#                  this_row = [song_id, artist_id]
-#                  song_artist_link_table.append(this_row)
-#     return song_artist_link_table
 
 
 #---------------------------------------------------------
@@ -261,12 +246,12 @@ def main():
 
     #--------------------------------------------------------------------------------------
     artist_rows = []
-    with open('data_by_artist.csv') as file:
+    with open('data_w_genres.csv') as file:
         read_in_file = list((csv.reader(file, skipinitialspace=True)))
 
     for row in read_in_file[1:]:
         if len(row) > 1:
-            this_row = artist_row(row[0], row[9], row[3], row[2])
+            this_row = artist_row(row[0], row[9], row[3], row[2],row[15])
             artist_rows.append(this_row)
 
     artist_details_table, artist_details_dict = create_artist_details_table(artist_rows)
@@ -293,13 +278,17 @@ def main():
     print_table(genre_details_table, "genre_details.csv", genre_details_header)
 
     genre_characteristics_table, genre_characteristics_dict = create_genre_characteristics_table(genre_rows)
-    genre_characteristics_header = ["getnre_ID", "average tempo", " average duration","average danceability"]
+    genre_characteristics_header = ["genre_ID", "average tempo", " average duration","average danceability"]
     print_table(genre_characteristics_table, "genre_characteristics.csv", genre_characteristics_header)
 
     #---------------------------------------------------------------
     song_artist_linking_table = create_song_artist_link_table(song_details_dict,artist_details_dict)
     song_artist_linking_table_header =["song_ID", "artist_ID"]
     print_table(song_artist_linking_table, "song_artist_link.csv", song_artist_linking_table_header)
+
+    artist_genre_linking_table = create_artist_genre_link_table(artist_details_dict,genre_details_dict)
+    artist_genre_linking_table_header =["artist_ID", "genre_ID"]
+    print_table(artist_genre_linking_table, "artist_genre_link.csv", artist_genre_linking_table_header)
 
 
     # song_artist_link_table = create_song_artist_link_table(song_rows, song_details_dict, artist_details_dict)
