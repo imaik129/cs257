@@ -117,9 +117,10 @@ def create_song_artist_link_table(song_details_dict,artist_details_dict):
         str_artists_names=item.artists_name
         artist_list=ast.literal_eval(str_artists_names)
         for artist in artist_list:
-            artist_ID= artist_details_dict.get(artist)
-            this_row=[song_ID,artist_ID]
-            link_table.append(this_row)
+            if artist!='n/a':
+                artist_ID= artist_details_dict.get(artist)
+                this_row=[song_ID,artist_ID]
+                link_table.append(this_row)
 
     return link_table
 
