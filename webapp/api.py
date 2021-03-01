@@ -111,6 +111,11 @@ def get_song_by_genre():
         print(e)
         exit()
 
+# def add_playlist_to_all_playlists():
+#     query = "INSERT INTO all_playlists\
+#     VALUES ()\
+#     "
+
 
 @api.route('/search_songs')
 def song_results():
