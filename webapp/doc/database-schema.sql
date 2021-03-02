@@ -13,9 +13,9 @@ CREATE TABLE artist_characteristics (
 CREATE TABLE song_details (
   song_id SERIAL,
   song_name text,
-  artists text
+  artists text,
   release_year text,
-  popularity int,
+  popularity int
 );
 
 CREATE TABLE song_characteristics (
@@ -40,7 +40,7 @@ CREATE TABLE genre_characteristics (
 
 CREATE TABLE song_artist_link (
   song_id int,
-  artist_id int,
+  artist_id int
 );
 
 CREATE TABLE artist_genre_link (
