@@ -72,7 +72,7 @@ def get_song_by_artist():
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
-        cursor.execute(query, (song_name,))
+        cursor.execute(query, (artist_name,))
         return cursor
     except Exception as e:
         print(e)
@@ -96,16 +96,15 @@ def get_song_by_genre():
         genre_details, genre_characteristics, artist_genre_link\
         WHERE LOWER(genre_details.genre_name) LIKE LOWER(%s)\
         AND song_details.song_id = song_characteristics.song_id\
-        AND genre_details.artist_id= genre_characteristics.artist_id \
         AND genre_details.genre_id = artist_genre_link.genre_id\
         AND artist_details.artist_id = artist_genre_link.artist_id\
-        ORDER BY genre ASC\
+        ORDER BY genre_details.genre_name ASC\
         LIMIT 10;"
 
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
-        cursor.execute(query, (song_name,))
+        cursor.execute(query, (genre_name,))
         return cursor
     except Exception as e:
         print(e)
