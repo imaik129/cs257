@@ -93,9 +93,12 @@ def get_song_by_genre():
         genre_characteristics.tempo, genre_characteristics.duration,\
         genre_characteristics.danceability \
         FROM song_details, song_characteristics, artist_details,\
-        genre_details, genre_characteristics, artist_genre_link\
-        WHERE LOWER(genre_details.genre_name) LIKE LOWER(%s)\
+        genre_details, genre_characteristics, artist_genre_link, song_artist_link\
+        WHERE LOWER(genre_details.genre_name) LIKE LOWER('%s')\
         AND song_details.song_id = song_characteristics.song_id\
+        AND genre_details.genre_id= genre_characteristics.genre_id\
+        AND  song_details.song_id = song_artist_link.song_id\
+        AND artist_details.artist_id= song_artist_link.artist_id\
         AND genre_details.genre_id = artist_genre_link.genre_id\
         AND artist_details.artist_id = artist_genre_link.artist_id\
         ORDER BY genre_details.genre_name ASC\

@@ -39,8 +39,8 @@ CREATE TABLE genre_characteristics (
 );
 
 CREATE TABLE song_artist_link (
+  song_id int,
   artist_id int,
-  song_id int
 );
 
 CREATE TABLE artist_genre_link (

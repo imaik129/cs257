@@ -284,7 +284,7 @@ def main():
 
     #---------------------------------------------------------------
     song_artist_linking_table = create_song_artist_link_table(song_details_dict,artist_details_dict)
-    song_artist_linking_table_header =["song_ID", "artist_ID"]
+    song_artist_linking_table_header =["song_ID","artist_ID"]
     print_table(song_artist_linking_table, "song_artist_link.csv", song_artist_linking_table_header)
 
     artist_genre_linking_table = create_artist_genre_link_table(artist_details_dict,genre_details_dict)
