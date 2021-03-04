@@ -1,7 +1,7 @@
 """authors: Kevin Phung, Kyosuke Imai"""
 import sys
 import flask
-import json
+import simplejson as json
 from config import *
 import psycopg2
 import argparse
@@ -30,9 +30,11 @@ def get_song_by_search():
     song_name = flask.request.args.get('search')
     song_name = '%' +  song_name + '%'
     query = "\
-        SELECT song_details.song_name, song_details.release_year, song_details.popularity, song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability \
-        FROM song_details,song_characteristics \
+        SELECT song_details.song_name,artist_details.artist_name, song_details.release_year, song_details.popularity,\
+        song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability \
+        FROM song_details,song_characteristics,artist_details,song_artist_link \
         WHERE LOWER(song_details.song_name) LIKE LOWER(%s) AND song_details.song_id=song_characteristics.song_id \
+        AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \
         ORDER BY popularity DESC\
         LIMIT 10;"
 
@@ -94,7 +96,7 @@ def get_song_by_genre():
         genre_characteristics.danceability \
         FROM song_details, song_characteristics, artist_details,\
         genre_details, genre_characteristics, artist_genre_link, song_artist_link\
-        WHERE LOWER(genre_details.genre_name) LIKE LOWER('%s')\
+        WHERE LOWER(genre_details.genre_name) LIKE LOWER(%s)\
         AND song_details.song_id = song_characteristics.song_id\
         AND genre_details.genre_id= genre_characteristics.genre_id\
         AND  song_details.song_id = song_artist_link.song_id\
@@ -126,11 +128,12 @@ def song_results():
     for row in cursor:
         song_dict = {}
         song_dict['song_name'] = row[0]
-        song_dict['release_year'] = row[1]
-        song_dict['popularity'] = row[2]
-        song_dict['tempo'] = row[3]
-        song_dict['duration'] = row[4]
-        song_dict['danceability'] = row[5]
+        song_dict['artist_name']= row[1]
+        song_dict['release_year'] = row[2]
+        song_dict['popularity'] = row[3]
+        song_dict['tempo'] = row[4]
+        song_dict['duration'] = row[5]
+        song_dict['danceability'] = row[6]
         song_details_list.append(song_dict)
 
     cursor.close()
@@ -179,4 +182,4 @@ def genre_results():
         genre_details_list.append(genre_dict)
 
     cursor.close()
-    return json.dumps(artist_details_list)
+    return json.dumps(genre_details_list)

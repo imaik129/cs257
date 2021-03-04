@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='search.css') }}" />
+    <script type="text/javascript" src="{{ url_for('static', filename='search.js') }}"></script>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <title>CS 257: Software Design</title>
+</head>
+
+<body>
+    <table>
+      <thead>
+      <tr>
+          <th>Song Name</th>
+          <th>Artist</th>
+          <th onclick="sortColumn('release_year')">Release Year</th>
+          <th onclick="sortColumn('popularity')">Popularity</th>
+          <th onclick="sortColumn('tempo')">Tempo</th>
+          <th onclick="sortColumn('duration')">Duration</th>
+          <th onclick="sortColumn('danceability')">Danceability</th>
+      </tr>
+      </thead>
+    <tbody id="search_results_table"></tbody>
+
+    </table>
+
+</body>
+</html>

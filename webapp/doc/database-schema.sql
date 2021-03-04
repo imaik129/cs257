@@ -1,17 +1,17 @@
 CREATE TABLE artist_details (
-  artist_id SERIAL,
+  artist_id int,
   artist_name text
 );
 
-CREATE TABLE artist_characteristics (
-  artist_id SERIAL,
-  tempo text,
-  duration text,
-  danceability text
-);
+  CREATE TABLE artist_characteristics (
+    artist_id int,
+    tempo decimal,
+    duration decimal,
+    danceability decimal
+  );
 
 CREATE TABLE song_details (
-  song_id SERIAL,
+  song_id int,
   song_name text,
   artists text,
   release_year text,
@@ -19,23 +19,23 @@ CREATE TABLE song_details (
 );
 
 CREATE TABLE song_characteristics (
-  song_id SERIAL,
-  tempo text,
-  duration text,
-  danceability text
+  song_id int,
+  tempo decimal,
+  duration decimal,
+  danceability decimal
 );
 
 
 CREATE TABLE genre_details (
-  genre_id SERIAL,
+  genre_id int,
   genre_name text
 );
 
 CREATE TABLE genre_characteristics (
-  genre_id SERIAL,
-  tempo text,
-  duration text,
-  danceability text
+  genre_id int,
+  tempo decimal,
+  duration decimal,
+  danceability decimal
 );
 
 CREATE TABLE song_artist_link (
