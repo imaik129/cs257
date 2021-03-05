@@ -15,9 +15,21 @@ def home():
 # This route supports relative links among your web pages, assuming those pages
 # are stored in the templates/ directory or one of its descendant directories,
 # without requiring you to have specific routes for each page.
-@app.route('/<path:path>')
+@app.route('/<path:path>', methods=['GET', 'POST'])
 def shared_header_catchall(path):
-    return flask.render_template(path)
+    if flask.request.method == 'GET':
+        # path= path + '.html'
+        return flask.render_template('index.html')
+
+    elif flask.request.method == 'POST':
+        data= flask.request.get_json()
+        if data.get('type')=="insert":
+            api.insert()
+            return flask.render_template('index.html')
+
+    # return flask.render_template(path)
+
+
     # return flask.render_template('index.html')
 
 if __name__ == '__main__':

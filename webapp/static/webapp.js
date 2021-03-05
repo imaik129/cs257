@@ -4,15 +4,9 @@ let sorted = false;
 var index=1;
 var button = "b,";
 var results_table=undefined ;
+var playlist_url= getAPIBaseURL() + '/get_all_playlist_songs';
 window.onload = initialize;
-// window.addEventListener("load",change, false);
-////document.getElementById("DDButton").addEventListener("change", changePlaceHolder);
-// function change(){
-//   document.getElementById('DDButton').addEventListener("change",changePlaceHolder);
-// }
 
-// var DDButton = document.getElementById('DDButton');
-// DDButton.addEventListener("onChange", changePlaceHolder, false);
 
 
 
@@ -67,7 +61,7 @@ function load_results_into_table_song(results){
   let datahtml= '';
 
   for (let item of results){
-    button = button + index;
+    var exact_button=button+index
     datahtml+= `<tr id=${item.song_id}><td>${index}</td>
     <td>${item.song_name}</td>
     <td>${item.artist_name}</td>
@@ -76,8 +70,13 @@ function load_results_into_table_song(results){
     <td>${item.tempo}</td>
     <td>${item.duration}</td>
     <td>${item.danceability}</td>
-    <td onclick="retrieveData(this)" align='center' ><button id= ${button}>Add to Playlist</button></td></tr>`;
+    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
     index=index+1;
+    if(playlist_songs.indexOf(item.song_id) >= 0){
+      // button='"' + button + '"'
+      console.log(exact_button)
+    // document.getElementById(exact_button).style.display= "none"
+    }
   }
   results_table.innerHTML= datahtml;
   results_header.style.visibility = "visible";
@@ -101,8 +100,13 @@ function load_results_into_table_artist(results){
     <td>${item.artist_tempo}</td>
     <td>${item.artist_duration}</td>
     <td>${item.artist_danceability}</td>
-    <td onclick="retrieveData(this)" align='center' ><button id= ${button}>Add to Playlist</button></td></tr>`;
+    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
     index=index+1;
+    if(playlist_songs.indexOf(item.song_id) >= 0){
+      // button='"' + button + '"'
+      console.log(exact_button)
+    // document.getElementById(exact_button).style.display= "none"
+    }
   }
   results_table.innerHTML= datahtml;
   results_header.style.visibility = "visible";
@@ -127,22 +131,36 @@ function load_results_into_table_genre(results){
     <td>${item.genre_tempo}</td>
     <td>${item.genre_duration}</td>
     <td>${item.genre_danceability}</td>
-    <td onclick="retrieveData(this)" align='center' ><button id= ${button}>Add to Playlist</button></td></tr>`;
+    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
     index=index+1;
+    if(playlist_songs.indexOf(item.song_id) >= 0){
+      // button='"' + button + '"'
+      console.log(exact_button)
+    // document.getElementById(exact_button).style.display= "none"
+    }
   }
   results_table.innerHTML= datahtml;
   results_header.style.visibility = "visible";
 }
 
 
-function retrieveData(row){
-	var song_id=row.parentNode.id;
-    // var p=results_table.rows[0].cells[2].innerHTML;
-    alert("n="+ song_id);
-    // alert("p="+p);
-  }
+function insert_into_playlist(row)
+{
+	var song_id=row.parentNode.parentNode.id;
+  var type = "insert"
+  insert_url= getAPIBaseURL() + '/insert_into_playlist'
+  const data= {song_id, type};
+  const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
+  fetch(insert_url,options);
+
+  playlist_songs.push(song_id);
+
+  // document.getElementById("b,"+row).style.display= "none";
+console.log("success")
+}
 
 var globalresults;
+var playlist_songs;
 
 function chooseResults(results){
     var chosenCategory = document.getElementById('DDButton');
@@ -169,7 +187,17 @@ async function returnResults(){
   }
 }
 
-function initialize(){
+async function initialize(){
+  {await fetch(playlist_url, {method: 'get'})
+.then((response) => response.json())
+.then(function(playlists){
+  playlist_songs=playlists;
+
+// console.log(globalresults);
+})
+}
+
+
     var searchButton = document.getElementById('search_button');
     var DDButton = document.getElementById('DDButton');
     if(DDButton){
