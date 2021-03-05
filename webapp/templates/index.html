@@ -1,11 +1,4 @@
 <! -- Authors: Kevin Phung, Kyosuke Imai -->
-
-<! -- have drop down option next to search bar for what to search by -->
-
-<! -- display logo on top right corner of page -->
-
-<! -- increase size of search bar -->
-
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -15,14 +8,108 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
     <title>CS 257: Software Design</title>
 </head>
+<header>
+  <div class="TopPanel">
+  <!-- <img id = "logo" src="templates\spotinder.png" alt="logo"> -->
+  <h3 class = "title" >Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
+  <div class="flex-container">
+    <div>
+      <div class = "DropDownMenu" id = "DropDownMenu">
+        <select class="DDButton" id = "DDButton">
+        <div class = "DDContent" id = "DDContent">
+          <option value = "default"> Choose a Category </option>
+          <option id = "DDSong" value = 'song' >Song Name </option>
+          <option id = "DDArtist" value = 'artist' >Artist Name </option>
+          <option id = "DDGenre" value = 'genre' >Genre Name </option>
+        </div>
+        </select>
+      </div>
+    </div>
+    <div>
+        <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
+          <!-- <div id='search_icon'><img id='search_icon' src='magnifying_glass.jpg' alt="search icon"/></div> </p> -->
+    </div>
+    <div>
+        <p><button type="submit" id="search_button">search</button></p>
+    </div>
+  </div>
+  </div>
+<header>
 
 <body>
-    <h3>Spotify Advanced Search Home Page</h3>
-    <p><input id="search_string" type="text" placeholder="Search song name here" />
-    </div>
-    <p><button id="search_button">search</button></p>
 
-    <ul id="songs_list"></ul>
+<!--
+    <p><input id="search_by_artist" type="search" placeholder="Search artist name here" />
+    <p><button id="artist_search_button">search</button></p>
+    <p><input id="search_by_genre" type="search" placeholder="Search genre name here" />
+    <p><button id="genre_search_button">search</button></p> -->
+    <table class="sortable" >
+      <thead id="header_1" style="visibility:hidden">
+        <tr>
+       <!-- <th>Song Name</th>
+       <th>Artist</th>
+       <th onclick="sortColumn('release_year')">Release Year</th>
+       <th onclick="sortColumn('popularity')">Popularity</th>
+       <th onclick="sortColumn('tempo')">Tempo</th>
+       <th onclick="sortColumn('duration')">Duration</th>
+       <th onclick="sortColumn('danceability')">Danceability</th> -->
+       <th class="sorttable_nosort">Index</th>
+       <th>Song Name</th>
+       <th>Artist</th>
+       <th>Release Year</th>
+       <th>Popularity</th>
+       <th>Tempo</th>
+       <th>Duration</th>
+       <th>Danceability</th>
+       <th>Add to Playlist</th>
+      </tr>
+   </thead>
+ <tbody id="search_results_table_song"></tbody>
+
+ </table>
+
+ <table class="sortable" >
+   <thead id="header_2" style="visibility:hidden">
+     <tr>
+    <th class="sorttable_nosort">Index</th>
+    <th>Song Name</th>
+    <th>Artist</th>
+    <th>Release Year</th>
+    <th>Popularity</th>
+    <th>Tempo</th>
+    <th>Duration</th>
+    <th>Danceability</th>
+    <th>Artist Tempo (avg.)</th>
+    <th>Artist Duration (avg.)</th>
+    <th>Artist Danceability (avg.)</th>
+    <th>Add to Playlist</th>
+   </tr>
+</thead>
+<tbody id="search_results_table_artist"></tbody>
+
+</table>
+
+<table class="sortable" >
+  <thead id="header_3" style="visibility:hidden">
+    <tr>
+   <th class="sorttable_nosort">Index</th>
+   <th>Song Name</th>
+   <th>Genre</th>
+   <th>Artist</th>
+   <th>Release Year</th>
+   <th>Popularity</th>
+   <th>Tempo</th>
+   <th>Duration</th>
+   <th>Danceability</th>
+   <th>Genre Tempo(avg)</th>
+   <th>Genre Duration(avg)</th>
+   <th>Genre Danceability(avg)</th>
+   <th>Add to Playlist</th>
+  </tr>
+</thead>
+<tbody id="search_results_table_genre"></tbody>
+
+</table>
 
 </body>
 </html>
