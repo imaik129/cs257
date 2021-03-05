@@ -233,7 +233,7 @@ def main():
 
     for row in read_in_file[1:]:
         if len(row) > 1:
-            this_row = song_row(row[12], row[1], row[14], row[13], row[16], row[3], row[2])
+            this_row = song_row(row[12], row[1], row[18], row[13], row[16], row[3], row[2])
             song_rows.append(this_row)
 
 

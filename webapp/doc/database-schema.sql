@@ -14,7 +14,7 @@ CREATE TABLE song_details (
   song_id int,
   song_name text,
   artists text,
-  release_year text,
+  release_year int,
   popularity int
 );
 
@@ -48,8 +48,13 @@ CREATE TABLE artist_genre_link (
   genre_id int
 );
 
-CREATE TABLE all_playlists (
-  playlist_id int,
-  playlist_name text,
+-- CREATE TABLE all_playlists (
+--   playlist_id int,
+--   playlist_name text,
+--   song_id int
+-- );
+
+
+CREATE TABLE temp_playlists (
   song_id int
 );
