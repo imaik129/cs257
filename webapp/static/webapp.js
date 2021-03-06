@@ -1,84 +1,45 @@
 //authors: Kevin Phung, Kyosuke Imai
 
-//List of globally declared variables
 let sorted = false;
-var addbutton = "a,";
-var delbutton = "d,";
+var index=1;
+var PlaylistIndex = 0;
+var button = "b,";
 var results_table=undefined ;
-var playlist_url= getAPIBaseURL() + '/get_all_playlist_song_ids';
-var get_playlist_results_url= getAPIBaseURL() + '/search_playlist';
-var results_body_song = undefined;
-var results_body_artist = undefined;
-var results_body_genre = undefined;
-var playlist_body= undefined;
-var results_table_song= undefined;
-var results_table_artist= undefined;
-var results_table_genre= undefined;
-var playlist_table= undefined;
-var globalresults;
-var globalPlaylistResults=undefined;
-var playlist_songs;
-
+var playlist_url= getAPIBaseURL() + '/get_all_playlist_songs';
 window.onload = initialize;
 
 
-
-// Swaps placeholder text in the search bar based on the category chosen
-function changePlaceHolder(){
-  var chosenCategory = document.getElementById('DDButton');
-  if (chosenCategory.value == 'song'){
-    document.getElementById('search_string').placeholder = 'search for song name here (e.g Yesterday)';
-  }
-  else if (chosenCategory.value == 'artist'){
-    document.getElementById('search_string').placeholder = 'search for artist name here (e.g The Beatles)';
-  }
-  else if (chosenCategory.value == 'genre'){
-    document.getElementById('search_string').placeholder = 'search for genre name here (e.g Rock)';
-  }
-  else if (chosenCategory.value == 'default'){
-    document.getElementById('search_string').placeholder = 'Please pick a Category first';
-  }
-
-}
-
-// Swaps between search/home page and Playlist page Panels
-async function choosePanel(){
-
+function goToYourPlaylist(){
   var chosenPath = document.getElementById('SelectPlaylist');
-  var divider_for_home=document.getElementById("divider_for_home");
-  var divider_for_playlists=document.getElementById("divider_for_playlists");
-  if (chosenPath.value== 'YourPlaylist'){
-    divider_for_home.style.display= 'none';
-    await returnPlaylistResults().then(
-    load_results_into_table_playlists(globalPlaylistResults));
-    // console.log(globalPlaylistResults)
-    document.getElementById("top_header").innerHTML="Spotify Music <br/>  Advanced Search  <br/> Playlist Page";
-    document.getElementById("DropDownMenu").style.display= 'none';
-    document.getElementById("search_string").style.display= 'none';
-    document.getElementById("search_button").style.display= 'none';
-    if (globalPlaylistResults.length>0){
-    divider_for_playlists.style.display= 'inline';
-
-    document.getElementById("page_quote").innerHTML="<em> Here are all your songs</em>";
-
-  } else{
-    document.getElementById("page_quote").innerHTML="<em> You have no songs in here</em>";
-  }
+  if(chosePath.value == 'YourPlaylist'){
 
   }
   else{
-    divider_for_playlists.style.display= 'none';
-    divider_for_home.style.display= 'inline';
-    document.getElementById("top_header").innerHTML="Spotify Music <br/>  Advanced Search  <br/> Home Page";
-    document.getElementById("page_quote").innerHTML="<em> Music is life itself. <br/> -Louis Armstrong</em>";
-    document.getElementById("DropDownMenu").style.display= 'inline';
-    document.getElementById("search_string").style.display= 'inline';
-    document.getElementById("search_button").style.display= 'inline';
+    continue;
+  }
 
+}
+
+//change the Search bar placeholder based on selected category
+function changePlaceHolder(){
+  var chosenCategory = document.getElementById('DDButton');
+  var searchString = document.getElementById('search_string');
+
+  if (chosenCategory.value == 'song'){
+    searchString.placeholder = 'search for song name here (e.g Yesterday)';
+  }
+  else if (chosenCategory.value == 'artist'){
+    searchString.placeholder = 'search for artist name here (e.g The Beatles)';
+  }
+  else if (chosenCategory.value == 'genre'){
+    searchString.placeholder = 'search for genre name here (e.g Rock)';
+  }
+  else if (chosenCategory.value == 'default'){
+    searchString.placeholder = 'Please pick a Category first';
   }
 }
 
-// Completes URL string depending on search category chosen
+//build endpoint based on chosen category and inputted search_string
 function getURLbyCategory(){
 
   var chosenCategory = document.getElementById('DDButton');
@@ -98,25 +59,28 @@ function getURLbyCategory(){
     return url;
   }
 
-
 }
 
-//Just gets the base url for the API call
+//generate baseAPIURL
 function getAPIBaseURL() {
     var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
     return baseURL;
 }
 
-//Loads results into the table for searching by song name. Each row id is equivalent to the id of the song that populates it.
+
+
+
+
+
+//load results for search by song into a table with specified elements
 function load_results_into_table_song(results){
+  results_table = document.getElementById("search_results_table_song");
+  const results_header = document.getElementById("header_1");
   let datahtml= '';
-  results_body_song= document.getElementById("search_results_body_song");
-  results_table_song= document.getElementById("search_results_table_song");
-  var addbuttons_to_remove=[];
 
   for (let item of results){
-    var exact_button=addbutton+item.song_id
-    datahtml+= `<tr id=${item.song_id}>
+    var exact_button=button+index
+    datahtml+= `<tr id=${item.song_id}><td>${index}</td>
     <td>${item.song_name}</td>
     <td>${item.artist_name}</td>
     <td>${item.release_year}</td>
@@ -124,42 +88,27 @@ function load_results_into_table_song(results){
     <td>${item.tempo}</td>
     <td>${item.duration}</td>
     <td>${item.danceability}</td>
-    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' >Add to Playlist</button></td></tr>`;
-
-//checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
+    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
+    index=index+1;
     if(playlist_songs.indexOf(item.song_id) >= 0){
-      addbuttons_to_remove.push(exact_button);
+      // button='"' + button + '"'
+      console.log(exact_button)
+    // document.getElementById(exact_button).style.display= "none"
     }
-
   }
-  results_body_song.innerHTML= datahtml;
-  results_table_song.style.display = "inline";
-
-  //Checks if other tables are being displayed. If so, hides them
-  if (results_table_genre != undefined){
-    results_table_genre.style.display = "none";
-  }
-  if (results_table_artist != undefined){
-    results_table_artist.style.display = "none";
-  }
-
-  addbuttons_to_remove.forEach(function (item) {
-  document.getElementById(item).style.display='none';
-});
-
+  results_table.innerHTML= datahtml;
+  results_header.style.visibility = "visible";
 }
 
-//Loads results into the table for searching by artist name. Each row id is equivalent to the id of the song that populates it.
+//load results for search by artist with specified elements, including attributes specific to individual artists
 function load_results_into_table_artist(results){
+  results_table = document.getElementById("search_results_table_artist");
+  const results_header = document.getElementById("header_2");
   let datahtml= '';
-  results_table_artist= document.getElementById("search_results_table_artist");
-  results_body_artist= document.getElementById("search_results_body_artist");
-  var addbuttons_to_remove=[];
-
 
   for (let item of results){
-    var exact_button=addbutton+item.song_id
-    datahtml+= `<tr id=${item.song_id}>
+    button = button + index;
+    datahtml+= `<tr id=${item.song_id}><td>${index}</td>
     <td>${item.song_name}</td>
     <td>${item.artist_name}</td>
     <td>${item.release_year}</td>
@@ -171,37 +120,25 @@ function load_results_into_table_artist(results){
     <td>${item.artist_duration}</td>
     <td>${item.artist_danceability}</td>
     <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
-
-    //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
+    index=index+1;
     if(playlist_songs.indexOf(item.song_id) >= 0){
-      addbuttons_to_remove.push(exact_button);
+      // button='"' + button + '"'
+      console.log(exact_button)
+    // document.getElementById(exact_button).style.display= "none"
     }
   }
-  results_body_artist.innerHTML= datahtml;
-  results_table_artist.style.display = "inline";
-
-  //Checks if other tables are being displayed. If so, hides them
-  if (results_table_genre != undefined){
-    results_table_genre.style.display = "none";
-  }
-  if (results_table_song != undefined){
-    results_table_song.style.display = "none";
-  }
-  addbuttons_to_remove.forEach(function (item) {
-  document.getElementById(item).style.display='none';
-});
+  results_table.innerHTML= datahtml;
+  results_header.style.visibility = "visible";
 }
-
-//Loads results into the table for searching by genre name. Each row id is equivalent to the id of the song that populates it.
+//load results for search by genre with specified elements, including attributes specific to individual genres
 function load_results_into_table_genre(results){
+  results_table = document.getElementById("search_results_table_genre");
+  const results_header = document.getElementById("header_3");
   let datahtml= '';
-  results_body_genre= document.getElementById("search_results_body_genre");
-  results_table_genre= document.getElementById("search_results_table_genre");
-  var addbuttons_to_remove=[];
 
   for (let item of results){
-    var exact_button=addbutton+item.song_id
-    datahtml+= `<tr id=${item.song_id}>
+    button = button + index;
+    datahtml+= `<tr id=${item.song_id}><td>${index}</td>
     <td>${item.song_name}</td>
     <td>${item.genre_name}</td>
     <td>${item.artist_name}</td>
@@ -214,94 +151,107 @@ function load_results_into_table_genre(results){
     <td>${item.genre_duration}</td>
     <td>${item.genre_danceability}</td>
     <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
-
-    //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
+    index=index+1;
     if(playlist_songs.indexOf(item.song_id) >= 0){
-      addbuttons_to_remove.push(exact_button);
+      // button='"' + button + '"'
+      console.log(exact_button)
+    // document.getElementById(exact_button).style.display= "none"
     }
-
   }
-  results_body_genre.innerHTML= datahtml;
-  results_table_genre.style.display = "inline";
-
-  //Checks if other tables are being displayed. If so, hides them
-  if (results_table_artist != undefined){
-    results_table_artist.style.display = "none";
-  }
-  if (results_table_song != undefined){
-    results_table_song.style.display = "none";
-  }
-  addbuttons_to_remove.forEach(function (item) {
-  document.getElementById(item).style.display='none';
-});
+  results_table.innerHTML= datahtml;
+  results_header.style.visibility = "visible";
 }
+//
+// function load_results_into_table_song_2(results){
+//   results_table = document.getElementById("search_results_table_song");
+//   const results_header = document.getElementById("header_1");
+//   let datahtml= '';
+//
+//   for (let item of results){
+//     var exact_button=button+index
+//     datahtml+= `<tr id=${item.song_id}><td>${index}</td>
+//     <td>${item.song_name}</td>
+//     <td>${item.artist_name}</td>
+//     <td>${item.release_year}</td>
+//     <td>${item.popularity}</td>
+//     <td>${item.tempo}</td>
+//     <td>${item.duration}</td>
+//     <td>${item.danceability}</td>
+//     <td><select id = "dropdown" onchange="add_song_to_playlist(this)" align = 'center' style= 'display:block'> Add to Playlist
+//       <option value = "default"> Choose a Playlist </option>
+//       <option value = "default"> PlaylistA </option>
+//       <option value = "default"> PlaylistB </option>
+//      </select>
+//      </td></tr>`;
+//     index=index+1;
+//     if(playlist_songs.indexOf(item.song_id) >= 0){
+//       // button='"' + button + '"'
+//       console.log(exact_button)
+//     // document.getElementById(exact_button).style.display= "none"
+//     }
+//   }
+//   results_table.innerHTML= datahtml;
+//   results_header.style.visibility = "visible";
+// }
+//
+//
+// function addPlaylistToDropDown(row){
+//   var playlist_array = {
+//     ValueA : 'Playlist1',
+//     ValueB : 'Playlist2',
+//     ValueC : 'Playlist3'
+//   };
+//   var select = row.parentNode.id;
+//   for(playlist in playlist_array){
+//       var option = select.createElement("option");
+//       option.value = playlist;
+//       option.text = playlist_array[playlist];
+//       select.appendChild(option);
+//
+//   }
+// }
+//
+// function add_song_to_playlist(row){
+//   addPlaylistToDropDown(row);
+//   PlaylistIndex = PlaylistIndex + 1;
+//   var playlist_name = row.parentNod.id.value;
+//   var song_id = row.parentNode.parentNode.id;
+//   var playlist_id = PlaylistIndex;
+//   var type = "insert";
+//
+//   inset_to_playlist_url = getAPIBaseURL() + '/insert_playlist_into_playlists'
+//   const data = {playlist_id, playlist_name, song_id, type};
+//   const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
+//   fetch(insert_to_playlist_url,options);
+//
+//   console.log("success")
+// }
 
-//Loads all songs in user's playlist into the playlist table. Each row id is equivalent to the id of the song that populates it.
-function load_results_into_table_playlists(playlist_results){
-  let datahtml= '';
-  playlist_table= document.getElementById("playlist_table");
-  playlist_body= document.getElementById("playlist_body");
-  var delbuttons_to_remove=[];
-
-  for (let item of playlist_results){
-    var exact_button=delbutton+item.song_id
-    datahtml+= `<tr id=${item.song_id}>
-    <td>${item.song_name}</td>
-    <td>${item.artist_name}</td>
-    <td>${item.release_year}</td>
-    <td>${item.popularity}</td>
-    <td>${item.tempo}</td>
-    <td>${item.duration}</td>
-    <td>${item.danceability}</td>
-    <td><button onclick="delete_from_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' >Delete from Playlist</button></td></tr>`;
-
-    // if(playlist_songs.indexOf(item.song_id) < 0){
-    //   delbuttons_to_remove.push(exact_button);
-    // }
-
-  }
-  playlist_body.innerHTML= datahtml;
-  playlist_table.style.display = "inline";
+// function returnAllElementsInPlaylist(){
+//
+// }
 
 
-//   delbuttons_to_remove.forEach(function (item) {
-//   document.getElementById(item).style.display='none';
-// });
+//insert song into playlist
+// function insert_into_playlist(row)
+// {
+// 	var song_id=row.parentNode.parentNode.id;
+//   var type = "insert"
+//   insert_url= getAPIBaseURL() + '/insert_into_playlist'
+//   const data= {song_id, type};
+//   const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
+//   fetch(insert_url,options);
+//
+//   playlist_songs.push(song_id);
+//
+//   // document.getElementById("b,"+row).style.display= "none";
+// console.log("success")
+// }
 
-}
+var globalresults;
+var playlist_songs;
 
-//Deletes a song from the user's playlist via a JSON POST request
-function delete_from_playlist(row)
-{
-	var song_id=row.parentNode.parentNode.id;
-  var type = "delete"
-  delete_url= getAPIBaseURL() + '/delete_from_playlist'
-  const data= {song_id, type};
-  const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
-  fetch(delete_url,options);
-
-  playlist_songs.push(song_id);
-  button=document.getElementById("d,"+ song_id);
-  button.style.display= 'none';
-}
-
-//Adds a song into the user's playlist via a JSON POST request.
-function insert_into_playlist(row)
-{
-	var song_id=row.parentNode.parentNode.id;
-  var type = "insert"
-  insert_url= getAPIBaseURL() + '/insert_into_playlist'
-  const data= {song_id, type};
-  const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
-  fetch(insert_url,options);
-
-  playlist_songs.push(song_id);
-  button=document.getElementById("a,"+ song_id);
-  button.style.display= 'none';
-}
-
-
-//Chooses which table to load the JSON response into based on the search category
+//choose which table (song, artist, genre) to load based on chosen Category
 function chooseResults(results){
     var chosenCategory = document.getElementById('DDButton');
     if(chosenCategory.value == 'song'){
@@ -315,54 +265,73 @@ function chooseResults(results){
     }
 }
 
-//Sends an API request to the server to obtain the data based on the search string  and category inputted by the user
+//fetch results using api endpoint and load results into specified table
 async function returnResults(){
-  get_playlist_record()
   var url = getAPIBaseURL() + getURLbyCategory();
   {await fetch(url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     chooseResults(results);
     globalresults=results;
+    console.log(globalresults);
   })
   }
 }
 
-//Sends an API request to the server to obtain all the songs in the user's playlist
-async function returnPlaylistResults(){
-  {await fetch(get_playlist_results_url, {method: 'get'})
-  .then((response) => response.json())
-  .then(function(results){
-    globalPlaylistResults=results;
-  })
-  }
-}
 
-//Sends an API request to the server to obtain all the song_id's in the user's playlist
-async function get_playlist_record(){
-  {await fetch(playlist_url, {method: 'get'})
-.then((response) => response.json())
-.then(function(playlists){
-  playlist_songs=playlists;
-
-})
-}
-}
-
-// function that runs on initializing the window. Still trying to figure out how to stop the full window from loading until returnPlaylistResults receives a response
 async function initialize(){
-    get_playlist_record()
-    await returnPlaylistResults().then(OnXevent())
+    {await fetch(playlist_url, {method: 'get'})
+    .then((response) => response.json())
+    .then(function(playlists){
+    playlist_songs=playlists;
+    // console.log(globalresults);
+    })
   }
-
-// assigns elements to names and assigns them their on X event.
-  function OnXevent(){
-    var searchButton = document.getElementById('search_button');
     var DDButton = document.getElementById('DDButton');
+    var searchButton = document.getElementById('search_string');
     if(DDButton){
       DDButton.onchange = changePlaceHolder;
     }
+    //addPlaylistToDropDown();
     if (searchButton){
       searchButton.onclick = returnResults;
     }
+
   }
+
+
+
+  // function initialize(){
+  //       var searchButton = document.getElementById('search_string');
+  //       if (searchButton) {
+  //           searchButton.onclick = onSearchButton;
+  //       }
+  //   }
+  // function onSearchButtonSong(){
+  //   var searchString = document.getElementById('search_string')
+  //   var url = getAPIBaseURL() + getURLbyCategory();
+  //   fetch(url, {method: 'get'})
+  //   .then((response) => response.json())
+  //   .then(function(songs){
+  //     var listBody = '';
+  //     for (var k = 0; k < songs.length; k++)  {
+  //         var song = songs[k];
+  //         listBody += '<li>name:' + song['song_name']
+  //                   + ',release_year: ' + song['release_year']
+  //                   + ',popularity:' + song['popularity']
+  //                   + ',tempo: ' + song['tempo']
+  //                   + ',duration: ' + song['duration']
+  //                   + ',danceability: ' + song['danceability'];
+  //                   + '</li>\n';
+  //                 }
+  //
+  //                 var songs_list_element = document.getElementById('songs_list');
+  //                 if (songs_list_element) {
+  //                     songs_list_element.innerHTML = listBody;
+  //                 }
+  //             })
+  //
+  //             .catch(function(error) {
+  //                 console.log(error);
+  //             });
+  //   }

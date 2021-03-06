@@ -337,7 +337,7 @@ def playlist_results():
 
 @api.route('/insert_into_playlist')
 def insert():
-    """sends query to insert into playlist table dynamically""""
+    """sends query to insert into playlist table dynamically"""
     data= flask.request.get_json()
     id= data.get("song_id")
     query = "INSERT INTO temp_playlists (song_id) VALUES (%s);"

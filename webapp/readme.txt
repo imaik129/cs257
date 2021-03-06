@@ -1,6 +1,6 @@
 AUTHORS: Kevin Phung, Kyosuke Imai
 
-*IMPORTANT: will need to import simplejson module locally for the program to work*
+*IMPORTANT: will need to import simplejson module for the program to work*
 
 DATA: The dataset file contains more than 175000 songs collected from the Spotify Web API, each with individual metrics like tempo,danceability and popularity.
 
