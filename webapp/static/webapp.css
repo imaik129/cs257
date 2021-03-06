@@ -3,7 +3,6 @@
     Authors: Kevin Phung, Kyosuke Imai
 */
 
-
 body {
   margin: 40px;
   size: 100%;
@@ -42,11 +41,22 @@ header .TopPanel{
   flex-wrap: nowrap;
   align-self: center;
 }
-  /* align-items: flex-start; */
-/* .flex-container div{
-  height:40px;
-  width:50px;
-} */
+
+table.sortable tbody {
+    counter-reset: sortabletablescope;
+}
+table.sortable thead tr::before {
+    content: "";
+    display: table-cell;
+}
+table.sortable tbody tr::before {
+    content: counter(sortabletablescope);
+    counter-increment: sortabletablescope;
+    display: table-cell;
+    background: #f8f8ff;
+}
+
+
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
     content: " \25B4\25BE"
 }

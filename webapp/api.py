@@ -35,8 +35,8 @@ def get_song_by_search():
         FROM song_details,song_characteristics,artist_details,song_artist_link \
         WHERE LOWER(song_details.song_name) LIKE LOWER(%s) AND song_details.song_id=song_characteristics.song_id \
         AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \
-        ORDER BY popularity DESC\
-        LIMIT 100;"
+        ORDER BY song_details.popularity DESC , song_details.song_id DESC\
+        LIMIT 150;"
 
 
     connection = connection_to_database()
@@ -67,7 +67,7 @@ def get_song_id_by_artist():
         AND artist_details.artist_id = song_artist_link.artist_id\
         AND song_details.song_id = song_artist_link.song_id\
         ORDER BY song_details.song_id ASC\
-        LIMIT 5;"
+        LIMIT 50;"
 
     connection = connection_to_database()
     try:
@@ -104,7 +104,7 @@ def get_song_by_genre():
         AND genre_details.genre_id = artist_genre_link.genre_id\
         AND artist_details.artist_id = artist_genre_link.artist_id\
         ORDER BY genre_details.genre_name ASC\
-        LIMIT 100;"
+        LIMIT 150;"
 
     connection = connection_to_database()
     try:
@@ -121,7 +121,6 @@ def get_help():
     text = help_file.read()
     return flask.render_template('help.html', help_text=text)
 
-
 @api.route('/search_songs')
 def song_results():
     cursor=get_song_by_search()
@@ -134,7 +133,7 @@ def song_results():
         if prev_song_id== row[7]:
             song_details_list.pop()
             song_dict['song_name'] = row[0]
-            song_dict['artist_name']= prev_song_artists + 'and' + row[1]
+            song_dict['artist_name']= prev_song_artists + ' and ' + row[1]
             song_dict['release_year'] = row[2]
             song_dict['popularity'] = row[3]
             song_dict['tempo'] = row[4]
@@ -267,43 +266,6 @@ def genre_results():
 
 
 
-@api.route('/insert_playlist_into_playlists')
-def insert_playlist():
-    data = flask.request.get_json()
-    
-    query = "INSERT INTO all_playlists (playlist_id, playlist_name, song_id) VALUES (%s, %s, %s);"
-    try:
-        cursor = connection.cursor()
-        cursor.execute(query, (id,))
-        connection.commit()
-        cursor.close()
-    except Exception as e:
-        print(e)
-        exit()
-
-@api.route('/get_playlist')
-def retrieve_playlist():
-    playlist_name = flask.request.args.get('playlist')
-    playlist_name = '%' +  playlist_name + '%'
-    query = "SELECT playlist_id, playlist_name, song_id FROM all_playlists WHERE playlist_name = %s;"
-    connection = connection_to_database()
-    try:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        playlists_list=[]
-        for row in cursor:
-            playlist_lists.append(row[0],row[1],row[2])
-        cursor.close()
-    except Exception as e:
-        print(e)
-        exit()
-
-    return json.dumps(playlists_list)
-
-
-
-
-
 
 
 @api.route('/insert_into_playlist')
@@ -323,6 +285,24 @@ def insert():
     except Exception as e:
         print(e)
         exit()
+
+
+
+@api.route('/delete_from_playlist')
+def delete():
+    data= flask.request.get_json()
+    id= data.get("song_id")
+    query = "DELETE FROM temp_playlists WHERE song_id = %s;"
+    connection = connection_to_database()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query, (id,))
+        connection.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+        exit()
+
 
 @api.route('/get_all_playlist_songs')
 def retrieve():

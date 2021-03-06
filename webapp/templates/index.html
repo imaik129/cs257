@@ -39,22 +39,10 @@
 
 <body>
   <h2 class = "quote" > <em> Music if life itself. <br/> -Louis Armstrong</em>  </h2>
-<!--
-    <p><input id="search_by_artist" type="search" placeholder="Search artist name here" />
-    <p><button id="artist_search_button">search</button></p>
-    <p><input id="search_by_genre" type="search" placeholder="Search genre name here" />
-    <p><button id="genre_search_button">search</button></p> -->
-    <table class="sortable" >
-      <thead id="header_1" style="visibility:hidden">
+  
+    <table class="sortable" id="search_results_table_song" style="display:none" >
+      <thead id="header_song" >
         <tr>
-       <!-- <th>Song Name</th>
-       <th>Artist</th>
-       <th onclick="sortColumn('release_year')">Release Year</th>
-       <th onclick="sortColumn('popularity')">Popularity</th>
-       <th onclick="sortColumn('tempo')">Tempo</th>
-       <th onclick="sortColumn('duration')">Duration</th>
-       <th onclick="sortColumn('danceability')">Danceability</th> -->
-       <th class="sorttable_nosort">Index</th>
        <th>Song Name</th>
        <th>Artist</th>
        <th>Release Year</th>
@@ -65,14 +53,13 @@
        <th class="sorttable_nosort">Add to Playlist</th>
       </tr>
    </thead>
- <tbody id="search_results_table_song"></tbody>
+ <tbody id="search_results_body_song"></tbody>
 
  </table>
 
- <table class="sortable" >
-   <thead id="header_2" style="visibility:hidden">
+ <table class="sortable" id="search_results_table_artist" style="display:none" >
+   <thead id="header_artist" >
      <tr>
-    <th class="sorttable_nosort">Index</th>
     <th>Song Name</th>
     <th>Artist</th>
     <th>Release Year</th>
@@ -83,18 +70,16 @@
     <th>Artist Tempo (avg.)</th>
     <th>Artist Duration (avg.)</th>
     <th>Artist Danceability (avg.)</th>
-    <th class="sorttable_nosort">Add to Playlist
-    </th>
+    <th class="sorttable_nosort">Add to Playlist</th>
    </tr>
 </thead>
-<tbody id="search_results_table_artist"></tbody>
+<tbody id="search_results_body_artist"></tbody>
 
 </table>
 
-<table class="sortable" >
-  <thead id="header_3" style="visibility:hidden">
+<table class="sortable" id="search_results_table_genre" style="display:none">
+  <thead id="header_genre" >
     <tr>
-   <th class="sorttable_nosort">Index</th>
    <th>Song Name</th>
    <th>Genre</th>
    <th>Artist</th>
@@ -109,7 +94,7 @@
    <th class="sorttable_nosort">Add to Playlist</th>
   </tr>
 </thead>
-<tbody id="search_results_table_genre"></tbody>
+<tbody id="search_results_body_genre"></tbody>
 
 </table>
 

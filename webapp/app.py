@@ -27,6 +27,12 @@ def shared_header_catchall(path):
             api.insert()
             return flask.render_template('index.html')
 
+        elif data.get('type')=="delete":
+            api.delete()
+            return flask.render_template('index.html')
+
+
+
     # return flask.render_template(path)
 
 
