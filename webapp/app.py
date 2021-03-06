@@ -16,11 +16,13 @@ def home():
 # are stored in the templates/ directory or one of its descendant directories,
 # without requiring you to have specific routes for each page.
 @app.route('/<path:path>', methods=['GET', 'POST'])
-def shared_header_catchall(path):        
+def shared_header_catchall(path):
+
+#split method for if request if "GET" or "POST". Both methods return to index.html for now.
     if flask.request.method == 'GET':
-        # path= path + '.html'
         return flask.render_template('index.html')
 
+#If Post, checks for type insert or delete and assigns appropriate api function
     elif flask.request.method == 'POST':
         data= flask.request.get_json()
         if data.get('type')=="insert":
@@ -33,10 +35,6 @@ def shared_header_catchall(path):
 
 
 
-    # return flask.render_template(path)
-
-
-    # return flask.render_template('index.html')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('A tiny Flask application, including API')

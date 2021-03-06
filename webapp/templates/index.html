@@ -11,7 +11,7 @@
 </head>
 <header>
   <div class="TopPanel">
-  <h3 class = "title" >Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
+  <h3 class = "title", id="top_header">Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
   <div class="flex-container">
     <div>
       <div class = "DropDownMenu" id = "DropDownMenu">
@@ -27,7 +27,6 @@
     </div>
     <div>
         <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
-          <!-- <div id='search_icon'><img id='search_icon' src='magnifying_glass.jpg' alt="search icon"/></div> </p> -->
     </div>
     <div>
         <p><button type="submit" id="search_button">search</button></p>
@@ -35,9 +34,8 @@
   </div>
 
   <div class = "ChoosePlaylist" id = "Choose">
-    <select class="SelectPlaylist" id = "SelectPlaylist" onchange="goToYourPlaylist()">
+    <select class="SelectPlaylist" id = "SelectPlaylist" onchange="choosePanel()" style="display:inline">
     <div class = "MenuContents" id = "MenuContents">
-      <!-- <option value = "default"> Choose a Playlist </option> -->
       <option id = "HomePage" value = 'HomePage' >HomePage </option>
       <option id = "YourPlaylist" value = 'YourPlaylist' >YourPlaylist </option>
     </div>

@@ -4,22 +4,7 @@ Authors: Kevin Phung, Kyosuke Imai
 REQUEST: /help
 RESPONSE: List of API requests and corresponding responses.
 
-REQUEST: /home
-RESPONSE: A JSON list of 10 dictionaries, each of which represents one of the top 20 songs sorted by popularity. Each song dictionary will have the following fields:
-	Song Name -- (string) the name of the song
-	Artist	-- (string) The name of the artist
-	Year	-- (string) The year the song was released?
-	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
-
-
-REQUEST: /your_playlists
-RESPONSE: A JSON list of strings, each of which represents the name of a playlist.
-	Playlist Name -- (string) name of the Playlist
-	# of Songs -- (int) total # of songs in the Playlist
-
-REQUEST: /playlist_name
-GET parameter:
-	playlist_name (required)
+REQUEST: /search_playlist
 RESPONSE: A JSON list of dictionaries, each of which represents one song within the playlist sorted by popularity. Each song dictionary will have the following fields:
 	Song Name -- (string) the name of the song
 	artist	-- (string) The name of the artist
@@ -28,13 +13,14 @@ RESPONSE: A JSON list of dictionaries, each of which represents one song within 
 	tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
 	duration	--(int) The length of the track in seconds.
 	danceability	--(int) The relative of the track being danceable (rated between 0 and 1)
+	song id --(int) the ID of the song
 
 
 REQUEST: /search_songs
 GET parameters:
 	search_string(required) : Searches by song name and artist
-	min_year(optional, default: -infinity) : Only returns songs that were released after this year
 RESPONSE: A JSON list of  dictionaries, each of which represents one song within the data sorted by popularity. Each song dictionary will  have the following fields:
+	Song ID -- (int) the ID of the song
 	Song Name -- (string) the name of the song
 	Artist	-- (string) The name of the artist
 	Year	-- (string) The year the song was released?
@@ -46,8 +32,9 @@ RESPONSE: A JSON list of  dictionaries, each of which represents one song within
 
 REQUEST: /search_genre
 GET parameters:
-	search_string(required) : Searches by genre
+	search_string(required) : Searches for songs by genre
 RESPONSE: A JSON list of strings, each of which is an artist that has made music in that genre
+	Song ID -- (int) the ID of the song
 	Song name -- (string) the name of the song
 	Genre name -- (string) the genre of the song
 	Artist	-- (string) The name of the artist
@@ -63,8 +50,9 @@ RESPONSE: A JSON list of strings, each of which is an artist that has made music
 
 REQUEST: /search_artist
 GET parameters:
-	search_string(required) : Searches by artist
+	search_string(required) : Searches for songs by artist
 RESPONSE: A JSON list of dictionaries, each of which represents one artist within the database. Each dictionary will have the following fields:
+	Song ID -- (int) the ID of the song
 	Song Name -- (string) the name of the song
 	Artist	-- (string) The name of the artist
 	Year	-- (string) The year the song was released?
@@ -75,6 +63,32 @@ RESPONSE: A JSON list of dictionaries, each of which represents one artist withi
 	Artist Tempo	--(int) The average tempo of all their tracks in Beats Per Minute(BPM) with a range of (0-244)
 	Artist Duration	--(int) The average length of all their track in seconds.
 	Artist Danceability	--(int) The average relative metric of their tracks being danceable (rated between 0 and 1)
+
+REQUEST: /insert_into_playlist
+GET parameters:
+	song_id(required): ID of the song to be added into playlist
+RESPONSE: None. Inserts a song into the playlist
+	
+
+REQUEST: /delete_from_playlist
+GET parameters:
+	song_id(required): ID of the song to be removed from playlist
+RESPONSE: None. Inserts a song into the playlist
+
+REQUEST: /get_all_playlist_songs
+
+RESPONSE: A JSON list of song_id's for songs that are currently in the users playlist.
+
+
+
+YET TO IMPLEMENT/ UNSURE IF IMPLEMENTING:
+
+REQUEST: /home
+RESPONSE: A JSON list of 10 dictionaries, each of which represents one of the top 20 songs sorted by popularity. Each song dictionary will have the following fields:
+	Song Name -- (string) the name of the song
+	Artist	-- (string) The name of the artist
+	Year	-- (string) The year the song was released?
+	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
 
 
 REQUEST: /data_visualizer

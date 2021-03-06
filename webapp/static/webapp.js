@@ -1,10 +1,11 @@
 //authors: Kevin Phung, Kyosuke Imai
 
+//List of globally declared variables
 let sorted = false;
 var addbutton = "a,";
 var delbutton = "d,";
 var results_table=undefined ;
-var playlist_url= getAPIBaseURL() + '/get_all_playlist_songs';
+var playlist_url= getAPIBaseURL() + '/get_all_playlist_song_ids';
 var get_playlist_results_url= getAPIBaseURL() + '/search_playlist';
 var results_body_song = undefined;
 var results_body_artist = undefined;
@@ -14,11 +15,15 @@ var results_table_song= undefined;
 var results_table_artist= undefined;
 var results_table_genre= undefined;
 var playlist_table= undefined;
+var globalresults;
+var globalPlaylistResults=undefined;
+var playlist_songs;
+
 window.onload = initialize;
 
 
 
-
+// Swaps placeholder text in the search bar based on the category chosen
 function changePlaceHolder(){
   var chosenCategory = document.getElementById('DDButton');
   if (chosenCategory.value == 'song'){
@@ -36,25 +41,44 @@ function changePlaceHolder(){
 
 }
 
+// Swaps between search/home page and Playlist page Panels
+async function choosePanel(){
 
-function goToYourPlaylist(){
   var chosenPath = document.getElementById('SelectPlaylist');
-  // console.log("WE'RE before HERE")
   var divider_for_home=document.getElementById("divider_for_home");
   var divider_for_playlists=document.getElementById("divider_for_playlists");
   if (chosenPath.value== 'YourPlaylist'){
-    console.log("WE'RE HERE")
     divider_for_home.style.display= 'none';
-    load_results_into_table_playlists(globalPlaylistResults);
-    console.log("we're here 2")
+    await returnPlaylistResults().then(
+    load_results_into_table_playlists(globalPlaylistResults));
+    // console.log(globalPlaylistResults)
+    document.getElementById("top_header").innerHTML="Spotify Music <br/>  Advanced Search  <br/> Playlist Page";
+    document.getElementById("DropDownMenu").style.display= 'none';
+    document.getElementById("search_string").style.display= 'none';
+    document.getElementById("search_button").style.display= 'none';
+    if (globalPlaylistResults.length>0){
     divider_for_playlists.style.display= 'inline';
+
+    document.getElementById("page_quote").innerHTML="<em> Here are all your songs</em>";
+
+  } else{
+    document.getElementById("page_quote").innerHTML="<em> You have no songs in here</em>";
+  }
+
   }
   else{
     divider_for_playlists.style.display= 'none';
+    divider_for_home.style.display= 'inline';
+    document.getElementById("top_header").innerHTML="Spotify Music <br/>  Advanced Search  <br/> Home Page";
+    document.getElementById("page_quote").innerHTML="<em> Music is life itself. <br/> -Louis Armstrong</em>";
+    document.getElementById("DropDownMenu").style.display= 'inline';
+    document.getElementById("search_string").style.display= 'inline';
+    document.getElementById("search_button").style.display= 'inline';
 
   }
 }
 
+// Completes URL string depending on search category chosen
 function getURLbyCategory(){
 
   var chosenCategory = document.getElementById('DDButton');
@@ -77,12 +101,13 @@ function getURLbyCategory(){
 
 }
 
+//Just gets the base url for the API call
 function getAPIBaseURL() {
     var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
     return baseURL;
 }
 
-
+//Loads results into the table for searching by song name. Each row id is equivalent to the id of the song that populates it.
 function load_results_into_table_song(results){
   let datahtml= '';
   results_body_song= document.getElementById("search_results_body_song");
@@ -101,6 +126,7 @@ function load_results_into_table_song(results){
     <td>${item.danceability}</td>
     <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' >Add to Playlist</button></td></tr>`;
 
+//checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     if(playlist_songs.indexOf(item.song_id) >= 0){
       addbuttons_to_remove.push(exact_button);
     }
@@ -109,6 +135,7 @@ function load_results_into_table_song(results){
   results_body_song.innerHTML= datahtml;
   results_table_song.style.display = "inline";
 
+  //Checks if other tables are being displayed. If so, hides them
   if (results_table_genre != undefined){
     results_table_genre.style.display = "none";
   }
@@ -117,16 +144,13 @@ function load_results_into_table_song(results){
   }
 
   addbuttons_to_remove.forEach(function (item) {
-  console.log(item);
   document.getElementById(item).style.display='none';
 });
 
 }
 
-
+//Loads results into the table for searching by artist name. Each row id is equivalent to the id of the song that populates it.
 function load_results_into_table_artist(results){
-  // results_table = document.getElementById("search_results_table_artist");
-  // const results_header = document.getElementById("header_artist");
   let datahtml= '';
   results_table_artist= document.getElementById("search_results_table_artist");
   results_body_artist= document.getElementById("search_results_body_artist");
@@ -147,6 +171,8 @@ function load_results_into_table_artist(results){
     <td>${item.artist_duration}</td>
     <td>${item.artist_danceability}</td>
     <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
+
+    //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     if(playlist_songs.indexOf(item.song_id) >= 0){
       addbuttons_to_remove.push(exact_button);
     }
@@ -154,6 +180,7 @@ function load_results_into_table_artist(results){
   results_body_artist.innerHTML= datahtml;
   results_table_artist.style.display = "inline";
 
+  //Checks if other tables are being displayed. If so, hides them
   if (results_table_genre != undefined){
     results_table_genre.style.display = "none";
   }
@@ -161,14 +188,12 @@ function load_results_into_table_artist(results){
     results_table_song.style.display = "none";
   }
   addbuttons_to_remove.forEach(function (item) {
-  console.log(item);
   document.getElementById(item).style.display='none';
 });
 }
 
+//Loads results into the table for searching by genre name. Each row id is equivalent to the id of the song that populates it.
 function load_results_into_table_genre(results){
-  // results_table = document.getElementById("search_results_table_genre");
-  // const results_header = document.getElementById("header_genre");
   let datahtml= '';
   results_body_genre= document.getElementById("search_results_body_genre");
   results_table_genre= document.getElementById("search_results_table_genre");
@@ -189,6 +214,8 @@ function load_results_into_table_genre(results){
     <td>${item.genre_duration}</td>
     <td>${item.genre_danceability}</td>
     <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
+
+    //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     if(playlist_songs.indexOf(item.song_id) >= 0){
       addbuttons_to_remove.push(exact_button);
     }
@@ -197,19 +224,19 @@ function load_results_into_table_genre(results){
   results_body_genre.innerHTML= datahtml;
   results_table_genre.style.display = "inline";
 
+  //Checks if other tables are being displayed. If so, hides them
   if (results_table_artist != undefined){
     results_table_artist.style.display = "none";
   }
   if (results_table_song != undefined){
-    console.log(results_table_song)
     results_table_song.style.display = "none";
   }
   addbuttons_to_remove.forEach(function (item) {
-  console.log(item);
   document.getElementById(item).style.display='none';
 });
 }
 
+//Loads all songs in user's playlist into the playlist table. Each row id is equivalent to the id of the song that populates it.
 function load_results_into_table_playlists(playlist_results){
   let datahtml= '';
   playlist_table= document.getElementById("playlist_table");
@@ -228,29 +255,22 @@ function load_results_into_table_playlists(playlist_results){
     <td>${item.danceability}</td>
     <td><button onclick="delete_from_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' >Delete from Playlist</button></td></tr>`;
 
-    if(playlist_songs.indexOf(item.song_id) < 0){
-      delbuttons_to_remove.push(exact_button);
-    }
+    // if(playlist_songs.indexOf(item.song_id) < 0){
+    //   delbuttons_to_remove.push(exact_button);
+    // }
 
   }
   playlist_body.innerHTML= datahtml;
   playlist_table.style.display = "inline";
 
-  // if (results_table_genre != undefined){
-  //   results_table_genre.style.display = "none";
-  // }
-  // if (results_table_artist != undefined){
-  //   results_table_artist.style.display = "none";
-  // }
 
-  delbuttons_to_remove.forEach(function (item) {
-  console.log(item);
-  document.getElementById(item).style.display='none';
-});
+//   delbuttons_to_remove.forEach(function (item) {
+//   document.getElementById(item).style.display='none';
+// });
 
 }
 
-
+//Deletes a song from the user's playlist via a JSON POST request
 function delete_from_playlist(row)
 {
 	var song_id=row.parentNode.parentNode.id;
@@ -265,10 +285,10 @@ function delete_from_playlist(row)
   button.style.display= 'none';
 }
 
+//Adds a song into the user's playlist via a JSON POST request.
 function insert_into_playlist(row)
 {
 	var song_id=row.parentNode.parentNode.id;
-  console.log(song_id)
   var type = "insert"
   insert_url= getAPIBaseURL() + '/insert_into_playlist'
   const data= {song_id, type};
@@ -280,10 +300,8 @@ function insert_into_playlist(row)
   button.style.display= 'none';
 }
 
-var globalresults;
-var globalPlaylistResults=undefined;
-var playlist_songs;
 
+//Chooses which table to load the JSON response into based on the search category
 function chooseResults(results){
     var chosenCategory = document.getElementById('DDButton');
     if(chosenCategory.value == 'song'){
@@ -297,30 +315,30 @@ function chooseResults(results){
     }
 }
 
+//Sends an API request to the server to obtain the data based on the search string  and category inputted by the user
 async function returnResults(){
+  get_playlist_record()
   var url = getAPIBaseURL() + getURLbyCategory();
   {await fetch(url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     chooseResults(results);
     globalresults=results;
-    // console.log(globalresults);
   })
   }
 }
 
+//Sends an API request to the server to obtain all the songs in the user's playlist
 async function returnPlaylistResults(){
-  // var url = getAPIBaseURL() + get_playlist_results_url;
   {await fetch(get_playlist_results_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     globalPlaylistResults=results;
-    console.log(globalPlaylistResults);
   })
   }
 }
 
-
+//Sends an API request to the server to obtain all the song_id's in the user's playlist
 async function get_playlist_record(){
   {await fetch(playlist_url, {method: 'get'})
 .then((response) => response.json())
@@ -331,22 +349,14 @@ async function get_playlist_record(){
 }
 }
 
-
+// function that runs on initializing the window. Still trying to figure out how to stop the full window from loading until returnPlaylistResults receives a response
 async function initialize(){
     get_playlist_record()
-    await returnPlaylistResults().then(test())
-
-    // var searchButton = document.getElementById('search_button');
-    // var DDButton = document.getElementById('DDButton');
-    // if(DDButton){
-    //   DDButton.onchange = changePlaceHolder;
-    // }
-    // if (searchButton){
-    //   searchButton.onclick = returnResults;
-    // }
+    await returnPlaylistResults().then(OnXevent())
   }
 
-  function test(){
+// assigns elements to names and assigns them their on X event.
+  function OnXevent(){
     var searchButton = document.getElementById('search_button');
     var DDButton = document.getElementById('DDButton');
     if(DDButton){

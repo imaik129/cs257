@@ -204,7 +204,7 @@ def artist_results():
             AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \
             ORDER BY popularity DESC\
             LIMIT 6;"
-        # return json.dumps(artist_details_list)
+
 
         connection = connection_to_database()
         try:
@@ -213,15 +213,13 @@ def artist_results():
             artist_dict={}
 
             if cursor_for_artists.rowcount>1:
-                # print('here')
                 artist_name=""
                 for row2 in cursor_for_artists:
                     if artist_name=="":
                         artist_name= row2[1]
                     else:
                         artist_name= artist_name + ' and ' + row2[1]
-                    # print(artist_name)
-        # return json.dumps(artist_details_list)
+
 
                 artist_dict['song_name'] = row2[0]
                 artist_dict['artist_name'] = artist_name
@@ -235,7 +233,6 @@ def artist_results():
                 artist_dict['artist_danceability'] = artist_danceability
                 artist_dict['song_id']=row2[7]
                 artist_details_list.append(artist_dict)
-        # return json.dumps(artist_details_list)
 
 
             else:
@@ -246,14 +243,13 @@ def artist_results():
                     artist_dict['popularity'] = row2[3]
                     artist_dict['tempo'] = row2[4]
                     artist_dict['duration'] = row2[5]
-                    # print('here2')
                     artist_dict['danceability'] = row2[6]
                     artist_dict['artist_tempo'] = artist_tempo
                     artist_dict['artist_duration'] = artist_duration
                     artist_dict['artist_danceability'] = artist_danceability
                     artist_dict['song_id']=row2[7]
                     artist_details_list.append(artist_dict)
-            # return json.dumps(artist_details_list)
+
 
 
             cursor_for_artists.close()
@@ -335,15 +331,12 @@ def playlist_results():
 @api.route('/insert_into_playlist')
 def insert():
     data= flask.request.get_json()
-    # print(data)
     id= data.get("song_id")
-    # print(id)
     query = "INSERT INTO temp_playlists (song_id) VALUES (%s);"
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
         cursor.execute(query, (id,))
-        # cursor.execute(query)
         connection.commit()
         cursor.close()
     except Exception as e:
@@ -368,7 +361,7 @@ def delete():
         exit()
 
 
-@api.route('/get_all_playlist_songs')
+@api.route('/get_all_playlist_song_ids')
 def retrieve():
     query = "SELECT * FROM temp_playlists;"
     connection = connection_to_database()
