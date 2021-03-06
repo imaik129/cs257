@@ -93,7 +93,7 @@ def get_song_by_genre():
         song_details.release_year, song_details.popularity, song_characteristics.tempo, \
         song_characteristics.duration, song_characteristics.danceability,\
         genre_characteristics.tempo, genre_characteristics.duration,\
-        genre_characteristics.danceability \
+        genre_characteristics.danceability, song_details.song_id \
         FROM song_details, song_characteristics, artist_details,\
         genre_details, genre_characteristics, artist_genre_link, song_artist_link\
         WHERE LOWER(genre_details.genre_name) LIKE LOWER(%s)\
@@ -110,6 +110,31 @@ def get_song_by_genre():
     try:
         cursor = connection.cursor()
         cursor.execute(query, (genre_name,))
+        return cursor
+    except Exception as e:
+        print(e)
+        exit()
+
+def get_song_in_playlist():
+    '''
+    Get a cursor that contains all the song sort by year
+    Returns:
+        cursor: the cursor object to iterate over
+    '''
+    query = "\
+        SELECT song_details.song_name,artist_details.artist_name, song_details.release_year, song_details.popularity,\
+        song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability, song_details.song_id \
+        FROM song_details,song_characteristics,artist_details,song_artist_link, temp_playlists\
+        WHERE temp_playlists.song_id = song_details.song_id AND song_details.song_id=song_characteristics.song_id \
+        AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \
+        ORDER BY song_details.popularity DESC , song_details.song_id DESC\
+        LIMIT 150;"
+
+
+    connection = connection_to_database()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query)
         return cursor
     except Exception as e:
         print(e)
@@ -258,12 +283,51 @@ def genre_results():
         genre_dict['genre_tempo'] = row[8]
         genre_dict['genre_duration'] = row[9]
         genre_dict['genre_danceability'] = row[10]
+        genre_dict['song_id']= row[11]
 
         genre_details_list.append(genre_dict)
 
     cursor.close()
     return json.dumps(genre_details_list)
 
+
+@api.route('/search_playlist')
+def playlist_results():
+    cursor=get_song_in_playlist()
+    song_details_list_playlist = []
+    prev_song_id=None
+    prev_song_artists=None
+    for row in cursor:
+        song_dict = {}
+
+        if prev_song_id== row[7]:
+            song_details_list_playlist.pop()
+            song_dict['song_name'] = row[0]
+            song_dict['artist_name']= prev_song_artists + ' and ' + row[1]
+            song_dict['release_year'] = row[2]
+            song_dict['popularity'] = row[3]
+            song_dict['tempo'] = row[4]
+            song_dict['duration'] = row[5]
+            song_dict['danceability'] = row[6]
+            song_dict['song_id'] = row[7]
+            song_details_list_playlist.append(song_dict)
+            prev_song_artists= prev_song_artists + row[1]
+
+        else:
+            song_dict['song_name'] = row[0]
+            song_dict['artist_name']= row[1]
+            song_dict['release_year'] = row[2]
+            song_dict['popularity'] = row[3]
+            song_dict['tempo'] = row[4]
+            song_dict['duration'] = row[5]
+            song_dict['danceability'] = row[6]
+            song_dict['song_id'] = row[7]
+            song_details_list_playlist.append(song_dict)
+            prev_song_id=row[7]
+            prev_song_artists=row[1]
+
+    cursor.close()
+    return json.dumps(song_details_list_playlist)
 
 
 

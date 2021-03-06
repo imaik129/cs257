@@ -1,4 +1,4 @@
-<! -- Authors: Kevin Phung, Kyosuke Imai -->
+ <!-- Authors: Kevin Phung, Kyosuke Imai   -->
 <!DOCTYPE html>
 <html lang = "en">
 <head>
@@ -11,7 +11,6 @@
 </head>
 <header>
   <div class="TopPanel">
-  <!-- <img id = "logo" src="templates\spotinder.png" alt="logo"> -->
   <h3 class = "title" >Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
   <div class="flex-container">
     <div>
@@ -34,12 +33,24 @@
         <p><button type="submit" id="search_button">search</button></p>
     </div>
   </div>
+
+  <div class = "ChoosePlaylist" id = "Choose">
+    <select class="SelectPlaylist" id = "SelectPlaylist" onchange="goToYourPlaylist()">
+    <div class = "MenuContents" id = "MenuContents">
+      <!-- <option value = "default"> Choose a Playlist </option> -->
+      <option id = "HomePage" value = 'HomePage' >HomePage </option>
+      <option id = "YourPlaylist" value = 'YourPlaylist' >YourPlaylist </option>
+    </div>
+    </select>
   </div>
-<header>
+
+  </div>
+</header>
 
 <body>
-  <h2 class = "quote" > <em> Music if life itself. <br/> -Louis Armstrong</em>  </h2>
-  
+  <h2 class = "quote" id="page_quote" > <em> Music is life itself. <br/> -Louis Armstrong</em>  </h2>
+
+  <div id = "divider_for_home">
     <table class="sortable" id="search_results_table_song" style="display:none" >
       <thead id="header_song" >
         <tr>
@@ -97,6 +108,27 @@
 <tbody id="search_results_body_genre"></tbody>
 
 </table>
+
+</div>
+
+<div id = "divider_for_playlists">
+<table class="sortable" id="playlist_table" style="display:none" >
+  <thead id="header_playlist" >
+    <tr>
+   <th>Song Name</th>
+   <th>Artist</th>
+   <th>Release Year</th>
+   <th>Popularity</th>
+   <th>Tempo</th>
+   <th>Duration</th>
+   <th>Danceability</th>
+   <th class="sorttable_nosort">Delete from Playlist</th>
+  </tr>
+</thead>
+<tbody id="playlist_body"></tbody>
+
+</table>
+</div>
 
 </body>
 </html>

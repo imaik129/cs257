@@ -13,6 +13,12 @@ FEATURES CURRENTLY WORKING:
 FEATURES NOT YET WORKING:
 - Login system : to handle multiple users
 
+-click enter to search
+
+-sort playlist by most recent entry of songs
+
+- have a changing music quote in middle of home page
+
 - More playlist manipulation: Adding songs to different playlists and deleting them (Currently only 1 playlist exists)
 
 - Data visualizer : Option to create some basic graphs to compare statistics between playlists or artists
@@ -21,4 +27,5 @@ FEATURES NOT YET WORKING:
 
 - display x results: Adding pages to view more than top 50 results for search by artist and top 200 for songs and genres
 
+- Utilizing multiple templates: Plan on making playlists and their inventory a separate template along with data visualizer
 

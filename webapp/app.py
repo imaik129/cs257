@@ -16,7 +16,7 @@ def home():
 # are stored in the templates/ directory or one of its descendant directories,
 # without requiring you to have specific routes for each page.
 @app.route('/<path:path>', methods=['GET', 'POST'])
-def shared_header_catchall(path):
+def shared_header_catchall(path):        
     if flask.request.method == 'GET':
         # path= path + '.html'
         return flask.render_template('index.html')
