@@ -115,6 +115,12 @@ def get_song_by_genre():
         print(e)
         exit()
 
+@api.route('/help')
+def get_help():
+    help_file = open('doc/api-design.txt')
+    text = help_file.read()
+    return flask.render_template('help.html', help_text=text)
+
 
 @api.route('/search_songs')
 def song_results():
@@ -258,6 +264,43 @@ def genre_results():
 
     cursor.close()
     return json.dumps(genre_details_list)
+
+
+
+@api.route('/insert_playlist_into_playlists')
+def insert_playlist():
+    data = flask.request.get_json()
+    
+    query = "INSERT INTO all_playlists (playlist_id, playlist_name, song_id) VALUES (%s, %s, %s);"
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query, (id,))
+        connection.commit()
+        cursor.close()
+    except Exception as e:
+        print(e)
+        exit()
+
+@api.route('/get_playlist')
+def retrieve_playlist():
+    playlist_name = flask.request.args.get('playlist')
+    playlist_name = '%' +  playlist_name + '%'
+    query = "SELECT playlist_id, playlist_name, song_id FROM all_playlists WHERE playlist_name = %s;"
+    connection = connection_to_database()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query)
+        playlists_list=[]
+        for row in cursor:
+            playlist_lists.append(row[0],row[1],row[2])
+        cursor.close()
+    except Exception as e:
+        print(e)
+        exit()
+
+    return json.dumps(playlists_list)
+
+
 
 
 

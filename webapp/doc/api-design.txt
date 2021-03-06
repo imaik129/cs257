@@ -1,16 +1,26 @@
 
 Authors: Kevin Phung, Kyosuke Imai
 
+REQUEST: /help
+RESPONSE: List of API requests and corresponding responses.
+
+REQUEST: /home
+RESPONSE: A JSON list of 10 dictionaries, each of which represents one of the top 20 songs sorted by popularity. Each song dictionary will have the following fields:
+	Song Name -- (string) the name of the song
+	Artist	-- (string) The name of the artist
+	Year	-- (string) The year the song was released?
+	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
+
+
 REQUEST: /your_playlists
 RESPONSE: A JSON list of strings, each of which represents the name of a playlist.
-
+	Playlist Name -- (string) name of the Playlist
+	# of Songs -- (int) total # of songs in the Playlist
 
 REQUEST: /playlist_name
 GET parameter:
 	playlist_name (required)
-
 RESPONSE: A JSON list of dictionaries, each of which represents one song within the playlist sorted by popularity. Each song dictionary will have the following fields:
-
 	Song Name -- (string) the name of the song
 	artist	-- (string) The name of the artist
 	Year	-- (string) The year the song was released?
@@ -19,58 +29,62 @@ RESPONSE: A JSON list of dictionaries, each of which represents one song within 
 	duration	--(int) The length of the track in seconds.
 	danceability	--(int) The relative of the track being danceable (rated between 0 and 1)
 
-REQUEST: /home
-RESPONSE: A JSON list of 20 dictionaries, each of which represents one of the top 20 songs sorted by popularity. Each song dictionary will have the following fields:
-
-	Song Name -- (string) the name of the song
-	artist	-- (string) The name of the artist
-	Year	-- (string) The year the song was released?
-	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
-
 
 REQUEST: /search_songs
 GET parameters:
 	search_string(required) : Searches by song name and artist
 	min_year(optional, default: -infinity) : Only returns songs that were released after this year
-
 RESPONSE: A JSON list of  dictionaries, each of which represents one song within the data sorted by popularity. Each song dictionary will  have the following fields:
 	Song Name -- (string) the name of the song
-	artist	-- (string) The name of the artist
+	Artist	-- (string) The name of the artist
 	Year	-- (string) The year the song was released?
 	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
-	tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
-	duration	--(int) The length of the track in seconds.
-	danceability	--(int) The relative metric of the track being danceable (rated between 0 and 1)
+	Tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
+	Duration	--(int) The length of the track in seconds.
+	Danceability	--(int) The relative metric of the track being danceable (rated between 0 and 1)
 
 
-REQUEST: /search_genre_details
+REQUEST: /search_genre
 GET parameters:
 	search_string(required) : Searches by genre
-
 RESPONSE: A JSON list of strings, each of which is an artist that has made music in that genre
+	Song name -- (string) the name of the song
+	Genre name -- (string) the genre of the song
+	Artist	-- (string) The name of the artist
+	Year	-- (string) The year the song was released?
+	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
+	Tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
+	Duration	--(int) The length of the track in seconds.
+	Danceability	--(int) The relative metric of the track being danceable (rated between 0 and 1)
+	Genre Tempo	--(int) The average tempo of all their tracks in Beats Per Minute(BPM) with a range of (0-244)
+	Genre Duration	--(int) The average length of all their track in seconds.
+	Genre Danceability	--(int) The average relative metric of their tracks being danceable (rated between 0 and 1)
 
-REQUEST: /search_artist_details
+
+REQUEST: /search_artist
 GET parameters:
 	search_string(required) : Searches by artist
-
 RESPONSE: A JSON list of dictionaries, each of which represents one artist within the database. Each dictionary will have the following fields:
-
-	tempo	--(int) The average tempo of all their tracks in Beats Per Minute(BPM) with a range of (0-244)
-	duration	--(int) The average length of all their track in seconds.
-	danceability	--(int) The average relative metric of their tracks being danceable (rated between 0 and 1)
+	Song Name -- (string) the name of the song
+	Artist	-- (string) The name of the artist
+	Year	-- (string) The year the song was released?
+	Popularity	--(int) The popularity of a song (rated between 0-100) as calculated by spotify's in-house algorithms
+	Tempo	--(int) The tempo of the track in Beats Per Minute(BPM) with a range of (0-244)
+	Duration	--(int) The length of the track in seconds.
+	Danceability	--(int) The relative metric of the track being danceable (rated between 0 and 1)
+	Artist Tempo	--(int) The average tempo of all their tracks in Beats Per Minute(BPM) with a range of (0-244)
+	Artist Duration	--(int) The average length of all their track in seconds.
+	Artist Danceability	--(int) The average relative metric of their tracks being danceable (rated between 0 and 1)
 
 
 REQUEST: /data_visualizer
 GET parameters:
 	x-value (required): Choose one of the user's playlists
 	y-value (required,default=tempo): Choose between tempo,duration,danceability
-
 RESPONSE:
 	A JSON list of dictionaries each of which represents a song within the chosen playlist and one of the metrics
 
-Others:
 
 REQUEST: any faulty request
-
 RESPONSE:
 	the string "ERROR. Faulty request was sent."
