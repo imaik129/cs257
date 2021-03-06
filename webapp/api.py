@@ -23,9 +23,9 @@ def connection_to_database():
 
 def get_song_by_search():
     '''
-    Get a cursor that contains all the song sort by year
+    Get a cursor that contains all the song sorted by popularity
     Returns:
-        cursor: the cursor object to iterate over
+        cursor: the cursor object with song attribues to iterate over
     '''
     song_name = flask.request.args.get('search')
     song_name = '%' +  song_name + '%'
@@ -51,7 +51,7 @@ def get_song_by_search():
 
 def get_song_id_by_artist():
     '''
-    Get a cursor that contains all the  sorted alphabetically
+    Get a cursor that contains all the song_ids of song in the playlist TABLE, sorted by song_id in ascending order
     Returns:
         cursor: the cursor object to iterate over
     '''
@@ -82,7 +82,7 @@ def get_song_id_by_artist():
 
 def get_song_by_genre():
     '''
-    Get a cursor that contains all the song sort by year
+    Get a cursor that gets songs by its genre.
     Returns:
         cursor: the cursor object to iterate over
     '''
@@ -142,6 +142,9 @@ def get_song_in_playlist():
 
 @api.route('/help')
 def get_help():
+    """return api-design.txt which describes all the requests and responses with their
+    corresponding api end-points.
+    """
     help_file = open('doc/api-design.txt')
     text = help_file.read()
     return flask.render_template('help.html', help_text=text)
@@ -186,6 +189,10 @@ def song_results():
 
 @api.route('/search_artist')
 def artist_results():
+    """gets a json list of dictionaries of song names and other attributes of songs
+    and its artists. If there are more than one authors assigned to the same song with
+    the same song_id, the artists will be concatonated.
+    """
     cursor_for_ids=get_song_id_by_artist()
     artist_details_list=[]
 
@@ -330,6 +337,7 @@ def playlist_results():
 
 @api.route('/insert_into_playlist')
 def insert():
+    """sends query to insert into playlist table dynamically""""
     data= flask.request.get_json()
     id= data.get("song_id")
     query = "INSERT INTO temp_playlists (song_id) VALUES (%s);"
@@ -347,6 +355,7 @@ def insert():
 
 @api.route('/delete_from_playlist')
 def delete():
+    """sends query to delete from a playlist"""
     data= flask.request.get_json()
     id= data.get("song_id")
     query = "DELETE FROM temp_playlists WHERE song_id = %s;"
@@ -363,6 +372,8 @@ def delete():
 
 @api.route('/get_all_playlist_song_ids')
 def retrieve():
+    """sends query to retrieve all the song_ids in a playlist
+    returns json list"""
     query = "SELECT * FROM temp_playlists;"
     connection = connection_to_database()
     try:

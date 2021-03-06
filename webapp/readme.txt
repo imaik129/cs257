@@ -1,4 +1,6 @@
-AUTHORS: Kevin Phung, Kyosuke Imai 
+AUTHORS: Kevin Phung, Kyosuke Imai
+
+*IMPORTANT: will need to import simplejson module locally for the program to work*
 
 DATA: The dataset file contains more than 175000 songs collected from the Spotify Web API, each with individual metrics like tempo,danceability and popularity.
 
@@ -36,5 +38,3 @@ EXTRA DETAILS TO IMPLEMENT:
 -Proper await and promise functions. (which will hopefully solve most of the bugs)
 
 -More detailed comments
-
-

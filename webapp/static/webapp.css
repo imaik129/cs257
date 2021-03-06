@@ -3,6 +3,7 @@
     Authors: Kevin Phung, Kyosuke Imai
 */
 
+/* upload background image, specify font,size, & position */
 body {
   margin: 40px;
   size: 100%;
@@ -15,12 +16,14 @@ body {
   background-size: cover;
 }
 
+/* specify the font size, position, and text color of quote in body object */
 body .quote{
   font-size: 50px;
   text-align: center;
   color: white;
 }
 
+/* specify attributes of the top panel object located in the top of the web page */
 header .TopPanel{
   display:fixed;
   background-color: brown;
@@ -35,6 +38,8 @@ header .TopPanel{
 
 }
 
+/* create flex block consisted of search category drop down menu,
+search bar, and search button to position on same plane/row. */
 .flex-container{
   display: flex;
   flex-direction: row;
@@ -42,9 +47,12 @@ header .TopPanel{
   align-self: center;
 }
 
+
+/* table stucture specifying color of columns, rows and hard coding in a index counter */
 table.sortable tbody {
     counter-reset: sortabletablescope;
 }
+
 table.sortable thead tr::before {
     content: "";
     display: table-cell;
@@ -55,7 +63,6 @@ table.sortable tbody tr::before {
     display: table-cell;
     background: #f8f8ff;
 }
-
 
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
     content: " \25B4\25BE"
@@ -75,17 +82,15 @@ table.sortable tbody tr:nth-child(2n+1) td {
   background: #d3d3d3;
 }
 
-#search_icon{
-  height:25px;
-  width:30px;
-}
-
+/*
+specify attributes of the search_button */
 #search_button{
   border: 2px solid grey;
   height:27px;
   width: 70px;
   font-size:10pt;
 }
+/* specify attributes of the search bar  */
 #search_string{
     border: 2px solid grey;
     height:27px;
@@ -93,6 +98,7 @@ table.sortable tbody tr:nth-child(2n+1) td {
     font-size:10pt;
 }
 
+/* specify attributes of the drob down menu button */
 .DDButton {
   background-color: #FFFAFA;
   color: black;
@@ -103,18 +109,18 @@ table.sortable tbody tr:nth-child(2n+1) td {
   border: 3px solid grey;
   cursor: pointer;
 }
-
+/* specify attributes of the Drop Down Menu */
 .DropDownMenu{
   /* border: 3px solid grey; */
   /*bottom: 120px;
   left:300px; */
   top: 20px;
   left:2px;
-
   position: relative;
   display: incline-block;
 }
 
+/* specify attributes of the Drop Down Menu content */
 .DDContent {
   display: none;
   position: absolute;
@@ -123,7 +129,7 @@ table.sortable tbody tr:nth-child(2n+1) td {
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index = 1;
 }
-
+/* specify attributes of the individual elements in the drop down menu */
 .DDContent a{
   !important;
   color: black;
