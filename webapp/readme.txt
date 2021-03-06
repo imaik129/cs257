@@ -21,7 +21,7 @@ FEATURES NOT YET WORKING:
 
 - display x results: Adding pages to view more than top 50 results for search by artist and top 200 for songs and genres
 
-- Utilizing multiple templates: Plan on making playlists and their inventory a separate template along with data visualizer
+- Utilizing multiple templates: Plan on making playlists and their inventory a separate template along with data visualizer (would also fix some of our bugs when combined with URL redirects)
 
 - click 'enter' to search
 
