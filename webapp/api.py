@@ -31,7 +31,7 @@ def get_song_by_search():
     song_name = '%' +  song_name + '%'
     query = "\
         SELECT song_details.song_name,artist_details.artist_name, song_details.release_year, song_details.popularity,\
-        song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability, song_details.song_id \
+        ROUND(song_characteristics.tempo, 1) AS RoundValue, song_characteristics.duration,ROUND(song_characteristics.danceability,2) AS RoundValue, song_details.song_id \
         FROM song_details,song_characteristics,artist_details,song_artist_link \
         WHERE LOWER(song_details.song_name) LIKE LOWER(%s) AND song_details.song_id=song_characteristics.song_id \
         AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \
@@ -58,8 +58,8 @@ def get_song_id_by_artist():
     artist_name = flask.request.args.get('search')
     artist_name = '%' +  artist_name + '%'
     query = "\
-        SELECT song_details.song_id, artist_characteristics.tempo, artist_characteristics.duration,\
-        artist_characteristics.danceability \
+        SELECT song_details.song_id, ROUND(artist_characteristics.tempo,2) AS RoundValue, ROUND(artist_characteristics.duration,2) AS RoundValue,\
+        ROUND(artist_characteristics.danceability,2) AS RoundValue \
         FROM song_details,artist_details,song_characteristics,artist_characteristics,song_artist_link\
         WHERE LOWER(artist_details.artist_name) LIKE LOWER(%s)\
         AND song_details.song_id = song_characteristics.song_id\
@@ -90,10 +90,10 @@ def get_song_by_genre():
     genre_name = '%' +  genre_name + '%'
     query = "\
         SELECT song_details.song_name, genre_details.genre_name, artist_details.artist_name,\
-        song_details.release_year, song_details.popularity, song_characteristics.tempo, \
-        song_characteristics.duration, song_characteristics.danceability,\
-        genre_characteristics.tempo, genre_characteristics.duration,\
-        genre_characteristics.danceability, song_details.song_id \
+        song_details.release_year, song_details.popularity, ROUND(song_characteristics.tempo,2) AS RoundValue, \
+        ROUND(song_characteristics.duration,2) AS RoundValue, ROUND(song_characteristics.danceability,2) AS RoundValue,\
+        ROUND(genre_characteristics.tempo,2) AS RoundValue, ROUND(genre_characteristics.duration,2) AS RoundValue,\
+        ROUND(genre_characteristics.danceability,2) AS RoundValue, song_details.song_id \
         FROM song_details, song_characteristics, artist_details,\
         genre_details, genre_characteristics, artist_genre_link, song_artist_link\
         WHERE LOWER(genre_details.genre_name) LIKE LOWER(%s)\
@@ -123,7 +123,7 @@ def get_song_in_playlist():
     '''
     query = "\
         SELECT song_details.song_name,artist_details.artist_name, song_details.release_year, song_details.popularity,\
-        song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability, song_details.song_id \
+        ROUND(song_characteristics.tempo,2) AS RoundValue, ROUND(song_characteristics.duration,2) AS RoundValue, ROUND(song_characteristics.danceability,2) AS RoundValue, song_details.song_id \
         FROM song_details,song_characteristics,artist_details,song_artist_link, temp_playlists\
         WHERE temp_playlists.song_id = song_details.song_id AND song_details.song_id=song_characteristics.song_id \
         AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \
@@ -205,7 +205,7 @@ def artist_results():
 
         query= "\
             SELECT song_details.song_name,artist_details.artist_name, song_details.release_year, song_details.popularity,\
-            song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability, song_details.song_id \
+            ROUND(song_characteristics.tempo,2) AS RoundValue, ROUND(song_characteristics.duration,2) AS RoundValue,ROUND(song_characteristics.danceability,2) AS RoundValue, song_details.song_id \
             FROM song_details,song_characteristics,artist_details,song_artist_link \
             WHERE song_details.song_id = %s AND song_details.song_id=song_characteristics.song_id \
             AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \

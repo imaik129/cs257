@@ -8,8 +8,9 @@ body {
   margin: 40px;
   size: 100%;
   font-family: Helvetica;
-  background: black;
-  background-image: url("bg.jpg");
+  /* background: #41B3A3; */
+  background: #45A29E;
+  /* background-image: url("bg.jpg"); */
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -18,7 +19,7 @@ body {
 
 /* specify the font size, position, and text color of quote in body object */
 body .quote{
-  font-size: 50px;
+  font-size: 40px;
   text-align: center;
   color: white;
 }
@@ -26,15 +27,17 @@ body .quote{
 /* specify attributes of the top panel object located in the top of the web page */
 header .TopPanel{
   display:fixed;
-  background-color: brown;
+  /* background-color: #E27D60; */
+  background-color: #1F2A33;
   border-width: 100px;
   text-align: left;
   padding: 20px;
   font-size: 20px;
-  color: white;
+  /* color: black; */
+  color:#66FCF1;
   width: 100%;
   height: 30%;
-  background-image: url("panel.jpg");
+  /* background-image: url("panel.jpg"); */
 
 }
 
@@ -56,6 +59,7 @@ table.sortable tbody {
 table.sortable thead tr::before {
     content: "";
     display: table-cell;
+    display: block;
 }
 table.sortable tbody tr::before {
     content: counter(sortabletablescope);
@@ -67,6 +71,7 @@ table.sortable tbody tr::before {
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
     content: " \25B4\25BE"
 }
+
 table.sortable thead {
     opacity: 0.9;
     background-color:#707070;
@@ -74,13 +79,35 @@ table.sortable thead {
     font-weight: bold;
     cursor: default;
 }
+
+tbody {
+    display: block;
+    width:100%;
+    height:500px;
+    overflow: auto;
+}
+
+table {
+   width: 100%;
+}
+
+thead th{
+  width:250px;
+}
+tbody td{
+  width: 242px;
+}
+
 table.sortable tbody tr:nth-child(2n) td {
-  opacity: 0.7;
+  opacity: 0.8;
   background: #f8f8ff;
 }
 table.sortable tbody tr:nth-child(2n+1) td {
+  opacity: 0.8;
   background: #d3d3d3;
 }
+
+
 
 /*
 specify attributes of the search_button */

@@ -59,10 +59,10 @@ async function choosePanel(){
     if (globalPlaylistResults.length>0){
     divider_for_playlists.style.display= 'inline';
 
-    document.getElementById("page_quote").innerHTML="<em> Here are all your songs</em>";
+    document.getElementById("page_quote").innerHTML="<em> Your Playlist</em>";
 
   } else{
-    document.getElementById("page_quote").innerHTML="<em> You have no songs in here</em>";
+    document.getElementById("page_quote").innerHTML="<em> Empty Playlist</em>";
   }
 
   }
@@ -170,7 +170,7 @@ function load_results_into_table_artist(results){
     <td>${item.artist_tempo}</td>
     <td>${item.artist_duration}</td>
     <td>${item.artist_danceability}</td>
-    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
+    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' style="background-color:black" >Add to Playlist</button></td></tr>`;
 
     //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     if(playlist_songs.indexOf(item.song_id) >= 0){
@@ -355,6 +355,17 @@ async function initialize(){
     await returnPlaylistResults().then(OnXevent())
   }
 
+function onPressKeyEnter(){
+    var input = document.getElementById("search_string");
+    input.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+      event.preventDefault();
+      document.getElementById("search_button").click();
+    }
+    });
+  }
+
+
 // assigns elements to names and assigns them their on X event.
   function OnXevent(){
     var searchButton = document.getElementById('search_button');
@@ -363,6 +374,7 @@ async function initialize(){
       DDButton.onchange = changePlaceHolder;
     }
     if (searchButton){
+      onPressKeyEnter();
       searchButton.onclick = returnResults;
     }
   }
