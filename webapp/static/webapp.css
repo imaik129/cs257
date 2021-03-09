@@ -10,7 +10,8 @@ body {
   font-family: Helvetica;
   /* background: #41B3A3; */
   background: #45A29E;
-  /* background-image: url("bg.jpg"); */
+  background-image: url("bg.jpg");
+  opacity: 0.7;
   height: 100%;
   background-position: center;
   background-repeat: no-repeat;
@@ -65,7 +66,7 @@ table.sortable tbody tr::before {
     content: counter(sortabletablescope);
     counter-increment: sortabletablescope;
     display: table-cell;
-    background: #f8f8ff;
+    background-color: #f8f8ff;
 }
 
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
@@ -95,7 +96,7 @@ thead th{
   width:250px;
 }
 tbody td{
-  width: 242px;
+  width: 250px;
 }
 
 table.sortable tbody tr:nth-child(2n) td {
@@ -112,28 +113,44 @@ table.sortable tbody tr:nth-child(2n+1) td {
 /*
 specify attributes of the search_button */
 #search_button{
-  border: 2px solid grey;
+  /* border: 3px solid #grey;
+  background-color: #white; */
   height:27px;
   width: 70px;
+  display: block;
+  color:white;
   font-size:10pt;
+
+  border: 2px solid #66FCF1;
+  background-color: #1F2A33;
 }
 /* specify attributes of the search bar  */
 #search_string{
-    border: 2px solid grey;
+    /* border: 2px solid grey; */
+    font-size:12pt;
     height:27px;
     width: 500px;
-    font-size:10pt;
+    color: black;
+    background-color: #C5C6C7;
+    /* different color */
+    /* border: 1px solid #66FCF1;
+    background-color: #1F2A33; */
 }
 
 /* specify attributes of the drob down menu button */
 .DDButton {
-  background-color: #FFFAFA;
-  color: black;
+  /* background-color: #FFFAFA; */
+  /* color: black; */
+  /* border: 3px solid grey; */
+
+  background-color: #1F2A33;
+  border: 3px solid #66FCF1;
+  color:white;
+
   font-size: 13px;
   padding:3.5px;
   height:27px;
   left:30px;
-  border: 3px solid grey;
   cursor: pointer;
 }
 /* specify attributes of the Drop Down Menu */
@@ -164,6 +181,7 @@ specify attributes of the search_button */
   font-size: 30px;
   text-decoration: none;
   display: block;
+  background-color:white;
 }
 .DDContent a:hover {background-color: #ddd;}
 .DropDownMenu:hover .DDContent {display: block;}
