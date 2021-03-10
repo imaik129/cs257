@@ -27,13 +27,13 @@ window.onload = initialize;
 function changePlaceHolder(){
   var chosenCategory = document.getElementById('DDButton');
   if (chosenCategory.value == 'song'){
-    document.getElementById('search_string').placeholder = 'search for song name here (e.g Yesterday)';
+    document.getElementById('search_string').placeholder = 'Search for song name here (e.g Yesterday)';
   }
   else if (chosenCategory.value == 'artist'){
-    document.getElementById('search_string').placeholder = 'search for artist name here (e.g The Beatles)';
+    document.getElementById('search_string').placeholder = 'Search by artist name here (e.g The Beatles)';
   }
   else if (chosenCategory.value == 'genre'){
-    document.getElementById('search_string').placeholder = 'search for genre name here (e.g Rock)';
+    document.getElementById('search_string').placeholder = 'Search by genre name here (e.g Rock)';
   }
   else if (chosenCategory.value == 'default'){
     document.getElementById('search_string').placeholder = 'Please pick a Category first';
@@ -97,8 +97,10 @@ function getURLbyCategory(){
     var url ='/search_genre?search=' + searchString.value;
     return url;
   }
-
-
+  // else if (choseCategory.value == 'default'){
+  //   var url ='/search_songs?search=' + searchString.value;
+  //   return url;
+  // }
 }
 
 //Just gets the base url for the API call

@@ -29,7 +29,7 @@
         <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
     </div>
     <div>
-        <p><button type="submit" id="search_button">search</button></p>
+        <p><button type="submit" id="search_button">Search</button></p>
     </div>
   </div>
 
@@ -42,11 +42,27 @@
     </select>
   </div>
 
-  </div>
+  <nav class="topnav">
+    <a class="active" href="/">Home</a>
+    <div class = "playlists">
+      <a href="#playlists">Your Playlists</a>
+        <div class = "DDM-content" id = "DDM-content">
+          <p id="playlist1"> Playlist1 </p>
+          <p id = "playlist2"> Playlist2 </p>
+        </div>
+    </div>
+    <a href="#Visualizer">Data Visualizer</a>
+    <a href="#Help">Help</a>
+
+
+  </nav>
+
+
+
 </header>
 
 <body>
-  <h2 class = "quote" id="page_quote" > <em> Music is life itself. <br/> -Louis Armstrong</em>  </h2>
+  <h2 class = "quote" id="page_quote" >  Music is life itself. <br/> <em>-Louis Armstrong</em>  </h2>
 
   <div id = "divider_for_home">
     <table class="sortable" id="search_results_table_song" style="display:none" >

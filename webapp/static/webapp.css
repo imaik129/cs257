@@ -4,6 +4,9 @@
 */
 
 /* upload background image, specify font,size, & position */
+.title{
+  font-size: 50px;
+}
 body {
   margin: 40px;
   size: 100%;
@@ -20,9 +23,21 @@ body {
 
 /* specify the font size, position, and text color of quote in body object */
 body .quote{
+  display: absolute;
   font-size: 40px;
   text-align: center;
+  position: static;
+  /* display:fixed;
+  left: 40%; */
+
   color: white;
+  /* font-family:Geneva; */
+  font-family:Impact;
+}
+
+header .playlists .DDM-content{
+  opactiy: 0.7;
+  background-color: black;
 }
 
 /* specify attributes of the top panel object located in the top of the web page */
@@ -33,14 +48,57 @@ header .TopPanel{
   border-width: 100px;
   text-align: left;
   padding: 20px;
+  /* font-family:Impact; */
+  font-family: Arial.;
+  /* font-family: Garamond.; */
+  font-weight:bold;
   font-size: 20px;
   /* color: black; */
   color:#66FCF1;
   width: 100%;
   height: 30%;
   /* background-image: url("panel.jpg"); */
-
 }
+
+header .topnav{
+  float: right;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-self: center;
+}
+
+header .topnav a{
+  color: white;
+  margin-left: 8px;
+}
+
+header .topnav a:hover{
+  color:#66FCF1;
+  background-color: transparent;
+}
+
+header .DDM-content{
+  display:none;
+}
+
+header .topnav .playlists a:hover + .DDM-content{
+  display:block;
+}
+/* header .DDM-content{
+  display: none;
+  position: absolute;
+}
+
+header .playlistDDM a:hover .DDM-content{
+  display:block;
+}
+
+/* header .topnav a:visited{
+  color:#778899;
+} */
+
+
 
 /* create flex block consisted of search category drop down menu,
 search bar, and search button to position on same plane/row. */
@@ -49,78 +107,22 @@ search bar, and search button to position on same plane/row. */
   flex-direction: row;
   flex-wrap: nowrap;
   align-self: center;
-}
+  gap: 12px;
+  /* justify-content: center; */
 
-
-/* table stucture specifying color of columns, rows and hard coding in a index counter */
-table.sortable tbody {
-    counter-reset: sortabletablescope;
 }
-
-table.sortable thead tr::before {
-    content: "";
-    display: table-cell;
-    display: block;
-}
-table.sortable tbody tr::before {
-    content: counter(sortabletablescope);
-    counter-increment: sortabletablescope;
-    display: table-cell;
-    background-color: #f8f8ff;
-}
-
-table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
-    content: " \25B4\25BE"
-}
-
-table.sortable thead {
-    opacity: 0.9;
-    background-color:#707070;
-    color: #F5F5F5;
-    font-weight: bold;
-    cursor: default;
-}
-
-tbody {
-    display: block;
-    width:100%;
-    height:500px;
-    overflow: auto;
-}
-
-table {
-   width: 100%;
-}
-
-thead th{
-  width:250px;
-}
-tbody td{
-  width: 250px;
-}
-
-table.sortable tbody tr:nth-child(2n) td {
-  opacity: 0.8;
-  background: #f8f8ff;
-}
-table.sortable tbody tr:nth-child(2n+1) td {
-  opacity: 0.8;
-  background: #d3d3d3;
-}
-
-
 
 /*
 specify attributes of the search_button */
 #search_button{
   /* border: 3px solid #grey;
   background-color: #white; */
-  height:27px;
+  height:35px;
   width: 70px;
   display: block;
   color:white;
-  font-size:10pt;
-
+  font-size:12pt;
+  font-weight:bold;
   border: 2px solid #66FCF1;
   background-color: #1F2A33;
 }
@@ -128,7 +130,7 @@ specify attributes of the search_button */
 #search_string{
     /* border: 2px solid grey; */
     font-size:12pt;
-    height:27px;
+    height:35px;
     width: 500px;
     color: black;
     background-color: #C5C6C7;
@@ -147,9 +149,9 @@ specify attributes of the search_button */
   border: 3px solid #66FCF1;
   color:white;
 
-  font-size: 13px;
+  font-size: 17px;
   padding:3.5px;
-  height:27px;
+  height:35px;
   left:30px;
   cursor: pointer;
 }
@@ -186,3 +188,68 @@ specify attributes of the search_button */
 .DDContent a:hover {background-color: #ddd;}
 .DropDownMenu:hover .DDContent {display: block;}
 .DropDownMenu:hover .DDbutton{background-color: #3e8e41;}
+
+
+/* table stucture specifying color of columns, rows and hard coding in a index counter */
+table.sortable tbody {
+    counter-reset: sortabletablescope;
+}
+
+table.sortable thead tr::before {
+    content: "";
+    display: table-cell;
+    display: block;
+}
+
+table.sortable tbody tr::before {
+    content: counter(sortabletablescope);
+    counter-increment: sortabletablescope;
+    display: table-cell;
+    background-color: #f8f8ff;
+}
+
+table.sortable thead tr::before {
+    content: "ID#";
+    font-size: 12px;
+    display: table-cell;
+}
+
+table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
+    content: " \25B4\25BE"
+}
+
+table.sortable thead {
+    opacity: 0.9;
+    display:block;
+    background-color:#707070;
+    color: #F5F5F5;
+    font-weight: bold;
+    cursor: default;
+}
+
+tbody {
+    overflow: auto;
+    display: block;
+    width:100%;
+    height:500px;
+}
+
+table {
+   width: 100%;
+}
+
+thead th{
+  width:250px;
+}
+tbody td{
+  width: 250px;
+}
+
+table.sortable tbody tr:nth-child(2n) td {
+  opacity: 0.8;
+  background: #f8f8ff;
+}
+table.sortable tbody tr:nth-child(2n+1) td {
+  opacity: 0.8;
+  background: #d3d3d3;
+}
