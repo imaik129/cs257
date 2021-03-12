@@ -134,7 +134,8 @@ def get_song_in_playlist(playlist_name):
     Returns:
         cursor: the cursor object to iterate over
     '''
-    playlist_name= '%' + playlist_name +'%'
+    print(playlist_name)
+    playlist_name= '%' + 'dad' +'%'
     query="\
         With SubQ1 as (SELECT song_id FROM all_playlists WHERE playlist_name = %s ORDER BY song_id DESC OFFSET 1)\
         SELECT song_details.song_name,STRING_AGG(artist_details.artist_name, ' and ') artist_name,song_details.release_year, song_details.popularity,\
@@ -239,7 +240,7 @@ def genre_results():
 def create():
     """sends query to create a playlist"""
     data= flask.request.get_json()
-    playlist_name= data.get("playlist_name")
+    playlist_name= data.get("new_playlist_name")
     query = "INSERT INTO all_playlists (playlist_name) VALUES (%s);"
     connection = connection_to_database()
     try:
@@ -257,9 +258,9 @@ def insert():
     """sends query to insert into playlist table dynamically"""
     data= flask.request.get_json()
     id= data.get("song_id")
-    # playlist_name= data.get("playlist_name")
-    # query = "INSERT INTO all_playlists (playlist_name,song_id) VALUES (%s,%s);"
-    query = "INSERT INTO temp_playlists (song_id) VALUES (%s);"
+    playlist_name= data.get("playlist_name")
+    query = "INSERT INTO all_playlists (playlist_name,song_id) VALUES (%s,%s);"
+    # query = "INSERT INTO temp_playlists (song_id) VALUES (%s);"
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
@@ -279,7 +280,8 @@ def delete():
     data= flask.request.get_json()
     id= data.get("song_id")
     playlist_name= data.get("playlist_name")
-    query = "DELETE FROM temp_playlists WHERE playlist_name = %s AND song_id = %s;"
+    query = "DELETE FROM all_playlists WHERE playlist_name = %s AND song_id=%s ;"
+    # query = "DELETE FROM temp_playlists WHERE playlist_name = %s AND song_id = %s;"
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
@@ -330,7 +332,7 @@ def playlist_name_retriever():
 
     return json.dumps(songs_list)
 
-@api.route('/specific_playlist_page')
+@api.route('/specific_playlist_info')
 def specific_playlist_info():
     """sends query to retrieve details for specific playlist
     returns json list"""

@@ -3,9 +3,9 @@
 <html lang = "en">
 <head>
    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='webapp.css') }}" />
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='allPlaylists.css') }}" />
    <script type="text/javascript" src="{{ url_for('static', filename='sorttable.js') }}"></script>
-   <script type="text/javascript" src="{{ url_for('static', filename='webapp.js') }}"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='all_Playlists.js') }}"></script>
    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
    <title>CS 257: Software Design</title>
 </head>
@@ -45,7 +45,7 @@
  <nav class="topnav">
    <a class="active" href="/">Home</a>
    <div class = "playlists">
-     <a href="#playlists">Your Playlists</a>
+     <a>Your Playlists</a>
        <div class = "DDM-content" id = "DDM-content">
          <p id="playlist1"> Playlist1 </p>
          <p id = "playlist2"> Playlist2 </p>
@@ -59,14 +59,18 @@
 
 <body>
   <h4 class= "pageHeader"> List Of All Playlists </h4>
-  <div class = "allPlaylists">
-    <a href="/">
-        <img alt="Playlist picture" src="PLimages/mountain.png"
-        width=150 height="70">
-    </a>
-    <a href="/">Playlist2</a>
-    <a href="#Playlist3">Playlist3</a>
+  <div class="flex-container">
+    <div>
+        <p><input id="input_playlist_name" type="text" placeholder="Create Playlist" />
     </div>
+    <div>
+        <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create</button></p>
+        <p><button type="submit" onclick = "deleteItemFromPlaylistsList()" id="delete_playlist">Delete</button></p>
+    </div>
+  </div>
+
+  <ul class = "allPlaylists" id= "playlist_body">
+  </ul>
 
 </body>
 

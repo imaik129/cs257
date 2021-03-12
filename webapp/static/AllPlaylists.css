@@ -1,0 +1,196 @@
+/*
+    Authors: Kevin Phung, Kyosuke Imai
+*/
+
+/* upload background image, specify font,size, & position */
+.title{
+  font-size: 50px;
+}
+
+.allPlaylists{
+  color: black;
+  background-color: white;
+}
+
+
+body {
+  margin: 40px;
+  size: 100%;
+  font-family: Helvetica;
+  /* background: #41B3A3; */
+  background: #45A29E;
+  background-image: url("bg.jpg");
+  opacity: 0.7;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* specify the font size, position, and text color of quote in body object */
+body .quote{
+  display: absolute;
+  font-size: 40px;
+  text-align: center;
+  position: static;
+  /* display:fixed;
+  left: 40%; */
+
+  color: white;
+  /* font-family:Geneva; */
+  font-family:Impact;
+}
+
+header .playlists .DDM-content{
+  opactiy: 0.7;
+  background-color: black;
+}
+
+/* specify attributes of the top panel object located in the top of the web page */
+header .TopPanel{
+  display:fixed;
+  /* background-color: #E27D60; */
+  background-color: #1F2A33;
+  border-width: 100px;
+  text-align: left;
+  padding: 20px;
+  /* font-family:Impact; */
+  font-family: Arial.;
+  /* font-family: Garamond.; */
+  font-weight:bold;
+  font-size: 20px;
+  /* color: black; */
+  color:#66FCF1;
+  width: 100%;
+  height: 30%;
+  /* background-image: url("panel.jpg"); */
+}
+
+header .topnav{
+  float: right;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-self: center;
+}
+
+header .topnav a{
+  color: white;
+  margin-left: 8px;
+}
+
+header .topnav a:hover{
+  color:#66FCF1;
+  background-color: transparent;
+}
+
+header .DDM-content{
+  display:none;
+}
+
+header .topnav .playlists a:hover + .DDM-content{
+  display:block;
+}
+/* header .DDM-content{
+  display: none;
+  position: absolute;
+}
+
+header .playlistDDM a:hover .DDM-content{
+  display:block;
+}
+
+/* header .topnav a:visited{
+  color:#778899;
+} */
+
+
+
+/* create flex block consisted of search category drop down menu,
+search bar, and search button to position on same plane/row. */
+.flex-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-self: center;
+  gap: 12px;
+  /* justify-content: center; */
+
+}
+
+/*
+specify attributes of the search_button */
+#search_button{
+  /* border: 3px solid #grey;
+  background-color: #white; */
+  height:35px;
+  width: 70px;
+  display: block;
+  color:white;
+  font-size:12pt;
+  font-weight:bold;
+  border: 2px solid #66FCF1;
+  background-color: #1F2A33;
+}
+/* specify attributes of the search bar  */
+#search_string{
+    /* border: 2px solid grey; */
+    font-size:12pt;
+    height:35px;
+    width: 500px;
+    color: black;
+    background-color: #C5C6C7;
+    /* different color */
+    /* border: 1px solid #66FCF1;
+    background-color: #1F2A33; */
+}
+
+/* specify attributes of the drob down menu button */
+.DDButton {
+  /* background-color: #FFFAFA; */
+  /* color: black; */
+  /* border: 3px solid grey; */
+
+  background-color: #1F2A33;
+  border: 3px solid #66FCF1;
+  color:white;
+
+  font-size: 17px;
+  padding:3.5px;
+  height:35px;
+  left:30px;
+  cursor: pointer;
+}
+/* specify attributes of the Drop Down Menu */
+.DropDownMenu{
+  /* border: 3px solid grey; */
+  /*bottom: 120px;
+  left:300px; */
+  top: 20px;
+  left:2px;
+  position: relative;
+  display: incline-block;
+}
+
+/* specify attributes of the Drop Down Menu content */
+.DDContent {
+  display: none;
+  position: absolute;
+  background-color:#F0FFFF;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index = 1;
+}
+/* specify attributes of the individual elements in the drop down menu */
+.DDContent a{
+  !important;
+  color: black;
+  padding: 12px 16px;
+  font-size: 30px;
+  text-decoration: none;
+  display: block;
+  background-color:white;
+}
+.DDContent a:hover {background-color: #ddd;}
+.DropDownMenu:hover .DDContent {display: block;}
+.DropDownMenu:hover .DDbutton{background-color: #3e8e41;}

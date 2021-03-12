@@ -19,7 +19,7 @@ def home():
 # @app.route("/<string:path>")
 @app.route('/<path:path>', methods=['GET', 'POST'])
 def shared_header_catchall(path):
-    
+
     if path== 'api/playlist_menu_page':
         return flask.render_template('allPlaylists.html')
 
@@ -29,11 +29,12 @@ def shared_header_catchall(path):
     elif path == 'api/delete_from_playlist':
         return api.delete()
 
+    elif path == 'api/create_playlist':
+        api.create()
+        return flask.render_template('allPlaylists.html')
+
     elif path == 'api/specific_playlist_page':
-        return flask.render_template('specific_playlist_page.html')
-
-
-
+        return flask.render_template('YourPlaylist.html')
 
     else:
         return flask.render_template('index.html')
