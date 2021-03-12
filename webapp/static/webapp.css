@@ -191,28 +191,25 @@ specify attributes of the search_button */
 
 
 /* table stucture specifying color of columns, rows and hard coding in a index counter */
-table.sortable tbody {
+/* table.sortable tbody {
     counter-reset: sortabletablescope;
 }
 
 table.sortable thead tr::before {
     content: "";
     display: table-cell;
+    content: "ID#";
+    font-size: 12px;
     display: block;
-}
+} */
 
 table.sortable tbody tr::before {
-    content: counter(sortabletablescope);
-    counter-increment: sortabletablescope;
+    /* content: counter(sortabletablescope);
+    counter-increment: sortabletablescope; */
     display: table-cell;
     background-color: #f8f8ff;
 }
 
-table.sortable thead tr::before {
-    content: "ID#";
-    font-size: 12px;
-    display: table-cell;
-}
 
 table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sorttable_nosort):after {
     content: " \25B4\25BE"

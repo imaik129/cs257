@@ -48,13 +48,12 @@ CREATE TABLE artist_genre_link (
   genre_id int
 );
 
--- CREATE TABLE all_playlists (
---   playlist_id int,
---   playlist_name text,
---   song_id int
--- );
-
-
-CREATE TABLE temp_playlists (
+CREATE TABLE all_playlists (
+  playlist_name text,
   song_id int
 );
+
+
+-- CREATE TABLE temp_playlists (
+--   song_id int
+-- );

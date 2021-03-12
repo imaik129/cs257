@@ -45,7 +45,7 @@
   <nav class="topnav">
     <a class="active" href="/">Home</a>
     <div class = "playlists">
-      <a href="#playlists">Your Playlists</a>
+      <a onclick="go_to_playlists_page()">Your Playlists</a>
         <div class = "DDM-content" id = "DDM-content">
           <p id="playlist1"> Playlist1 </p>
           <p id = "playlist2"> Playlist2 </p>
@@ -65,17 +65,17 @@
   <h2 class = "quote" id="page_quote" >  Music is life itself. <br/> <em>-Louis Armstrong</em>  </h2>
 
   <div id = "divider_for_home">
-    <table class="sortable" id="search_results_table_song" style="display:none" >
+    <table class="sortable" id="search_results_table_song" style="display:none">
       <thead id="header_song" >
         <tr>
-       <th>Song Name</th>
-       <th>Artist</th>
-       <th>Release Year</th>
-       <th>Popularity</th>
-       <th>Tempo</th>
-       <th>Duration</th>
-       <th>Danceability</th>
-       <th class="sorttable_nosort">Add to Playlist</th>
+       <th style="width:20%">Song Name</th>
+       <th style="width:15%">Artist</th>
+       <th style="width:5%">Release Year</th>
+       <th style="width:10%">Popularity</th>
+       <th style="width:10%">Tempo</th>
+       <th style="width:10%">Duration</th>
+       <th style="width:10%">Danceability</th>
+       <th class="sorttable_nosort" style="width:20%">Add to Playlist</th>
       </tr>
    </thead>
  <tbody id="search_results_body_song"></tbody>

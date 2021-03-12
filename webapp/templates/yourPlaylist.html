@@ -1,0 +1,83 @@
+<!-- Authors: Kevin Phung, Kyosuke Imai   -->
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='webapp.css') }}" />
+   <script type="text/javascript" src="{{ url_for('static', filename='sorttable.js') }}"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='webapp.js') }}"></script>
+   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+   <title>CS 257: Software Design</title>
+</head>
+<header>
+ <div class="TopPanel">
+ <h3 class = "title", id="top_header">Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
+ <div class="flex-container">
+   <div>
+     <div class = "DropDownMenu" id = "DropDownMenu">
+       <select class="DDButton" id = "DDButton">
+       <div class = "DDContent" id = "DDContent">
+         <option value = "default"> Choose a Category </option>
+         <option id = "DDSong" value = 'song' >Song Name </option>
+         <option id = "DDArtist" value = 'artist' >Artist Name </option>
+         <option id = "DDGenre" value = 'genre' >Genre Name </option>
+       </div>
+       </select>
+     </div>
+   </div>
+   <div>
+       <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
+   </div>
+   <div>
+       <p><button type="submit" id="search_button">Search</button></p>
+   </div>
+ </div>
+
+ <div class = "ChoosePlaylist" id = "Choose">
+   <select class="SelectPlaylist" id = "SelectPlaylist" onchange="choosePanel()" style="display:inline">
+   <div class = "MenuContents" id = "MenuContents">
+     <option id = "HomePage" value = 'HomePage' >HomePage </option>
+     <option id = "YourPlaylist" value = 'YourPlaylist' >YourPlaylist </option>
+   </div>
+   </select>
+ </div>
+
+ <nav class="topnav">
+   <a class="active" href="/">Home</a>
+   <div class = "playlists">
+     <a href="#playlists">Your Playlists</a>
+       <div class = "DDM-content" id = "DDM-content">
+         <p id="playlist1"> Playlist1 </p>
+         <p id = "playlist2"> Playlist2 </p>
+       </div>
+   </div>
+   <a href="#Visualizer">Data Visualizer</a>
+   <a href="#Help">Help</a>
+
+ </nav>
+</header>
+
+<body>
+  <h4 class= "pageHeader"> Your Playlist </h4>
+  </body>
+
+  <div id = "divider_for_playlists">
+  <table class="sortable" id="playlist_table" style="display:none" >
+    <thead id="header_playlist" >
+      <tr>
+     <th>Song Name</th>
+     <th>Artist</th>
+     <th>Release Year</th>
+     <th>Popularity</th>
+     <th>Tempo</th>
+     <th>Duration</th>
+     <th>Danceability</th>
+     <th class="sorttable_nosort">Delete from Playlist</th>
+    </tr>
+  </thead>
+  <tbody id="playlist_body"></tbody>
+
+  </table>
+  </div>
+  
+</html>

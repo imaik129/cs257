@@ -22,7 +22,6 @@ var playlist_songs;
 window.onload = initialize;
 
 
-
 // Swaps placeholder text in the search bar based on the category chosen
 function changePlaceHolder(){
   var chosenCategory = document.getElementById('DDButton');
@@ -119,14 +118,14 @@ function load_results_into_table_song(results){
   for (let item of results){
     var exact_button=addbutton+item.song_id
     datahtml+= `<tr id=${item.song_id}>
-    <td>${item.song_name}</td>
-    <td>${item.artist_name}</td>
-    <td>${item.release_year}</td>
-    <td>${item.popularity}</td>
-    <td>${item.tempo}</td>
-    <td>${item.duration}</td>
-    <td>${item.danceability}</td>
-    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' >Add to Playlist</button></td></tr>`;
+    <td style="width:20%">${item.song_name}</td>
+    <td style="width:15%">${item.artist_name}</td>
+    <td style="width:5%">${item.release_year}</td>
+    <td style="width:10%">${item.popularity}</td>
+    <td style="width:10%">${item.tempo}</td>
+    <td style="width:10%">${item.duration}</td>
+    <td style="width:10%">${item.danceability}</td>
+    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
 
 //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     if(playlist_songs.indexOf(item.song_id) >= 0){
@@ -379,4 +378,8 @@ function onPressKeyEnter(){
       onPressKeyEnter();
       searchButton.onclick = returnResults;
     }
+  }
+
+  function go_to_playlists_page(){
+    window.location.replace("http://localhost:5000/api/playlist_menu_page")
   }
