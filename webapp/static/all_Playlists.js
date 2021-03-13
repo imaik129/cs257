@@ -21,11 +21,11 @@ async function returnPlaylistnames(){
 
 function load_playlists_into_table(playlist_names){
   for (let item in playlist_names){
-    tester(playlist_names[item])
+    load_playlist(playlist_names[item])
   }
 }
 
-function tester(item){
+function load_playlist(item){
   var ul = document.getElementById("playlist_body");
   var li = document.createElement("li");
   var a_Tag = document.createElement("a");

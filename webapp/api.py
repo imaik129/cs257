@@ -264,8 +264,8 @@ def insert():
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
-        # cursor.execute(query, (playlist_name,id))
-        cursor.execute(query, (id,))
+        cursor.execute(query, (playlist_name,id))
+        # cursor.execute(query, (id,))
         connection.commit()
         cursor.close()
     except Exception as e:

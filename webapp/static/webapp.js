@@ -19,6 +19,10 @@ var globalresults;
 var globalPlaylistResults=undefined;
 var playlist_songs;
 
+all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
+var globalPlaylistNames= undefined;
+
+
 window.onload = initialize;
 
 
@@ -108,6 +112,44 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
+async function returnPlaylistnames(){
+  {await fetch(all_playlist_names_url, {method: 'get'})
+  .then((response) => response.json())
+  .then(function(results){
+    globalPlaylistNames=results;
+    console.log(results)
+  })
+  }
+}
+
+
+
+
+function addPlaylistsToDDM(playlist_names, song_ids){
+  for(let everyRow in song_ids){
+    addPlaylistToDDM(playlist_names, song_ids)
+  }
+  // for (let item of playlist_names){
+  //   addPlaylistToDDM(item, playlist_names, song_ids)
+  // }
+}
+
+function addPlaylistToDDM(playlist_names, song_ids){
+  for (let item of playlist_names){
+    var distinctID = "a," + id;
+    console.log(distinctID);
+    var AddPlaylistDDM = document.getElementById(distinctID);
+    var newOption = AddPlaylistDDM.createElement("option");
+    option.text = option.value = item;
+    console.log(item);
+    AddPlaylistDDM.appendChild(option);
+  }
+}
+
+function addToSelectedPlaylist(){
+
+}
+
 //Loads results into the table for searching by song name. Each row id is equivalent to the id of the song that populates it.
 function load_results_into_table_song(results){
   let datahtml= '';
@@ -116,7 +158,7 @@ function load_results_into_table_song(results){
   var addbuttons_to_remove=[];
 
   for (let item of results){
-    var exact_button=addbutton+item.song_id
+    var exact_category=addbutton+item.song_id
     datahtml+= `<tr id=${item.song_id}>
     <td style="width:20%">${item.song_name}</td>
     <td style="width:15%">${item.artist_name}</td>
@@ -125,13 +167,13 @@ function load_results_into_table_song(results){
     <td style="width:10%">${item.tempo}</td>
     <td style="width:10%">${item.duration}</td>
     <td style="width:10%">${item.danceability}</td>
-    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
-
+    <td><select id= ${exact_category} onchange= "insert_into_playlist(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td></tr>`;
+    // <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
 //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
-    if(playlist_songs.indexOf(item.song_id) >= 0){
-      addbuttons_to_remove.push(exact_button);
-    }
-
+    // if(playlist_songs.indexOf(item.song_id) >= 0){
+    //   addbuttons_to_remove.push(exact_button);
+    // }
+    console.log(exact_category);
   }
   results_body_song.innerHTML= datahtml;
   results_table_song.style.display = "inline";
@@ -325,8 +367,12 @@ async function returnResults(){
   .then(function(results){
     chooseResults(results);
     globalresults=results;
+
   })
+  // .then(returnPlaylistnames())
+  // .then(addPlaylistsToDDM(globalPlaylistNames))
   }
+
 }
 
 //Sends an API request to the server to obtain all the songs in the user's playlist
@@ -352,8 +398,19 @@ async function get_playlist_record(){
 
 // function that runs on initializing the window. Still trying to figure out how to stop the full window from loading until returnPlaylistResults receives a response
 async function initialize(){
-    get_playlist_record()
+
+    // await returnPlaylistResults().then(returnPlaylistResults())
+    // .then(OnXevent()).then(returnPlaylistnames(globalPlaylistNames))
     await returnPlaylistResults().then(OnXevent())
+
+    // returnPlaylistnames();
+    // await returnPlaylistResults().then(returnPlaylistnames(globalPlaylistNames))
+
+
+    //
+    // await returnPlaylistnames();
+    // addPlaylistsToDDM(globalPlaylistNames)
+
   }
 
 function onPressKeyEnter(){
@@ -368,7 +425,7 @@ function onPressKeyEnter(){
 
 
 // assigns elements to names and assigns them their on X event.
-  function OnXevent(){
+  async function OnXevent(){
     var searchButton = document.getElementById('search_button');
     var DDButton = document.getElementById('DDButton');
     if(DDButton){
@@ -377,7 +434,13 @@ function onPressKeyEnter(){
     if (searchButton){
       onPressKeyEnter();
       searchButton.onclick = returnResults;
+      await returnPlaylistnames()
+      .then(addPlaylistsToDDM(globalPlaylistNames,globalresults))
+
     }
+
+
+
   }
 
   function go_to_playlists_page(){
