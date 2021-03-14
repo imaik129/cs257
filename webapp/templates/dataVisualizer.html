@@ -11,12 +11,12 @@
 </head>
 <header>
  <div class="TopPanel">
- <h3 class = "title" id="top_header">Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
+ <h3 class = "title" id="top_header">Spotify Music <br/>  Advanced Search  <br/> Data Visualizer</h3>
  <div class="flex-container">
    <div class = "DropDownMenu" id = "DropDownPlaylist">
      <select class="DDButton" id = "DDButtonPlaylist">
      <div class = "DDContent" id = "DDContentPlaylist">
-       <option value = "default"> Choose a Playlist </option> 
+       <option value = "default"> Choose a Playlist </option>
        <!-- <option id = "DDSong" value = 'song' >Song Name </option>
        <option id = "DDArtist" value = 'artist' >Artist Name </option>
        <option id = "DDGenre" value = 'genre' >Genre Name </option> -->
@@ -34,21 +34,18 @@
      </div>
      </select>
    </div>
+   <p><button type="Visualize" id="Start_visualize" onclick="get_one_playlist_details()">Visualize</button></p>
  </div>
+
 
  <nav class="topnav">
    <a class="active" href="/">Home</a>
-   <div class = "playlists">
-     <a>Your Playlists</a>
-       <div class = "DDM-content" id = "DDM-content">
-         <p id="playlist1"> Playlist1 </p>
-         <p id = "playlist2"> Playlist2 </p>
-       </div>
-   </div>
-   <a href="#Visualizer">Data Visualizer</a>
-   <a href="#Help">Help</a>
+  <a href="/api/playlist_menu_page">Your Playlists</a>
+   <a>Data Visualizer</a>
+   <a href="/api/help">Help</a>
 
  </nav>
+ </div>
 </header>
 <body>
   <div class="flex-container">

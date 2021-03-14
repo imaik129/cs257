@@ -27,19 +27,22 @@ function getAPIBaseURL() {
 
 //onclick func
 function get_one_playlist_details(){
-  // get value playlist1
-  // get value metric
-  playlist1='a'
-  metric='tempo'
+  playlist1=document.getElementById('DDButtonPlaylist').value
+  metric=document.getElementById('DDButtonMetric').value
+  // playlist1='a'
+  // metric='tempo'
+  if (!(playlist1=='default' || metric=='default')){
   url= getAPIBaseURL() + '/graph_one_playlist?playlist1=' + playlist1 +'&metric=' + metric;
   console.log(url)
   {fetch(url,{method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     load_data_into_chart(results);
-})
+  })
 }
-}
+}else{
+  window.alert("Please select some options using the dropdown menus")
+}}
 
 
 function load_data_into_chart(playlist_details){
@@ -56,11 +59,20 @@ function load_data_into_chart(playlist_details){
       yLine.push(item.tempo)
     }
   } else if (keys.includes('danceability')){
+    for (let item of playlist_details){
     xLine.push(item.song_name)
     yLine.push(item.danceability)
+  }
   }else if (keys.includes('duration')){
+    for (let item of playlist_details){
     xLine.push(item.song_name)
     yLine.push(item.duration)
+  }
+  }else if (keys.includes('popularity')){
+    for (let item of playlist_details){
+    xLine.push(item.song_name)
+    yLine.push(item.popularity)
+  }
   }
 
   var ctx = document.getElementById('myChart').getContext('2d');
@@ -102,12 +114,12 @@ function load_data_into_chart(playlist_details){
   });
 }}
 
-async function returnPlaylistnames(){
-  {await fetch(all_playlist_names_url, {method: 'get'})
+function returnPlaylistnames(){
+  {fetch(all_playlist_names_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     console.log(results)
-    return results
+    load_all_options_into_DropDownPlaylist(results)
   })
   }
 }
@@ -121,9 +133,7 @@ function load_one_option_into_DropDownPlaylist(playlist_name){
   DropDownPlaylist.appendChild(option)
 }
 
-async function load_all_options_into_DropDownPlaylist(){
-  results=await returnPlaylistnames()
-  console.log(results)
+function load_all_options_into_DropDownPlaylist(results){
   for (let item of results){
     name=item.playlist_name
     load_one_option_into_DropDownPlaylist(name)
@@ -131,7 +141,10 @@ async function load_all_options_into_DropDownPlaylist(){
 }
 
 async function initialize(){
-  load_all_options_into_DropDownPlaylist()
+  returnPlaylistnames()
+  // get_one_playlist_details()
+
+
   // get_one_playlist_details()
 }
 window.onload=initialize
