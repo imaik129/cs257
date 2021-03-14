@@ -1,67 +1,67 @@
- <!-- Authors: Kevin Phung, Kyosuke Imai   -->
+<!-- Authors: Kevin Phung, Kyosuke Imai   -->
 <!DOCTYPE html>
 <html lang = "en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='playlist.css') }}" />
-    <script type="text/javascript" src="{{ url_for('static', filename='sorttable.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='playlist.js') }}"></script>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-    <title>CS 257: Software Design</title>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='playlist.css') }}" />
+   <script type="text/javascript" src="{{ url_for('static', filename='sorttable.js') }}"></script>
+   <script type="text/javascript" src="{{ url_for('static', filename='playlist.js') }}"></script>
+   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+   <title>CS 257: Software Design</title>
 </head>
 <header>
-  <div class="TopPanel">
-  <h3 class = "title", id="top_header">Spotify Music <br/> Your Playlists</h3>
-  <div class="flex-container">
-    <!-- <div>
-      <div class = "DropDownMenu" id = "DropDownMenu">
-        <select class="DDButton" id = "DDButton">
-        <div class = "DDContent" id = "DDContent">
-          <option value = "default"> Choose a Category </option>
-          <option id = "DDSong" value = 'song' >Song Name </option>
-          <option id = "DDArtist" value = 'artist' >Artist Name </option>
-          <option id = "DDGenre" value = 'genre' >Genre Name </option>
-        </div>
-        </select>
-      </div>
-    </div> -->
-    <!-- <div>
-        <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
-    </div> -->
-    <!-- <div>
-        <p><button type="submit" id="search_button">search</button></p>
-    </div> -->
-  </div>
+ <div class="TopPanel">
+ <h3 class = "title", id="top_header">Spotify Music <br/> Your Playlists</h3>
+ <div class="flex-container">
+   <!-- <div>
+     <div class = "DropDownMenu" id = "DropDownMenu">
+       <select class="DDButton" id = "DDButton">
+       <div class = "DDContent" id = "DDContent">
+         <option value = "default"> Choose a Category </option>
+         <option id = "DDSong" value = 'song' >Song Name </option>
+         <option id = "DDArtist" value = 'artist' >Artist Name </option>
+         <option id = "DDGenre" value = 'genre' >Genre Name </option>
+       </div>
+       </select>
+     </div>
+   </div> -->
+   <!-- <div>
+       <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
+   </div> -->
+   <!-- <div>
+       <p><button type="submit" id="search_button">search</button></p>
+   </div> -->
+ </div>
 
-  <div class = "ChoosePlaylist" id = "Choose">
-    <select class="SelectPlaylist" id = "SelectPlaylist" onchange="getDropDownOption()" style="display:inline">
-    <div class = "MenuContents" id = "MenuContents">
-      <option id = "Playlist 1" value = 'Playlist 1' >Playlist 1 </option>
-      <option id = "Playlist 2" value = 'Playlist 2' >Playlist 2 </option>
-      <option id = "Playlist 3" value = 'Playlist 3' >Playlist 3 </option>
-    </div>
-    </select>
-  </div>
+ <div class = "ChoosePlaylist" id = "Choose">
+   <select class="SelectPlaylist" id = "SelectPlaylist" onchange="getDropDownOption()" style="display:inline">
+   <div class = "MenuContents" id = "MenuContents">
+     <option id = "Playlist 1" value = 'Playlist 1' >Playlist 1 </option>
+     <option id = "Playlist 2" value = 'Playlist 2' >Playlist 2 </option>
+     <option id = "Playlist 3" value = 'Playlist 3' >Playlist 3 </option>
+   </div>
+   </select>
+ </div>
 
-  </div>
+ </div>
 </header>
 
 <body>
-  <h2 class = "quote" id="page_quote" > <em> Some random Music Quote. <br/> -Louis Armstrong</em>  </h2>
+ <h2 class = "quote" id="page_quote" > <em> Some random Music Quote. <br/> -Louis Armstrong</em>  </h2>
 
 <div id = "divider_for_playlists">
 <table class="sortable" id="playlist_table" style="display:none" >
-  <thead id="header_playlist" >
-    <tr>
-   <th>Song Name</th>
-   <th>Artist</th>
-   <th>Release Year</th>
-   <th>Popularity</th>
-   <th>Tempo</th>
-   <th>Duration</th>
-   <th>Danceability</th>
-   <th class="sorttable_nosort">Delete from Playlist</th>
-  </tr>
+ <thead id="header_playlist" >
+   <tr>
+  <th>Song Name</th>
+  <th>Artist</th>
+  <th>Release Year</th>
+  <th>Popularity</th>
+  <th>Tempo</th>
+  <th>Duration</th>
+  <th>Danceability</th>
+  <th class="sorttable_nosort">Delete from Playlist</th>
+ </tr>
 </thead>
 <tbody id="playlist_body"></tbody>
 

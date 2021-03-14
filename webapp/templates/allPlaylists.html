@@ -14,32 +14,11 @@
  <h3 class = "title" id="top_header">Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
  <div class="flex-container">
    <div>
-     <div class = "DropDownMenu" id = "DropDownMenu">
-       <select class="DDButton" id = "DDButton">
-       <div class = "DDContent" id = "DDContent">
-         <option value = "default"> Choose a Category </option>
-         <option id = "DDSong" value = 'song' >Song Name </option>
-         <option id = "DDArtist" value = 'artist' >Artist Name </option>
-         <option id = "DDGenre" value = 'genre' >Genre Name </option>
-       </div>
-       </select>
-     </div>
+       <p><input id="input_playlist_name" type="text" placeholder="Create a new playlist here" />
    </div>
    <div>
-       <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
+       <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create</button></p>
    </div>
-   <div>
-       <p><button type="submit" id="search_button">Search</button></p>
-   </div>
- </div>
-
- <div class = "ChoosePlaylist" id = "Choose">
-   <select class="SelectPlaylist" id = "SelectPlaylist" onchange="choosePanel()" style="display:inline">
-   <div class = "MenuContents" id = "MenuContents">
-     <option id = "HomePage" value = 'HomePage' >HomePage </option>
-     <option id = "YourPlaylist" value = 'YourPlaylist' >YourPlaylist </option>
-   </div>
-   </select>
  </div>
 
  <nav class="topnav">
@@ -60,18 +39,19 @@
 <body>
   <h4 class= "pageHeader"> List Of All Playlists </h4>
   <div class="flex-container">
-    <div>
-        <p><input id="input_playlist_name" type="text" placeholder="Create Playlist" />
-    </div>
-    <div>
-        <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create</button></p>
-        <p><button type="submit" onclick = "deleteItemFromPlaylistsList()" id="delete_playlist">Delete</button></p>
-    </div>
   </div>
 
-  <ul class = "allPlaylists" id= "playlist_body">
-  </ul>
-
+  <div id= table_div>
+  <table class="sortable" id="playlists_table" style="display:none">
+    <thead id="playlist_table_header" >
+    <tr>
+     <th>Playlist Name</th>
+     <th>Number of songs</th>
+     <th class="sorttable_nosort" >Delete Playlist</th>
+    </tr>
+  </thead>
+  <tbody id="playlists_table_body"></tbody>
+</div>
 </body>
 
 </html>

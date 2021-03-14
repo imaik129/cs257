@@ -191,6 +191,22 @@ specify attributes of the search_button */
   display: block;
   background-color:white;
 }
+table.sortable tbody tr:nth-child(2n) td {
+  opacity: 0.8;
+  background: #f8f8ff;
+}
+table.sortable tbody tr:nth-child(2n+1) td {
+  opacity: 0.8;
+  background: #d3d3d3;
+}
+table.sortable thead {
+    opacity: 0.9;
+    background-color:#707070;
+    color: #F5F5F5;
+    font-weight: bold;
+    cursor: default;
+}
 .DDContent a:hover {background-color: #ddd;}
+.playlists_table_body td:hover {background-color: #00FFFF;}
 .DropDownMenu:hover .DDContent {display: block;}
 .DropDownMenu:hover .DDbutton{background-color: #3e8e41;}

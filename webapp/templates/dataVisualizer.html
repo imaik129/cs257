@@ -1,0 +1,63 @@
+<!-- Authors: Kevin Phung, Kyosuke Imai   -->
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dataVisualizer.css') }}" />
+   <script type="text/javascript" src="{{ url_for('static', filename='sorttable.js') }}"></script>
+   <script src= https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.bundle.min.js> </script>
+   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+   <title>CS 257: Software Design</title>
+</head>
+<header>
+ <div class="TopPanel">
+ <h3 class = "title" id="top_header">Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
+ <div class="flex-container">
+   <div class = "DropDownMenu" id = "DropDownPlaylist">
+     <select class="DDButton" id = "DDButtonPlaylist">
+     <div class = "DDContent" id = "DDContentPlaylist">
+       <option value = "default"> Choose a Playlist </option> 
+       <!-- <option id = "DDSong" value = 'song' >Song Name </option>
+       <option id = "DDArtist" value = 'artist' >Artist Name </option>
+       <option id = "DDGenre" value = 'genre' >Genre Name </option> -->
+     </div>
+     </select>
+   </div>
+   <div class = "DropDownMenu" id = "DropDownMetric">
+     <select class="DDButton" id = "DDButtonMetric">
+     <div class = "DDContent" id = "DDContentMetric">
+       <option value = "default"> Choose a Metric </option>
+       <option id = "DDpopularity" value = 'popularity' >popularity </option>
+       <option id = "DDtempo" value = 'tempo' >tempo </option>
+       <option id = "DDdanceability" value = 'danceability' >danceability </option>
+       <option id = "DDduration" value = 'duration' >duration </option>
+     </div>
+     </select>
+   </div>
+ </div>
+
+ <nav class="topnav">
+   <a class="active" href="/">Home</a>
+   <div class = "playlists">
+     <a>Your Playlists</a>
+       <div class = "DDM-content" id = "DDM-content">
+         <p id="playlist1"> Playlist1 </p>
+         <p id = "playlist2"> Playlist2 </p>
+       </div>
+   </div>
+   <a href="#Visualizer">Data Visualizer</a>
+   <a href="#Help">Help</a>
+
+ </nav>
+</header>
+<body>
+  <div class="flex-container">
+
+<canvas id="myChart" width="400" height="100"></canvas>
+  </div>
+
+
+<script type="text/javascript" src="{{ url_for('static', filename='dataVisualizer.js') }}"></script>
+</body>
+
+</html>

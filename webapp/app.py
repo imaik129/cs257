@@ -33,8 +33,16 @@ def shared_header_catchall(path):
         api.create()
         return flask.render_template('allPlaylists.html')
 
+    elif path == 'api/delete_playlist':
+        # print(flask.request.get_json())
+        api.delete_playlist()
+        return flask.render_template('allPlaylists.html')
+
     elif path == 'api/specific_playlist_page':
         return flask.render_template('YourPlaylist.html')
+
+    elif path == 'api/data_visualizer':
+        return flask.render_template('dataVisualizer.html')
 
     else:
         return flask.render_template('index.html')

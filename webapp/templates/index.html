@@ -33,26 +33,19 @@
     </div>
   </div>
 
-  <div class = "ChoosePlaylist" id = "Choose">
-    <select class="SelectPlaylist" id = "SelectPlaylist" onchange="choosePanel()" style="display:inline">
-    <div class = "MenuContents" id = "MenuContents">
-      <option id = "HomePage" value = 'HomePage' >HomePage </option>
-      <option id = "YourPlaylist" value = 'YourPlaylist' >YourPlaylist </option>
-    </div>
-    </select>
-  </div>
 
   <nav class="topnav">
     <a class="active" href="/">Home</a>
     <div class = "playlists">
-      <a onclick="go_to_playlists_page()">Your Playlists</a>
-        <div class = "DDM-content" id = "DDM-content">
+      <!-- <a onclick="go_to_playlists_page()">Your Playlists</a> -->
+      <a href="/api/playlist_menu_page">Your Playlists</a>
+        <!-- <div class = "DDM-content" id = "DDM-content">
           <p id="playlist1"> Playlist1 </p>
           <p id = "playlist2"> Playlist2 </p>
-        </div>
+        </div> -->
     </div>
     <a href="#Visualizer">Data Visualizer</a>
-    <a href="#Help">Help</a>
+    <a href="/api/help  ">Help</a>
 
 
   </nav>
@@ -61,7 +54,6 @@
 </header>
 
 <body>
-  <button type="addToPlaylist" id="addToPlaylist">Add Selected</button>
   <h2 class = "quote" id="page_quote" >  Music is life itself. <br/> <em>-Louis Armstrong</em>  </h2>
 
   <div id = "divider_for_home">
