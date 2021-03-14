@@ -123,32 +123,37 @@ async function returnPlaylistnames(){
 }
 
 
-
-
-function addPlaylistsToDDM(playlist_names, song_ids){
-  for(let everyRow in song_ids){
-    addPlaylistToDDM(playlist_names, song_ids)
-  }
-  // for (let item of playlist_names){
-  //   addPlaylistToDDM(item, playlist_names, song_ids)
-  // }
-}
-
-function addPlaylistToDDM(playlist_names, song_ids){
+function addPlaylistToDDM(playlist_names, row){
   for (let item of playlist_names){
-    var distinctID = "a," + id;
+    var song_id=row.parentNode.parentNode.id;
+    var distinctID = "a," + song_id;
     console.log(distinctID);
     var AddPlaylistDDM = document.getElementById(distinctID);
-    var newOption = AddPlaylistDDM.createElement("option");
-    option.text = option.value = item;
-    console.log(item);
-    AddPlaylistDDM.appendChild(option);
+    var newOption = document.createElement("option");
+    newOption.text = newOption.value = item;
+    AddPlaylistDDM.appendChild(newOption);
   }
 }
 
-function addToSelectedPlaylist(){
-
+async function combinedAddPlaylistsToDDM(row){
+  await returnPlaylistnames()
+  addPlaylistToDDM(globalPlaylistNames, row)
 }
+
+
+
+function insertIntoSelectedPlaylist(row){
+  var song_id=row.parentNode.parentNode.id;
+  insert_url= getAPIBaseURL() + '/insert_into_playlist'
+  //display error message if try to add default
+  AddPlaylistDDM=document.getElementById("a,"+ song_id);
+  playlist_name = AddPlaylistDDM.value;
+
+  const data= {playlist_name, song_id};
+  const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
+  fetch(insert_url,options);
+}
+
 
 //Loads results into the table for searching by song name. Each row id is equivalent to the id of the song that populates it.
 function load_results_into_table_song(results){
@@ -167,13 +172,16 @@ function load_results_into_table_song(results){
     <td style="width:10%">${item.tempo}</td>
     <td style="width:10%">${item.duration}</td>
     <td style="width:10%">${item.danceability}</td>
-    <td><select id= ${exact_category} onchange= "insert_into_playlist(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td></tr>`;
+    <td><select id= ${exact_category} onclick="combinedAddPlaylistsToDDM(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td>
+    <td><button onclick = "insertIntoSelectedPlaylist(this)" style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
+    // <td><select id= ${exact_category} onload = "combinedAddPlaylistsToDDM()" onchange= "insert_into_playlist(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td></tr>`;
+
     // <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
 //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     // if(playlist_songs.indexOf(item.song_id) >= 0){
     //   addbuttons_to_remove.push(exact_button);
     // }
-    console.log(exact_category);
+    // console.log(exact_category);
   }
   results_body_song.innerHTML= datahtml;
   results_table_song.style.display = "inline";
@@ -201,7 +209,7 @@ function load_results_into_table_artist(results){
 
 
   for (let item of results){
-    var exact_button=addbutton+item.song_id
+    var exact_category=addbutton+item.song_id
     datahtml+= `<tr id=${item.song_id}>
     <td>${item.song_name}</td>
     <td>${item.artist_name}</td>
@@ -213,7 +221,8 @@ function load_results_into_table_artist(results){
     <td>${item.artist_tempo}</td>
     <td>${item.artist_duration}</td>
     <td>${item.artist_danceability}</td>
-    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' style="background-color:black" >Add to Playlist</button></td></tr>`;
+    <td><select id= ${exact_category} onclick="combinedAddPlaylistsToDDM(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td>
+    <td><button onclick = "insertIntoSelectedPlaylist(this)" style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
 
     //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     if(playlist_songs.indexOf(item.song_id) >= 0){
@@ -243,7 +252,7 @@ function load_results_into_table_genre(results){
   var addbuttons_to_remove=[];
 
   for (let item of results){
-    var exact_button=addbutton+item.song_id
+    var exact_category=addbutton+item.song_id
     datahtml+= `<tr id=${item.song_id}>
     <td>${item.song_name}</td>
     <td>${item.genre_name}</td>
@@ -256,12 +265,12 @@ function load_results_into_table_genre(results){
     <td>${item.genre_tempo}</td>
     <td>${item.genre_duration}</td>
     <td>${item.genre_danceability}</td>
-    <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:block' >Add to Playlist</button></td></tr>`;
-
+    <td><select id= ${exact_category} onclick="combinedAddPlaylistsToDDM(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td>
+    <td><button onclick = "insertIntoSelectedPlaylist(this)" style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
     //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
-    if(playlist_songs.indexOf(item.song_id) >= 0){
-      addbuttons_to_remove.push(exact_button);
-    }
+    // if(playlist_songs.indexOf(item.song_id) >= 0){
+    //   addbuttons_to_remove.push(exact_button);
+    // }
 
   }
   results_body_genre.innerHTML= datahtml;
@@ -398,7 +407,6 @@ async function get_playlist_record(){
 
 // function that runs on initializing the window. Still trying to figure out how to stop the full window from loading until returnPlaylistResults receives a response
 async function initialize(){
-
     // await returnPlaylistResults().then(returnPlaylistResults())
     // .then(OnXevent()).then(returnPlaylistnames(globalPlaylistNames))
     await returnPlaylistResults().then(OnXevent())
@@ -434,8 +442,8 @@ function onPressKeyEnter(){
     if (searchButton){
       onPressKeyEnter();
       searchButton.onclick = returnResults;
-      await returnPlaylistnames()
-      .then(addPlaylistsToDDM(globalPlaylistNames,globalresults))
+      // await returnPlaylistnames()
+      // .then(addPlaylistsToDDM(globalPlaylistNames,globalresults))
 
     }
 
