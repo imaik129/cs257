@@ -1,10 +1,5 @@
 
-var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info"+ window.location.search;
-var globalPlaylistinfo= undefined;
-var delbutton= "d,";
 
-urlParams = new URLSearchParams(window.location.search);
-myParam = urlParams.get('playlist');
 
 
 function getAPIBaseURL() {
@@ -12,26 +7,34 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-async function returnPlaylistdata(){
-  {await fetch(specific_playlist_url, {method: 'get'})
+// async function returnPlaylistdata(){
+//   var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info"+ window.location.search;
+//   {await fetch(specific_playlist_url, {method: 'get'})
+//   .then((response) => response.json())
+//   .then(function(results){
+//     load_results_into_table_playlists(results)
+//   })
+//   }
+// }
+
+function returnPlaylistdata(){
+  var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info"+ window.location.search;
+  {fetch(specific_playlist_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
-    // globalPlaylistinfo=results;
-    // console.log(results)
     load_results_into_table_playlists(results)
   })
   }
 }
 
-
-function load_results_into_table_playlists(globalPlaylistinfo){
+function load_results_into_table_playlists(results){
+  var del_button_prefix= "d,";
   let datahtml= '';
   playlist_table= document.getElementById("playlist_table");
   playlist_body= document.getElementById("playlist_body");
-  var delbuttons_to_remove=[];
 
-  for (let item of globalPlaylistinfo){
-    var exact_button=delbutton+item.song_id
+  for (let item of results){
+    var exact_button=del_button_prefix+item.song_id
     datahtml+= `<tr id=${item.song_id}>
     <td>${item.song_name}</td>
     <td>${item.artist_name}</td>
@@ -42,18 +45,12 @@ function load_results_into_table_playlists(globalPlaylistinfo){
     <td>${item.danceability}</td>
     <td><button onclick="delete_from_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' >Delete from Playlist</button></td></tr>`;
 
-    // if(playlist_songs.indexOf(item.song_id) < 0){
-    //   delbuttons_to_remove.push(exact_button);
-    // }
 
   }
   playlist_body.innerHTML= datahtml;
   playlist_table.style.display = "inline";
 
 
-//   delbuttons_to_remove.forEach(function (item) {
-//   document.getElementById(item).style.display='none';
-// });
 
 }
 
@@ -62,7 +59,6 @@ function delete_from_playlist(row)
 	var song_id=row.parentNode.parentNode.id;
   param = new URLSearchParams(window.location.search);
   playlist_name = param.get('playlist');
-  // var playlist_name= specific_playlist_url.substr(-1);
   delete_url= getAPIBaseURL() + '/delete_from_playlist'
   const data= {song_id,playlist_name};
   const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
@@ -73,11 +69,12 @@ function delete_from_playlist(row)
 }
 
 
-async function initialize(){
-  // await returnPlaylistdata();
-  // load_results_into_table_playlists(globalPlaylistinfo)
+// async function initialize(){
+//   returnPlaylistdata()
+// }
+
+function initialize(){
   returnPlaylistdata()
 }
-
 
 window.onload = initialize();

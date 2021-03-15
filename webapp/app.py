@@ -34,12 +34,10 @@ def shared_header_catchall(path):
         return flask.render_template('allPlaylists.html')
 
     elif path == 'api/delete_playlist':
-        # print(flask.request.get_json())
         api.delete_playlist()
         return flask.render_template('allPlaylists.html')
 
     elif path == 'api/specific_playlist_page':
-        # playlist= flask.request.args.get('playlist')
         return flask.render_template('YourPlaylist.html')
 
     elif path == 'api/data_visualizer':
@@ -47,58 +45,6 @@ def shared_header_catchall(path):
 
     else:
         return flask.render_template('index.html')
-
-    # else:
-    #     return flask.render_template('index.html')
-    # return flask.render_template('playlist_menu.html')
-    # print(path)
-
-#     if flask.request.method == 'GET':
-#         if path== 'api/playlist_menu':
-#             return flask.render_template('index.html')
-#
-#         elif path== 'specific_playlist':
-#             return flask.render_template('specific_playlist.html')
-#
-#         else:
-#             return flask.render_template('index.html')
-#
-#
-#
-#
-#
-#
-# #split method for if request if "GET" or "POST". Both methods return to index.html for now.
-#     if flask.request.method == 'GET':
-#
-#         # if path== 'search_playlist':
-#         #     return flask.render_template('playlist.html')
-#         if path== 'playlist_menu':
-#             return flask.render_template('playlist_menu.html')
-#             # sdasda
-#             # return redirect("http://localhost:5000/api/playlist_menu")
-#
-#         elif path== 'specific_playlist':
-#             return flask.render_template('specific_playlist.html')
-#
-#         # else:
-#         #     return flask.render_template('index.html')
-#
-#
-#
-# #If Post, checks for type insert or delete and assigns appropriate api function
-# #I wonder if api.insert and api.remove can be removed and itll still work
-#     elif flask.request.method == 'POST':
-#         data= flask.request.get_json()
-#         if data.get('type')=="insert":
-#             return api.insert()
-#             # return flask.render_template('index.html')
-#
-#         elif data.get('type')=="delete":
-#             return api.delete()
-#             # return flask.render_template('playlist.html')
-
-
 
 
 if __name__ == '__main__':

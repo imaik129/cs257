@@ -130,35 +130,6 @@ SELECT  song_details.song_name,SubQ1.genre_name,STRING_AGG(artist_details.artist
         print(e)
         exit()
 
-#
-# def get_song_by_genre():
-#     '''
-#     Get a cursor that gets songs by its genre.
-#     Returns:
-#         cursor: the cursor object to iterate over
-#     '''
-#     genre_name = flask.request.args.get('search')
-#     genre_name = '%' +  genre_name + '%'
-#     query = "\
-#         With SubQ1 as (SELECT artist_details.artist_id, genre_details.genre_id,genre_details.genre_name, genre_characteristics.tempo,genre_characteristics.duration,\
-#     genre_characteristics.danceability\
-# 	FROM artist_details, genre_details, genre_characteristics, artist_genre_link\
-# 	WHERE  LOWER(genre_details.genre_name) LIKE LOWER(%s)\
-# 	AND genre_details.genre_id = genre_characteristics.genre_id\
-# 	AND artist_details.artist_id= artist_genre_link.artist_id\
-# 	AND genre_details.genre_id = artist_genre_link.genre_id\
-# 	ORDER BY artist_details.artist_id)\
-# SELECT  song_details.song_name,STRING_AGG(SubQ1.genre_name, ' and ') genre_name,STRING_AGG(artist_details.artist_name, ' and ') artist_name, song_details.release_year, song_details.popularity,\
-#         song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability,song_details.song_id\
-#         FROM song_details,song_characteristics,artist_details,song_artist_link,SubQ1\
-#         WHERE artist_details.artist_id= SubQ1.artist_id\
-#         AND song_details.song_id = song_characteristics.song_id\
-#         AND artist_details.artist_id = song_artist_link.artist_id\
-#         AND song_details.song_id = song_artist_link.song_id\
-# 	GROUP BY song_details.song_id,song_details.song_name,song_details.release_year, song_details.popularity,\
-#         song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability\
-#         ORDER BY song_details.popularity DESC ,song_details.song_id ASC\
-#         LIMIT 300;"
 
     connection = connection_to_database()
     try:
@@ -235,8 +206,6 @@ def get_playlist_info_for_1_graph(playlist_1):
     try:
         cursor = connection.cursor()
         cursor.execute(query,(playlist_1,))
-        # cursor.execute(query)
-        # print(playlist_1,metric)
         print(cursor)
         return cursor
     except Exception as e:
@@ -334,7 +303,6 @@ def create():
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
-        # cursor.execute(query, (playlist_name,id))
         cursor.execute(query, (playlist_name,))
         connection.commit()
         cursor.close()
@@ -352,7 +320,6 @@ def delete_playlist():
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
-        # cursor.execute(query, (playlist_name,id))
         a=cursor.execute(query, (playlist_name,))
         connection.commit()
         cursor.close()
@@ -368,12 +335,10 @@ def insert():
     id= data.get("song_id")
     playlist_name= data.get("playlist_name")
     query = "INSERT INTO all_playlists (playlist_name,song_id) VALUES (%s,%s);"
-    # query = "INSERT INTO temp_playlists (song_id) VALUES (%s);"
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
         cursor.execute(query, (playlist_name,id))
-        # cursor.execute(query, (id,))
         connection.commit()
         cursor.close()
         return 'True'
@@ -390,7 +355,6 @@ def delete():
     id= data.get("song_id")
     playlist_name= data.get("playlist_name")
     query = "DELETE FROM all_playlists WHERE playlist_name = %s AND song_id=%s ;"
-    # query = "DELETE FROM temp_playlists WHERE playlist_name = %s AND song_id = %s;"
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
@@ -402,25 +366,6 @@ def delete():
         print(e)
         exit()
 
-
-# @api.route('/get_all_playlist_song_ids')
-# def retrieve():
-#     """sends query to retrieve all the song_ids in a playlist
-#     returns json list"""
-#     query = "SELECT * FROM all_playlists;"
-#     connection = connection_to_database()
-#     try:
-#         cursor = connection.cursor()
-#         cursor.execute(query)
-#         songs_list=[]
-#         for row in cursor:
-#             songs_list.append(row[0])
-#         cursor.close()
-#     except Exception as e:
-#         print(e)
-#         exit()
-#
-#     return json.dumps(songs_list)
 
 @api.route('/get_song_ids_by_playlist')
 def retrieve():
@@ -518,7 +463,6 @@ def one_playlists_info():
     returns json list"""
     playlist_1 = flask.request.args.get('playlist1')
     metric = flask.request.args.get('metric')
-    # print(playlist_1,metric)
     cursor=get_playlist_info_for_1_graph(playlist_1)
     single_playlist_list = []
     if metric=='popularity':

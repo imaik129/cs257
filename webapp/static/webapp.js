@@ -1,26 +1,13 @@
 //authors: Kevin Phung, Kyosuke Imai
 
 //List of globally declared variables
-let sorted = false;
-var addbutton = "a,";
-var results_table=undefined ;
-var playlist_url= getAPIBaseURL() + '/get_all_playlist_song_ids';
-var get_playlist_results_url= getAPIBaseURL() + '/search_playlist';
-var results_body_song = undefined;
-var results_body_artist = undefined;
-var results_body_genre = undefined;
-var playlist_body= undefined;
+var add_button_prefix = "a,";
 var results_table_song= undefined;
 var results_table_artist= undefined;
 var results_table_genre= undefined;
-var playlist_table= undefined;
-var globalresults;
-var globalPlaylistResults=undefined;
-var playlist_songs;
 var songID_playlist_results = undefined;
-var song_ids_and_playlist_names_url = getAPIBaseURL() + '/get_song_ids_by_playlist';
-
-all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
+// var song_ids_and_playlist_names_url = getAPIBaseURL() + '/get_song_ids_by_playlist';
+// all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
 var globalPlaylistNames= undefined;
 
 
@@ -45,43 +32,6 @@ function changePlaceHolder(){
 
 }
 
-// Swaps between search/home page and Playlist page Panels
-async function choosePanel(){
-
-  var chosenPath = document.getElementById('SelectPlaylist');
-  var divider_for_home=document.getElementById("divider_for_home");
-  var divider_for_playlists=document.getElementById("divider_for_playlists");
-  if (chosenPath.value== 'YourPlaylist'){
-    divider_for_home.style.display= 'none';
-    await returnPlaylistResults().then(
-    load_results_into_table_playlists(globalPlaylistResults));
-    // console.log(globalPlaylistResults)
-    document.getElementById("top_header").innerHTML="Spotify Music <br/>  Advanced Search  <br/> Playlist Page";
-    document.getElementById("DropDownMenu").style.display= 'none';
-    document.getElementById("search_string").style.display= 'none';
-    document.getElementById("search_button").style.display= 'none';
-    if (globalPlaylistResults.length>0){
-    divider_for_playlists.style.display= 'inline';
-
-    document.getElementById("page_quote").innerHTML="<em> Your Playlist</em>";
-
-  } else{
-    document.getElementById("page_quote").innerHTML="<em> Empty Playlist</em>";
-  }
-
-  }
-  else{
-    divider_for_playlists.style.display= 'none';
-    divider_for_home.style.display= 'inline';
-    document.getElementById("top_header").innerHTML="Spotify Music <br/>  Advanced Search  <br/> Home Page";
-    document.getElementById("page_quote").innerHTML="<em> Music is life itself. <br/> -Louis Armstrong</em>";
-    document.getElementById("DropDownMenu").style.display= 'inline';
-    document.getElementById("search_string").style.display= 'inline';
-    document.getElementById("search_button").style.display= 'inline';
-
-  }
-}
-
 // Completes URL string depending on search category chosen
 function getURLbyCategory(){
 
@@ -101,10 +51,6 @@ function getURLbyCategory(){
     var url ='/search_genre?search=' + searchString.value;
     return url;
   }
-  // else if (choseCategory.value == 'default'){
-  //   var url ='/search_songs?search=' + searchString.value;
-  //   return url;
-  // }
 }
 
 //Just gets the base url for the API call
@@ -113,8 +59,10 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-async function returnPlaylistnames(){
-  {await fetch(all_playlist_names_url, {method: 'get'})
+
+function returnPlaylistnames(){
+  all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
+  {fetch(all_playlist_names_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     globalPlaylistNames=results;
@@ -141,6 +89,7 @@ function checkIfDuplicate(row){
 }
 
 function loadAllPlaylists(){
+  var song_ids_and_playlist_names_url = getAPIBaseURL() + '/get_song_ids_by_playlist';
   {fetch(song_ids_and_playlist_names_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
@@ -149,72 +98,18 @@ function loadAllPlaylists(){
   })
   }
 }
-// function addPlaylistToDDM(playlist_names, row){
-//   var i = 0;
-//   var listofOptions = [];
-//   for (let item of playlist_names){
-//     var song_id=row.parentNode.parentNode.id;
-//     var distinctID = "a," + song_id;
-//     var AddPlaylistDDM = document.getElementById(distinctID);
-//     // var OptionValues = AddPlaylistDDM.options();
-//     var values = Array.from(AddPlaylistDDM.options);
-//     console.log("Values = " + values.length);
-//     for (i = 0; i < values.length; i++){
-//       var options = AddPlaylistDDM.options[i].text;
-//       console.log("option = " + options);
-//       listofOptions.push(options);
-//     }
-//     if(!listofOptions.includes(item.playlist_name)){
-//       console.log("in if case");
-//       var newOption = document.createElement("option");
-//       newOption.text = newOption.value = item.playlist_name;
-//       AddPlaylistDDM.appendChild(newOption);
-//     }
-//
-//   }
-//
-// }
-//
-// async function combinedAddPlaylistsToDDM(row){
-//   await returnPlaylistnames()
-//   addPlaylistToDDM(globalPlaylistNames, row)
-// }
 
 function addPlaylistToDDM(playlist_names, row){
-  // var i = 0;
-  // var listofOptions = [];
   for (let item of playlist_names){
-    // var song_id=row.split(',')
-    // song_id=song_id[1]
-    // var distinctID = "a," + song_id;
     var AddPlaylistDDM = document.getElementById(row);
     var newOption = document.createElement("option");
     newOption.text = newOption.value = item.playlist_name;
     AddPlaylistDDM.appendChild(newOption);
-    // var OptionValues = AddPlaylistDDM.options();
-    // var values = Array.from(AddPlaylistDDM.options);
-
-    // console.log("Values = " + values.length);
-    // for (i = 0; i < values.length; i++){
-    //   var options = AddPlaylistDDM.options[i].text;
-    //   console.log("option = " + options);
-    //   listofOptions.push(options);
     }
-    // if(!listofOptions.includes(item.playlist_name)){
-    //   console.log("in if case");
-    //   var newOption = document.createElement("option");
-    //   newOption.text = newOption.value = item.playlist_name;
-    //   AddPlaylistDDM.appendChild(newOption);
-    // }
 
   }
 
-// }
 
-async function combinedAddPlaylistsToDDM(row){
-  await returnPlaylistnames()
-  addPlaylistToDDM(globalPlaylistNames, row)
-}
 
 
 function insertIntoSelectedPlaylist(row){
@@ -227,14 +122,16 @@ function insertIntoSelectedPlaylist(row){
     //display error message if try to add default
     AddPlaylistDDM=document.getElementById("a,"+ song_id);
     playlist_name = AddPlaylistDDM.value;
-
+    if (playlist_name=='default'){
+      window.alert("Please choose a playlist to add to, or make a new one");
+    } else{
     const data= {playlist_name, song_id};
     const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
     fetch(insert_url,options);
     songID_playlist_results.push({'playlist_name':playlist_name, 'song_id':song_id});
 
   }
-
+}
 }
 
 
@@ -243,11 +140,10 @@ function load_results_into_table_song(results){
   let datahtml= '';
   results_body_song= document.getElementById("search_results_body_song");
   results_table_song= document.getElementById("search_results_table_song");
-  // var addbuttons_to_remove=[];
   var list_of_dropdowns=[]
 
   for (let item of results){
-    var exact_category=addbutton+item.song_id
+    var exact_category=add_button_prefix+item.song_id
     list_of_dropdowns.push(exact_category)
     datahtml+= `<tr id=${item.song_id}>
     <td style="width:20%">${item.song_name}</td>
@@ -262,7 +158,6 @@ function load_results_into_table_song(results){
   }
   results_body_song.innerHTML= datahtml;
   for (let item of list_of_dropdowns){
-  // combinedAddPlaylistsToDDM(item)
   addPlaylistToDDM(globalPlaylistNames, item)
 }
   results_table_song.style.display = "inline";
@@ -273,10 +168,7 @@ function load_results_into_table_song(results){
   if (results_table_artist != undefined){
     results_table_artist.style.display = "none";
   }
-//
-//   addbuttons_to_remove.forEach(function (item) {
-//   document.getElementById(item).style.display='none';
-// });
+
 
 }
 
@@ -285,12 +177,11 @@ function load_results_into_table_artist(results){
   let datahtml= '';
   results_table_artist= document.getElementById("search_results_table_artist");
   results_body_artist= document.getElementById("search_results_body_artist");
-  // var addbuttons_to_remove=[];
   var list_of_dropdowns=[]
 
 
   for (let item of results){
-    var exact_category=addbutton+item.song_id
+    var exact_category=add_button_prefix+item.song_id
     if (list_of_dropdowns.indexOf(exact_category)==-1){
     list_of_dropdowns.push(exact_category)
   }else{
@@ -317,7 +208,6 @@ function load_results_into_table_artist(results){
   }
   results_body_artist.innerHTML= datahtml;
   for (let item of list_of_dropdowns){
-  // combinedAddPlaylistsToDDM(item)
   addPlaylistToDDM(globalPlaylistNames, item)
 }
   results_table_artist.style.display = "inline";
@@ -329,9 +219,7 @@ function load_results_into_table_artist(results){
   if (results_table_song != undefined){
     results_table_song.style.display = "none";
   }
-//   addbuttons_to_remove.forEach(function (item) {
-//   document.getElementById(item).style.display='none';
-// });
+
 }
 
 //Loads results into the table for searching by genre name. Each row id is equivalent to the id of the song that populates it.
@@ -339,11 +227,10 @@ function load_results_into_table_genre(results){
   let datahtml= '';
   results_body_genre= document.getElementById("search_results_body_genre");
   results_table_genre= document.getElementById("search_results_table_genre");
-  // var addbuttons_to_remove=[];
   var list_of_dropdowns=[]
 
   for (let item of results){
-    var exact_category=addbutton+item.song_id
+    var exact_category=add_button_prefix+item.song_id
     if (list_of_dropdowns.indexOf(exact_category)==-1){
     list_of_dropdowns.push(exact_category)
   }else{
@@ -372,7 +259,6 @@ function load_results_into_table_genre(results){
   }
   results_body_genre.innerHTML= datahtml;
   for (let item of list_of_dropdowns){
-  // combinedAddPlaylistsToDDM(item)
   addPlaylistToDDM(globalPlaylistNames, item)
 }
   results_table_genre.style.display = "inline";
@@ -384,40 +270,7 @@ function load_results_into_table_genre(results){
   if (results_table_song != undefined){
     results_table_song.style.display = "none";
   }
-//   addbuttons_to_remove.forEach(function (item) {
-//   document.getElementById(item).style.display='none';
-// });
-}
 
-
-//Deletes a song from the user's playlist via a JSON POST request
-function delete_from_playlist(row)
-{
-var song_id=row.parentNode.parentNode.id;
-  var type = "delete"
-  delete_url= getAPIBaseURL() + '/delete_from_playlist'
-  const data= {song_id, type};
-  const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
-  fetch(delete_url,options);
-
-  playlist_songs.push(song_id);
-  button=document.getElementById("d,"+ song_id);
-  button.style.display= 'none';
-}
-
-//Adds a song into the user's playlist via a JSON POST request.
-function insert_into_playlist(row)
-{
-var song_id=row.parentNode.parentNode.id;
-  var type = "insert"
-  insert_url= getAPIBaseURL() + '/insert_into_playlist'
-  const data= {song_id, type};
-  const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
-  fetch(insert_url,options);
-
-  playlist_songs.push(song_id);
-  button=document.getElementById("a,"+ song_id);
-  button.style.display= 'none';
 }
 
 
@@ -435,60 +288,28 @@ function chooseResults(results){
     }
 }
 
-//Sends an API request to the server to obtain the data based on the search string  and category inputted by the user
-async function returnResults(){
-  get_playlist_record()
+
+function returnResults(){
   var url = getAPIBaseURL() + getURLbyCategory();
-  {await fetch(url, {method: 'get'})
+  {fetch(url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     chooseResults(results);
-    globalresults=results;
+
 
   })
-  // .then(returnPlaylistnames())
-  // .then(addPlaylistsToDDM(globalPlaylistNames))
   }
 
 }
 
-//Sends an API request to the server to obtain all the songs in the user's playlist
-async function returnPlaylistResults(){
-  {await fetch(get_playlist_results_url, {method: 'get'})
-  .then((response) => response.json())
-  .then(function(results){
-    globalPlaylistResults=results;
-  })
-  }
-}
 
-//Sends an API request to the server to obtain all the song_id's in the user's playlist
-async function get_playlist_record(){
-  {await fetch(playlist_url, {method: 'get'})
-.then((response) => response.json())
-.then(function(playlists){
-  playlist_songs=playlists;
-
-})
-}
-}
 
 // function that runs on initializing the window. Still trying to figure out how to stop the full window from loading until returnPlaylistResults receives a response
-async function initialize(){
-  await loadAllPlaylists();
+// async function initialize(){
+function initialize(){
+    loadAllPlaylists();
     returnPlaylistnames()
-    // await returnPlaylistResults().then(returnPlaylistResults())
-    // .then(OnXevent()).then(returnPlaylistnames(globalPlaylistNames))
-    await returnPlaylistResults().then(OnXevent())
-
-
-    // returnPlaylistnames();
-    // await returnPlaylistResults().then(returnPlaylistnames(globalPlaylistNames))
-
-
-    //
-    // await returnPlaylistnames();
-    // addPlaylistsToDDM(globalPlaylistNames)
+    OnXevent()
 
   }
 
@@ -504,7 +325,8 @@ function onPressKeyEnter(){
 
 
 // assigns elements to names and assigns them their on X event.
-  async function OnXevent(){
+// async function OnXevent(){
+ function OnXevent(){
     var searchButton = document.getElementById('search_button');
     var DDButton = document.getElementById('DDButton');
     if(DDButton){
@@ -513,15 +335,6 @@ function onPressKeyEnter(){
     if (searchButton){
       onPressKeyEnter();
       searchButton.onclick = returnResults;
-      // await returnPlaylistnames()
-      // .then(addPlaylistsToDDM(globalPlaylistNames,globalresults))
-
     }
 
-
-
   }
-
-  // function go_to_playlists_page(){
-  //   window.location.replace("http://localhost:5000/api/playlist_menu_page")
-  // }

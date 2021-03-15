@@ -1,7 +1,7 @@
-var playlist_details= undefined;
-var metric = undefined;
-var results=undefined;
-all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
+// var playlist_details= undefined;
+// var metric = undefined;
+// var results=undefined;
+// all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
 
 
 
@@ -46,7 +46,7 @@ function get_one_playlist_details(){
 
 
 function load_data_into_chart(playlist_details){
-  console.log(results)
+  // console.log(results)
   if (playlist_details.length===0){
     window.alert("There are no songs in this playlist!")
   } else{
@@ -115,6 +115,7 @@ function load_data_into_chart(playlist_details){
 }}
 
 function returnPlaylistnames(){
+  all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
   {fetch(all_playlist_names_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
@@ -142,9 +143,5 @@ function load_all_options_into_DropDownPlaylist(results){
 
 async function initialize(){
   returnPlaylistnames()
-  // get_one_playlist_details()
-
-
-  // get_one_playlist_details()
 }
 window.onload=initialize

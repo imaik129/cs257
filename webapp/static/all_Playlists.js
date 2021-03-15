@@ -1,4 +1,4 @@
-all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
+// all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
 var globalPlaylistNames= [];
 
 
@@ -8,8 +8,22 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-async function returnPlaylistnames(){
-  {await fetch(all_playlist_names_url, {method: 'get'})
+// async function returnPlaylistnames(){
+//   {await fetch(all_playlist_names_url, {method: 'get'})
+//   .then((response) => response.json())
+//   .then(function(results){
+//     load_playlists_into_table(results);
+//     for (let item of results){
+//       globalPlaylistNames.push(item.playlist_name);
+//     }
+//     console.log(globalPlaylistNames)
+//   })
+//   }
+// }
+
+function returnPlaylistnames(){
+  all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
+  {fetch(all_playlist_names_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
     load_playlists_into_table(results);
@@ -59,20 +73,9 @@ function go_to_playlist(row){
   window.location.replace(url)
 }
 
-// function tester(item){
-//   var ul = document.getElementById("playlist_body");
-//   var li = document.createElement("li");
-//   var a_Tag = document.createElement("a");
-//   var href = "/api/specific_playlist_page?playlist=" + item;
-//   li.setAttribute('id', item);
-//   a_Tag.setAttribute("href", href);
-//   a_Tag.appendChild(document.createTextNode(item));
-//   li.appendChild(a_Tag);
-//   ul.appendChild(li);
-// }
+
 
 function delete_playlist(row){
-  // var playlist_name= row.parentNode.id
   var playlist_name=row.parentNode.parentNode.id
   var table= row.parentNode.parentNode.parentNode.id
   var tester = document.getElementById(playlist_name);
@@ -82,7 +85,6 @@ function delete_playlist(row){
   fetch(delete_url,options);
   index=globalPlaylistNames.indexOf(playlist_name)
   globalPlaylistNames.splice(index,1);
-  // table.removeChild(tester);
   deleteRow(playlist_name)
 }
 
@@ -114,10 +116,12 @@ function create_new_playlist(){
 
 
 
-async function initialize(){
-  returnPlaylistnames()
-  // load_playlists_into_table(globalPlaylistNames)
-}
+// async function initialize(){
+//   returnPlaylistnames()
+// }
 
+function initialize(){
+  returnPlaylistnames()
+}
 
 window.onload = initialize();
