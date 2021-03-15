@@ -108,16 +108,15 @@ header .overlay .overlay-content .flex-container{
   gap: 12px;
 }
 
+
 /* Styling for sub header  */
 header #SubHeader{
-  margin-top: 25px;
-  color: white;
+  color: black;
   background-color: #45A29E;
-  /* color:#1F2833; */
-  /* color:#66FCF1; */
-  /* background-color: #C5C6C7; */
+  background-color:rgb(0,128,128);
+  border: 4px solid #000;
+  margin-top: 25px;
 }
-
 /* styling for Top header */
 header #TopHeader{
   color: #45A29E;
@@ -127,7 +126,7 @@ header #TopHeader{
 /* specify attributes of the top panel object located in the top of the web page */
 header .TopPanel{
   display:fixed;
-  background-color: #1F2A33;
+  background-color: rgb(0,255,255,0.3);
   border-width: 100px;
   text-align: left;
   padding: 20px;
@@ -167,8 +166,13 @@ header .topnav .playlists a:hover + .DDM-content{
 
 
 /* styling for sub header in body */
-body h4{
+body h2{
   font-size: 40px;
+  color: white;
+}
+
+body h3{
+  font-size: 20px;
   color: white;
 }
 
@@ -187,7 +191,9 @@ body {
   background-size: cover;
 }
 
-
+body .pageHeader{
+  text-decoration: underline;
+}
 
 
 /* Table styling */

@@ -1,40 +1,28 @@
 AUTHORS: Kevin Phung, Kyosuke Imai
 
-*IMPORTANT: will need to import simplejson module for the program to work*
+*IMPORTANT*: Will need to import simplejson module for the program to work
 
-DATA: The dataset file contains more than 175000 songs collected from the Spotify Web API, each with individual metrics like tempo,danceability and popularity.
+DATA:
+  Description: The dataset file contains more than 175000 songs collected from the Spotify Web API, each with individual metrics like tempo, danceability and popularity.
+  Link to dataset: https://www.kaggle.com/yamaerenay/spotify-dataset-19212020-160k-tracks
+  Copyright Info.: Community Data License Agreement – Sharing – Version 1.0
 
-FEATURES CURRENTLY WORKING:
-- Search by Categories (Song,Artist,genre): Users can search for songs using one of the 3 categories and return data
+STATUS:
+  -Features Working:
+    >Search by Categories (Song,Artist,genre): Users can search for songs using one of the 3 Categories
 
-- Sort by X variable: Click on table headers to sort by ascending or descending order
+    >Sort search results: Users can sort all results by any one of the metrics(song_name, release_year, danceability, etc.)
 
-- Add/remove from playlist: Add songs or remove them from a playlist
+    >Create/Delete Playlists: Users can create and delete playlists dynamically
 
+    >Add/Delete from Playlist: Users can add and delete songs from playlist(no duplicates allowed)
 
-FEATURES NOT YET WORKING:
-- Login system : to handle multiple users
+    >Download Playlist Content as CSV file ("Playlist_Name.csv")
 
-- More playlist manipulation: Adding songs to different playlists and deleting them (Currently only 1 playlist exists)
-
-- Data visualizer : Option to create some basic graphs to compare statistics between playlists or artists
-
-- Faster and better searches: Search by artist currently takes a long time due to using double query instead of subqueries. Search by genre does not yet compile artists for songs with multiple artists
-
-- display x results: Adding pages to view more than top 50 results for search by artist and top 200 for songs and genres
-
-- Utilizing multiple templates: Plan on making playlists and their inventory a separate template along with data visualizer (would also fix some of our bugs when combined with URL redirects)
-
-- click 'enter' to search
-
-- sort playlist by most recent entry of songs
-
-- have a changing music quote in middle of home page
+    >Users can compare song metrics within one playlist using a visualizer.
 
 
-EXTRA DETAILS TO IMPLEMENT:
--Bug fixes (Some are a little weird)
+  -Features Not Implemented:
+    >long in/sign up function
 
--Proper await and promise functions. (which will hopefully solve most of the bugs)
-
--More detailed comments
+    >compare two playlists in data visualizer

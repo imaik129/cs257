@@ -1,4 +1,3 @@
-
 /*
     Authors: Kevin Phung, Kyosuke Imai
 */
@@ -17,21 +16,16 @@ header .playlists .DDM-content{
 /* specify attributes of the top panel object located in the top of the web page */
 header .TopPanel{
   display:fixed;
-  /* background-color: #E27D60; */
   background-color: #1F2A33;
   border-width: 100px;
   text-align: left;
   padding: 20px;
-  /* font-family:Impact; */
   font-family: Arial.;
-  /* font-family: Garamond.; */
   font-weight:bold;
   font-size: 20px;
-  /* color: black; */
   color:#66FCF1;
   width: 100%;
   height: 30%;
-  /* background-image: url("panel.jpg"); */
 }
 
 header .topnav{
@@ -59,18 +53,6 @@ header .DDM-content{
 header .topnav .playlists a:hover + .DDM-content{
   display:block;
 }
-/* header .DDM-content{
-  display: none;
-  position: absolute;
-}
-
-header .playlistDDM a:hover .DDM-content{
-  display:block;
-}
-
-/* header .topnav a:visited{
-  color:#778899;
-} */
 
 
 
@@ -82,15 +64,12 @@ header .flex-container{
   flex-wrap: nowrap;
   align-self: center;
   gap: 12px;
-  /* justify-content: center; */
 
 }
 
 /*
 specify attributes of the search_button */
 #search_button{
-  /* border: 3px solid #grey;
-  background-color: #white; */
   height:35px;
   width: 70px;
   display: block;
@@ -101,71 +80,39 @@ specify attributes of the search_button */
   background-color: #1F2A33;
 }
 
-#SubHeader{
-  color: #45A29E;
-  margin-top: 25px;
-  /* color: white;
-  background-color: #45A29E; */
-  /* color:#1F2833; */
-  /* color:#66FCF1; */
-  /* background-color: #C5C6C7; */
-}
-#TopHeader{
-  color: #45A29E;
-  text-decoration:underline;
-}
-#TopHeader2{
-  color: #45A29E;
-  text-decoration:underline;
-}
-#addToPLaylist{
-  display: incline-block;
-  top: 20px;
-  position:relative;
-  color: #66FCF1;
-  font-size: 25px;
-  text-align:left;
-  top:100%;
-  text-align:center;
-  background-color: #45A29E;
-  opacity:0.7;
-}
-
-#addToPLaylist a{
-  color: #F0F8FF;
-}
-#addToPLaylist a:hover{
-  color:#B22222;
-  opacity:1.0;
-}
-
-
-
 header #search_button:hover{
   background-color: #66FCF1 !important;
   color:black;
   border: 4px solid:#black;
 }
+
+#SubHeader{
+  color: #45A29E;
+  text-decoration: underline;
+}
+#TopHeader{
+  color: #45A29E;
+  text-decoration:underline;
+}
+
+
+
+
+
 /* specify attributes of the search bar  */
 header #search_string{
-    /* border: 2px solid grey; */
     font-size:15pt;
     height:35px;
     width: 500px;
     color: black;
     opacity: 0.8;
     background-color: #C5C6C7;
-    /* different color */
-    /* border: 1px solid #66FCF1;
-    background-color: #1F2A33; */
+
 }
 
 
 /* specify attributes of the drob down menu button */
 .DDButton {
-  /* background-color: #FFFAFA; */
-  /* color: black; */
-  /* border: 3px solid grey; */
 
   background-color: #1F2A33;
   border: 3px solid #66FCF1;
@@ -179,9 +126,6 @@ header #search_string{
 }
 /* specify attributes of the Drop Down Menu */
 .DropDownMenu{
-  /* border: 3px solid grey; */
-  /*bottom: 120px;
-  left:300px; */
   top: 20px;
   left:2px;
   position: relative;
@@ -216,7 +160,6 @@ body {
   margin: 40px;
   size: 100%;
   font-family: Helvetica;
-  /* background: #41B3A3; */
   background: #45A29E;
   background-image: url("bg.jpg");
   opacity: 0.7;
@@ -232,12 +175,8 @@ body .quote{
   font-size: 40px;
   text-align: center;
   position: static;
-  /* display:fixed;
-  left: 40%; */
-
   color: white;
-  /* font-family:Geneva; */
-  /* font-family:Impact; */
+
 }
 
 /* table stucture specifying color of columns, rows and hard coding in a index counter */
@@ -258,6 +197,7 @@ table.sortable tbody tr::before {
     counter-increment: sortabletablescope;
     display: table-cell;
     background-color: #f8f8ff;
+
 }
 
 
@@ -303,4 +243,9 @@ table.sortable tbody tr:nth-child(2n) td {
 table.sortable tbody tr:nth-child(2n+1) td {
   opacity: 0.8;
   background: #d3d3d3;
+}
+
+body h2{
+  font-size: 20px;
+  color: white;
 }

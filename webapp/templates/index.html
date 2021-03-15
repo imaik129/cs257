@@ -11,7 +11,8 @@
 </head>
 <header>
   <div class="TopPanel">
-  <h3 class = "title", id="top_header"><a id = "TopHeader" href = "/"> Spotify Music <br/>  Advanced Search </a> <br/><div id="SubHeader"> Home Page</div></h3>
+  <h1 class = "title", id="top_header"><a id = "TopHeader" href = "/"> Spotify Music <br/>  Advanced Search </a> <br/><div id="SubHeader">Home Page</div></h1>
+  <h2 id="instructions_header"><a id = "instructions"> Start Searching to add to your playlists!</h2>
   <div class="flex-container">
     <div>
       <div class = "DropDownMenu" id = "DropDownMenu">
@@ -36,7 +37,12 @@
   <nav class="topnav">
     <a>Home</a>
     <div class = "playlists">
-      <a href="/api/playlist_menu_page">Your Playlists</a>
+      <!-- <a onclick="go_to_playlists_page()">Your Playlists</a> -->
+      <a href="/api/playlist_menu_page">Add/Manage Playlists</a>
+        <!-- <div class = "DDM-content" id = "DDM-content">
+          <p id="playlist1"> Playlist1 </p>
+          <p id = "playlist2"> Playlist2 </p>
+        </div> -->
     </div>
     <a href="/api/data_visualizer">Data Visualizer</a>
     <a href="/api/help  ">Help</a>

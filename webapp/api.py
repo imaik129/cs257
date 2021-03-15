@@ -164,6 +164,7 @@ def get_song_in_playlist(playlist_name):
         print(e)
         exit()
 
+# UNDER CONSTRUCTION: Method to get information from 2 playlists to compare them against each other
 # def get_playlist_info_for_2_graph(playlist_1,playlist_2,metric):
 #     '''
 #     Get a cursor that contains all the song sort by year
@@ -449,7 +450,7 @@ def get_specific_playlist_info():
     cursor.close()
     return json.dumps(song_details_list_playlist)
 
-#
+# UNDER CONSTRUCTION: endpoint to get information from 2 playlists and specific metric to be compared
 # @api.route('/compare_playlists')
 # def two_playlists_info():
 #     """sends query to retrieve details for 2 specific playlists

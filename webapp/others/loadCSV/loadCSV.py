@@ -1,8 +1,7 @@
 import csv
-# import json
 import ast
 
-#read files ("ID","Name","Sex","Age","Height","Weight","Team","NOC","Games","Year","Season","City","Sport","Event","Medal")
+
 
 class song_row:
     def __init__(self, song_name, artist, release_year, popularity, tempo, duration,danceability):
@@ -37,13 +36,12 @@ def create_song_details_table(all_rows):
 
 
 class song_characteristics:
-	"""olympic game object that takes in year, season, and city of the given olympic game"""
 	def __init__(self, tempo, duration, danceability):
 		self.tempo = tempo
 		self.duration = duration
 		self.danceability = danceability
 
-# create an country table: ID, abrivated name, fully spelled country name (later),
+
 def create_song_characteristics_table(all_rows):
     song_characteristics_table = []
     song_characteristics_dict = {}
@@ -91,7 +89,6 @@ def create_artist_details_table(all_rows):
     return artist_details_table, artist_details_dict
 
 class artist_characteristics:
-	"""athlete object that takes in name and sex"""
 	def __init__(self, tempo, duration, danceability):
 		self.tempo = tempo
 		self.duration = duration
@@ -157,7 +154,6 @@ def create_genre_details_table(all_rows):
     return genre_details_table, genre_details_dict
 
 class genre_characteristics:
-	"""athlete object that takes in name and sex"""
 	def __init__(self, tempo, duration, danceability):
 		self.tempo = tempo
 		self.duration = duration
@@ -199,7 +195,7 @@ def make_csv_row(this_row):
 		return
 	out_csv_row = str(this_row[0])
 	for i in range(1, len(this_row)):
-		csv_save_cell = str(this_row[i]).replace(",", "").replace('"', "(", 1)
+		csv_save_cell = str(this_row[i]).replace(",", " ").replace('"', "(", 1)
 		csv_save_cell = csv_save_cell.replace('"', ")")
 		out_csv_row = out_csv_row + "," + csv_save_cell
 
@@ -207,10 +203,9 @@ def make_csv_row(this_row):
 
 def print_table(table_list, file_name, header_list):
 	"""print method to print the tables into a csv file given the table list, file name and the header of the individual columns """
-	# example header_list ["ID", "country_three_letter", "full country_name"]
 	num_col = len(table_list[0])
 	if num_col != len(header_list):
-		print("yooo! the number of cols between your list and header_list doesn't match!")
+		print("error. the number of cols between your list and header_list doesn't match!")
 		print(num_col)
 		print(len(header_list))
 		return
@@ -258,9 +253,11 @@ def main():
         if len(row) > 1:
             tempo= float(row[9])
             danceability=float(row[2])
+            duration= float(row[3])
             tempo= round(tempo,2)
             danceability=round(danceability,2)
-            this_row = artist_row(row[0], tempo, row[3], danceability,row[15])
+            duration= round(duration,1)
+            this_row = artist_row(row[0], tempo, duration, danceability,row[15])
             artist_rows.append(this_row)
 
     artist_details_table, artist_details_dict = create_artist_details_table(artist_rows)
@@ -280,9 +277,11 @@ def main():
         if len(row) > 1:
             tempo=float(row[9])
             danceability=float(row[2])
+            duration= float(row[3])
             tempo=round(tempo,2)
             danceability=round(danceability,2)
-            this_row = genre_row(row[0], tempo, row[3], danceability)
+            duration=round(duration,1)
+            this_row = genre_row(row[0], tempo, duration, danceability)
             genre_rows.append(this_row)
 
 
@@ -304,8 +303,5 @@ def main():
     print_table(artist_genre_linking_table, "artist_genre_link.csv", artist_genre_linking_table_header)
 
 
-    # song_artist_link_table = create_song_artist_link_table(song_rows, song_details_dict, artist_details_dict)
-    # song_artist_link_table_header = ["song_id", "artist_id"]
-    # print_table(song_artist_link_table, "song_artist_link.csv", song_artist_link_table_header)
 if __name__ == '__main__':
     main()
