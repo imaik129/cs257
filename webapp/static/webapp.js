@@ -6,8 +6,6 @@ var results_table_song= undefined;
 var results_table_artist= undefined;
 var results_table_genre= undefined;
 var songID_playlist_results = undefined;
-// var song_ids_and_playlist_names_url = getAPIBaseURL() + '/get_song_ids_by_playlist';
-// all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
 var globalPlaylistNames= undefined;
 
 
@@ -305,7 +303,6 @@ function returnResults(){
 
 
 // function that runs on initializing the window. Still trying to figure out how to stop the full window from loading until returnPlaylistResults receives a response
-// async function initialize(){
 function initialize(){
     loadAllPlaylists();
     returnPlaylistnames()
@@ -325,7 +322,6 @@ function onPressKeyEnter(){
 
 
 // assigns elements to names and assigns them their on X event.
-// async function OnXevent(){
  function OnXevent(){
     var searchButton = document.getElementById('search_button');
     var DDButton = document.getElementById('DDButton');

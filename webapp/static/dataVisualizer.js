@@ -1,7 +1,4 @@
-// var playlist_details= undefined;
-// var metric = undefined;
-// var results=undefined;
-// all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
+
 
 
 
@@ -10,27 +7,11 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-// async function get_both_playlist_details(){
-//   // get value playlist1
-//   // get value playlist2
-//   // get value metric
-//   url= getAPIBaseURL() + 'api/data_visualizer'
-//   const data= {playlist1, playlist2, metric};
-//   const options = {method: 'get', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
-//   await fetch(url,options)
-//   .then((response) => response.json())
-//   .then(function(results){
-//     playlist_details=results;
-//     console.log(playlist_details)
-// })
-// }
 
 //onclick func
 function get_one_playlist_details(){
   playlist1=document.getElementById('DDButtonPlaylist').value
   metric=document.getElementById('DDButtonMetric').value
-  // playlist1='a'
-  // metric='tempo'
   if (!(playlist1=='default' || metric=='default')){
   url= getAPIBaseURL() + '/graph_one_playlist?playlist1=' + playlist1 +'&metric=' + metric;
   console.log(url)
@@ -46,7 +27,6 @@ function get_one_playlist_details(){
 
 
 function load_data_into_chart(playlist_details){
-  // console.log(results)
   if (playlist_details.length===0){
     window.alert("There are no songs in this playlist!")
   } else{

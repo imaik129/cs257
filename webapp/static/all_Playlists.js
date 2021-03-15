@@ -1,4 +1,3 @@
-// all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
 var globalPlaylistNames= [];
 
 
@@ -8,18 +7,6 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-// async function returnPlaylistnames(){
-//   {await fetch(all_playlist_names_url, {method: 'get'})
-//   .then((response) => response.json())
-//   .then(function(results){
-//     load_playlists_into_table(results);
-//     for (let item of results){
-//       globalPlaylistNames.push(item.playlist_name);
-//     }
-//     console.log(globalPlaylistNames)
-//   })
-//   }
-// }
 
 function returnPlaylistnames(){
   all_playlist_names_url= getAPIBaseURL() + '/playlist_menu';
@@ -114,11 +101,6 @@ function create_new_playlist(){
   }
 }
 
-
-
-// async function initialize(){
-//   returnPlaylistnames()
-// }
 
 function initialize(){
   returnPlaylistnames()

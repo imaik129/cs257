@@ -7,15 +7,6 @@ function getAPIBaseURL() {
     return baseURL;
 }
 
-// async function returnPlaylistdata(){
-//   var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info"+ window.location.search;
-//   {await fetch(specific_playlist_url, {method: 'get'})
-//   .then((response) => response.json())
-//   .then(function(results){
-//     load_results_into_table_playlists(results)
-//   })
-//   }
-// }
 
 function returnPlaylistdata(){
   var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info"+ window.location.search;
@@ -68,10 +59,6 @@ function delete_from_playlist(row)
   button.style.display= 'none';
 }
 
-
-// async function initialize(){
-//   returnPlaylistdata()
-// }
 
 function initialize(){
   returnPlaylistdata()
