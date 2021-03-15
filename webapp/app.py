@@ -5,7 +5,6 @@ import flask
 import api
 
 app = flask.Flask(__name__, static_folder='static', template_folder='templates')
-# app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.register_blueprint(api.api, url_prefix='/api')
 
 # This route delivers the user your site's home page.
@@ -38,7 +37,7 @@ def shared_header_catchall(path):
         return flask.render_template('allPlaylists.html')
 
     elif path == 'api/specific_playlist_page':
-        return flask.render_template('YourPlaylist.html')
+        return flask.render_template('yourPlaylist.html')
 
     elif path == 'api/data_visualizer':
         return flask.render_template('dataVisualizer.html')

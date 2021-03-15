@@ -2,7 +2,9 @@
     Authors: Kevin Phung, Kyosuke Imai
 */
 
-.addPlaylistButton{
+
+/* Specify Attribues of overlay display in header*/
+header .addPlaylistButton{
   height:50px;
   width: 400px;
   display: block;
@@ -12,11 +14,17 @@
   border: 3px solid #66FCF1;
   background-color: #black;
 }
+header .addPlaylistButton{
+  font-size: 20px;
+  cursor: pointer;
+}
+/* change color of button on hover */
 header .addPlaylistButton:hover{
   background-color:#66FCF1;
   color:black;
 }
-.overlay {
+/* styling for overall overlay background */
+header .overlay {
   height: 100%;
   width: 100%;
   left:100px;
@@ -29,8 +37,8 @@ header .addPlaylistButton:hover{
   background-color: rgba(0,0,0, 0.9);
 }
 
-/* The content */
-.overlay-content {
+/* styling for the content of overlay */
+header .overlay-content {
   display: block;
   position: relative;
   top: 50%;
@@ -39,8 +47,8 @@ header .addPlaylistButton:hover{
   margin: auto;
 }
 
-/* Close button */
-.overlay .closebtn {
+/* styling for close button */
+header .overlay .closebtn {
   position: absolute;
   top: 20px;
   right: 45px;
@@ -49,34 +57,19 @@ header .addPlaylistButton:hover{
   color: white;
 }
 
-.addPlaylistButton{
-  font-size: 20px;
-  cursor: pointer;
-}
-
-
-.overlay .closebtn:hover {
+/* change color on hover of close button on hover */
+header overlay .closebtn:hover {
   color: #45A29E;
 }
 
-
-
-
-/* upload background image, specify font,size, & position */
-.title{
+/* font size of title */
+header .TopPanel .title{
   font-size: 50px;
 }
 
-.allPlaylists{
-  color: black;
-  background-color: white;
-}
-
 /*
-specify attributes of the search_button */
-#create_playlist{
-  /* border: 3px solid #grey;
-  background-color: #white; */
+specify attributes of the create playlist button */
+header #create_playlist{
   height:50px;
   width: 85px;
   display: block;
@@ -86,9 +79,15 @@ specify attributes of the search_button */
   border: 2px solid #66FCF1;
   background-color: #1F2A33;
 }
-/* specify attributes of the search bar  */
-#input_playlist_name{
-    /* border: 2px solid grey; */
+
+/* change color of create_playlist button on hover */
+header #create_playlist:hover{
+  background-color:#66FCF1;
+  color:black;
+}
+
+/* specify attributes of the input bar  */
+header #input_playlist_name{
     font-size:18pt;
     font-weight: 30px;
     height:50px;
@@ -97,15 +96,20 @@ specify attributes of the search_button */
     border: 3px solid #66FCF1;
     background-color: #C5C6C7;
     opacity: 0.8;
-    /* different color */
-    /* border: 1px solid #66FCF1;
-    background-color: #1F2A33; */
 }
 
+/* flex block elements for button and input bar */
+header .overlay .overlay-content .flex-container{
+  display: flex;
+  flex-direction: row;
+  float:center;
+  flex-wrap: nowrap;
+  align-self: center;
+  gap: 12px;
+}
 
-
-
-#SubHeader{
+/* Styling for sub header  */
+header #SubHeader{
   margin-top: 25px;
   color: white;
   background-color: #45A29E;
@@ -114,60 +118,25 @@ specify attributes of the search_button */
   /* background-color: #C5C6C7; */
 }
 
-#TopHeader{
+/* styling for Top header */
+header #TopHeader{
   color: #45A29E;
   text-decoration:underline;
 }
 
-body h4{
-  font-size: 40px;
-  color: white;
-}
-
-
-body {
-  margin: 40px;
-  size: 100%;
-  font-family: Helvetica;
-  /* background: #41B3A3; */
-  background: #45A29E;
-  background-image: url("bg.jpg");
-  opacity: 0.7;
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-/* specify the font size, position, and text color of quote in body object */
-
-header .playlists .DDM-content{
-  opactiy: 0.7;
-  background-color: black;
-}
-
-header #create_playlist:hover{
-  background-color:#66FCF1;
-  color:black;
-}
 /* specify attributes of the top panel object located in the top of the web page */
 header .TopPanel{
   display:fixed;
-  /* background-color: #E27D60; */
   background-color: #1F2A33;
   border-width: 100px;
   text-align: left;
   padding: 20px;
-  /* font-family:Impact; */
   font-family: Arial.;
-  /* font-family: Garamond.; */
   font-weight:bold;
   font-size: 20px;
-  /* color: black; */
   color:#66FCF1;
   width: 100%;
   height: 30%;
-  /* background-image: url("panel.jpg"); */
 }
 
 header .topnav{
@@ -197,26 +166,36 @@ header .topnav .playlists a:hover + .DDM-content{
 }
 
 
+/* styling for sub header in body */
+body h4{
+  font-size: 40px;
+  color: white;
+}
 
-/* create flex block consisted of search category drop down menu,
-search bar, and search button to position on same plane/row. */
-header .overlay .overlay-content .flex-container{
-  display: flex;
-  flex-direction: row;
-  float:center;
-  flex-wrap: nowrap;
-  align-self: center;
-  gap: 12px;
-  /* justify-content: center; */
-
+/* overall styling of body */
+body {
+  margin: 40px;
+  size: 100%;
+  font-family: Helvetica;
+  /* background: #41B3A3; */
+  background: #45A29E;
+  background-image: url("bg.jpg");
+  opacity: 0.7;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 
 
+
+/* Table styling */
 #playlist_table{
   width:100px;
 }
 
+/* styling for table header */
 thead th{
   width:500px;
   height:60px;
@@ -225,26 +204,30 @@ thead th{
   border: 1px solid #66FCF1;
   /* font-family:Georgia; */
 }
+
+/* styling for table body */
 tbody td{
   font-size: 30px;
   width:500px;
   height:50px;
   text-align:center;
   border: 3px solid #66FCF1;
-  /* font-family:Georgia; */
 }
+
+/* styling for each even row in table body */
 table.sortable tbody tr:nth-child(2n) td {
   opacity: 0.6;
   background: #002147;
-  /* color:#66FCF1; */
   color: #F0F8FF;
 }
+/* styling for every odd row in table body */
 table.sortable tbody tr:nth-child(2n+1) td {
   opacity: 0.6;
-  /* color: #66FCF1; */
   background: #002e63;
   color: #F0F8FF;
 }
+
+/* styling for table header */
 table.sortable thead {
     opacity: 0.9;
     background-color:#707070;
@@ -252,18 +235,19 @@ table.sortable thead {
     font-weight: bold;
     cursor: default;
 }
+/* change color of body on hover */
 table.sortable tbody:hover{
   background-color: #white;
 }
 
-body .playlists_table_body tr .button{
-  background-color:#red;
-}
-/* table.sortable tbody td:hover{
-  background-color: #red;
-} */
+/* change color of individual elements in table body on hover */
 #playlists_table_body td:hover{
   color:#00FFFF;
   text-decoration: underline;
   font-size:32px;
 }
+
+/* .allPlaylists{
+  color: black;
+  background-color: white;
+} */

@@ -23,9 +23,9 @@ def connection_to_database():
 
 def get_song_by_search():
     '''
-    Get a cursor that contains all the song sorted by popularity
+    Get a cursor that contains the top 150 songs sorted by popularity and song ID
     Returns:
-        cursor: the cursor object with song attribues to iterate over
+        cursor: the cursor object with song attributes to iterate over
     '''
     song_name = flask.request.args.get('search')
     song_name = '%' +  song_name + '%'
@@ -54,9 +54,9 @@ def get_song_by_search():
 
 def get_song_id_by_artist():
     '''
-    Get a cursor that contains all the song_ids of song in the playlist TABLE, sorted by song_id in ascending order
+    Get a cursor that contains the top 150 songs from artists that match the name sorted by popularity and song ID
     Returns:
-        cursor: the cursor object to iterate over
+        cursor: the cursor object with song attributes and artist attributes to iterate over
     '''
     artist_name = flask.request.args.get('search')
     artist_name = '%' +  artist_name + '%'
@@ -78,7 +78,7 @@ def get_song_id_by_artist():
             AND artist_details.artist_id=song_artist_link.artist_id AND song_details.song_id= song_artist_link.song_id \
 	    GROUP BY song_details.song_name, song_details.release_year, song_details.popularity,\
             song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability, song_details.song_id, SubQ.tempo, SubQ.duration, SubQ.danceability \
-            ORDER BY popularity DESC\
+            ORDER BY popularity DESC, song_details.song_id DESC\
             LIMIT 150;"
 
     connection = connection_to_database()
@@ -94,9 +94,9 @@ def get_song_id_by_artist():
 
 def get_song_by_genre():
     '''
-    Get a cursor that gets songs by its genre.
+    Get a cursor that contains the top 300 songs that have artists that have made music in that genre sorted by popularity and song ID
     Returns:
-        cursor: the cursor object to iterate over
+        cursor: the cursor object with song and genre attributes to iterate over
     '''
     genre_name = flask.request.args.get('search')
     genre_name = '%' +  genre_name + '%'
@@ -142,7 +142,7 @@ SELECT  song_details.song_name,SubQ1.genre_name,STRING_AGG(artist_details.artist
 
 def get_song_in_playlist(playlist_name):
     '''
-    Get a cursor that contains all the song sort by year
+    Get a cursor that contains all the songs from a specific playlist sorted by popularity and ID
     Returns:
         cursor: the cursor object to iterate over
     '''
@@ -164,34 +164,34 @@ def get_song_in_playlist(playlist_name):
         print(e)
         exit()
 
-def get_playlist_info_for_2_graph(playlist_1,playlist_2,metric):
-    '''
-    Get a cursor that contains all the song sort by year
-    Returns:
-        cursor: the cursor object to iterate over
-    '''
-    playlist_1= '%' + playlist_1 +'%'
-    playlist_2= '%' + playlist_2 +'%'
-    metric= 'song_characteristics.' + metric
-    query="\
-        With SubQ1 as (SELECT song_id,playlist_name FROM all_playlists WHERE playlist_name = %s OR playlist_name = %s ORDER BY song_id DESC OFFSET 2)\
-        SELECT SubQ1.playlist_name,song_details.song_name, song_details.song_id, %s\
-        FROM song_details,SubQ1,song_characteristics\
-        WHERE SubQ1.song_id = song_details.song_id AND song_details.song_id=song_characteristics.song_id\
-	    ORDER BY song_details.song_name DESC , song_details.song_id DESC;"
-
-    connection = connection_to_database()
-    try:
-        cursor = connection.cursor()
-        cursor.execute(query,(playlist_1,playlist_2,metric))
-        return cursor
-    except Exception as e:
-        print(e)
-        exit()
+# def get_playlist_info_for_2_graph(playlist_1,playlist_2,metric):
+#     '''
+#     Get a cursor that contains all the song sort by year
+#     Returns:
+#         cursor: the cursor object to iterate over
+#     '''
+#     playlist_1= '%' + playlist_1 +'%'
+#     playlist_2= '%' + playlist_2 +'%'
+#     metric= 'song_characteristics.' + metric
+#     query="\
+#         With SubQ1 as (SELECT song_id,playlist_name FROM all_playlists WHERE playlist_name = %s OR playlist_name = %s ORDER BY song_id DESC OFFSET 2)\
+#         SELECT SubQ1.playlist_name,song_details.song_name, song_details.song_id, %s\
+#         FROM song_details,SubQ1,song_characteristics\
+#         WHERE SubQ1.song_id = song_details.song_id AND song_details.song_id=song_characteristics.song_id\
+# 	    ORDER BY song_details.song_name DESC , song_details.song_id DESC;"
+#
+#     connection = connection_to_database()
+#     try:
+#         cursor = connection.cursor()
+#         cursor.execute(query,(playlist_1,playlist_2,metric))
+#         return cursor
+#     except Exception as e:
+#         print(e)
+#         exit()
 
 def get_playlist_info_for_1_graph(playlist_1):
     '''
-    Get a cursor that contains all the song sort by year
+    Get a cursor that contains certain song attributes that are used for the data visualizer
     Returns:
         cursor: the cursor object to iterate over
     '''
@@ -223,6 +223,10 @@ def get_help():
 
 @api.route('/search_songs')
 def song_results():
+    """gets a json list of dictionaries of song attributes.
+    If there are more than one artists assigned to the same song with
+    the same song_id, the artists will be concatonated.
+    """
     cursor=get_song_by_search()
     song_details_list = []
     for row in cursor:
@@ -271,6 +275,11 @@ def artist_results():
 
 @api.route('/search_genre')
 def genre_results():
+    """gets a json list of dictionaries of song and genre attributes.
+    If there are more than one artists assigned to the same song with
+    the same song_id, the artists will be concatonated. Same songs
+    may appear multiple times due to being in multiple genres
+    """
     cursor=get_song_by_genre()
     genre_details_list = []
     for row in cursor:
@@ -296,7 +305,8 @@ def genre_results():
 
 @api.route('/create_playlist')
 def create():
-    """sends query to create a playlist"""
+    """sends query to create a playlist of a specific name.
+    Returns a string if successful"""
     data= flask.request.get_json()
     playlist_name= data.get("new_playlist_name")
     query = "INSERT INTO all_playlists (playlist_name) VALUES (%s);"
@@ -313,7 +323,8 @@ def create():
 
 @api.route('/delete_playlist')
 def delete_playlist():
-    """sends query to delete a playlist"""
+    """sends query to delete a playlist.
+    Returns a string if successful"""
     data= flask.request.get_json()
     playlist_name= data.get("playlist_name")
     query = "DELETE FROM all_playlists WHERE playlist_name= %s ;"
@@ -330,7 +341,8 @@ def delete_playlist():
 
 @api.route('/insert_into_playlist')
 def insert():
-    """sends query to insert into playlist table dynamically"""
+    """sends query to insert song_id and its corresponding playlist into
+    all_playlists table dynamically.returns a string if successful"""
     data= flask.request.get_json()
     id= data.get("song_id")
     playlist_name= data.get("playlist_name")
@@ -350,7 +362,8 @@ def insert():
 
 @api.route('/delete_from_playlist')
 def delete():
-    """sends query to delete from a playlist"""
+    """sends query to delete song_id and its corresponding playlist from
+    all_playlists table dynamically.returns a string if successful"""
     data= flask.request.get_json()
     id= data.get("song_id")
     playlist_name= data.get("playlist_name")
@@ -370,7 +383,7 @@ def delete():
 @api.route('/get_song_ids_by_playlist')
 def retrieve():
     """sends query to retrieve all the song_ids and their playlist names
-    returns json list"""
+    returns json list of dictionaries"""
     query = "SELECT * FROM all_playlists;"
     connection = connection_to_database()
     try:
@@ -394,8 +407,8 @@ def retrieve():
 
 @api.route('/playlist_menu')
 def playlist_name_retriever():
-    """sends query to retrieve all the playlist names and total number of songs
-    returns json list"""
+    """sends query to retrieve all the playlist names and total number of songs in each playlist
+    returns json list of dictionaries"""
     query = "SELECT playlist_name, COUNT(*) FROM all_playlists GROUP BY playlist_name;"
     connection = connection_to_database()
     try:
@@ -415,9 +428,9 @@ def playlist_name_retriever():
     return json.dumps(songs_list)
 
 @api.route('/specific_playlist_info')
-def specific_playlist_info():
+def get_specific_playlist_info():
     """sends query to retrieve details for specific playlist
-    returns json list"""
+    returns json list of dictionaries"""
     playlist_name = flask.request.args.get('playlist')
     cursor=get_song_in_playlist(playlist_name)
     song_details_list_playlist = []
@@ -436,31 +449,31 @@ def specific_playlist_info():
     cursor.close()
     return json.dumps(song_details_list_playlist)
 
-
-@api.route('/compare_playlists')
-def two_playlists_info():
-    """sends query to retrieve details for 2 specific playlists
-    returns json list"""
-    playlist_1 = flask.request.args.get('playlist1')
-    playlist_2 = flask.request.args.get('playlist2')
-    metric = flask.request.args.get('metric')
-    cursor=get_playlist_info_for_2_graph(playlist_1,playlist_2,metric)
-    playlist_comparator_list = []
-    for row in cursor:
-        song_dict = {}
-        song_dict['playlist_name'] = row[0]
-        song_dict['song_name']= row[1]
-        song_dict['song_id'] = row[2]
-        song_dict[metric] = row[3]
-        playlist_comparator_list.append(song_dict)
-
-    cursor.close()
-    return json.dumps(playlist_comparator_list)
+#
+# @api.route('/compare_playlists')
+# def two_playlists_info():
+#     """sends query to retrieve details for 2 specific playlists
+#     returns json list"""
+#     playlist_1 = flask.request.args.get('playlist1')
+#     playlist_2 = flask.request.args.get('playlist2')
+#     metric = flask.request.args.get('metric')
+#     cursor=get_playlist_info_for_2_graph(playlist_1,playlist_2,metric)
+#     playlist_comparator_list = []
+#     for row in cursor:
+#         song_dict = {}
+#         song_dict['playlist_name'] = row[0]
+#         song_dict['song_name']= row[1]
+#         song_dict['song_id'] = row[2]
+#         song_dict[metric] = row[3]
+#         playlist_comparator_list.append(song_dict)
+#
+#     cursor.close()
+#     return json.dumps(playlist_comparator_list)
 
 @api.route('/graph_one_playlist')
 def one_playlists_info():
-    """sends query to retrieve details for 1 specific playlists
-    returns json list"""
+    """sends query to retrieve a fixed set of details for 1 specific playlist
+    returns json list of dictionaries"""
     playlist_1 = flask.request.args.get('playlist1')
     metric = flask.request.args.get('metric')
     cursor=get_playlist_info_for_1_graph(playlist_1)

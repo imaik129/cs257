@@ -4,36 +4,10 @@
 */
 
 /* upload background image, specify font,size, & position */
-.title{
+header .title{
   font-size: 50px;
 }
-body {
-  margin: 40px;
-  size: 100%;
-  font-family: Helvetica;
-  /* background: #41B3A3; */
-  background: #45A29E;
-  background-image: url("bg.jpg");
-  opacity: 0.7;
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-}
 
-/* specify the font size, position, and text color of quote in body object */
-body .quote{
-  display: absolute;
-  font-size: 40px;
-  text-align: center;
-  position: static;
-  /* display:fixed;
-  left: 40%; */
-
-  color: white;
-  /* font-family:Geneva; */
-  /* font-family:Impact; */
-}
 
 header .playlists .DDM-content{
   opactiy: 0.7;
@@ -102,7 +76,7 @@ header .playlistDDM a:hover .DDM-content{
 
 /* create flex block consisted of search category drop down menu,
 search bar, and search button to position on same plane/row. */
-.flex-container{
+header .flex-container{
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -173,7 +147,7 @@ header #search_button:hover{
   border: 4px solid:#black;
 }
 /* specify attributes of the search bar  */
-#search_string{
+header #search_string{
     /* border: 2px solid grey; */
     font-size:15pt;
     height:35px;
@@ -185,6 +159,7 @@ header #search_button:hover{
     /* border: 1px solid #66FCF1;
     background-color: #1F2A33; */
 }
+
 
 /* specify attributes of the drob down menu button */
 .DDButton {
@@ -237,6 +212,34 @@ header #search_button:hover{
 .DropDownMenu:hover .DDbutton{background-color: #3e8e41;}
 
 
+body {
+  margin: 40px;
+  size: 100%;
+  font-family: Helvetica;
+  /* background: #41B3A3; */
+  background: #45A29E;
+  background-image: url("bg.jpg");
+  opacity: 0.7;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+/* specify the font size, position, and text color of quote in body object */
+body .quote{
+  display: absolute;
+  font-size: 40px;
+  text-align: center;
+  position: static;
+  /* display:fixed;
+  left: 40%; */
+
+  color: white;
+  /* font-family:Geneva; */
+  /* font-family:Impact; */
+}
+
 /* table stucture specifying color of columns, rows and hard coding in a index counter */
 table.sortable tbody {
     counter-reset: sortabletablescope;
@@ -283,7 +286,6 @@ table.scroll tbody {
 table {
    width: 100%;
 }
-
 
 
 thead th{
