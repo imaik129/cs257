@@ -3,6 +3,10 @@ var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info"+ window.lo
 var globalPlaylistinfo= undefined;
 var delbutton= "d,";
 
+urlParams = new URLSearchParams(window.location.search);
+myParam = urlParams.get('playlist');
+
+
 function getAPIBaseURL() {
     var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
     return baseURL;
@@ -56,7 +60,9 @@ function load_results_into_table_playlists(globalPlaylistinfo){
 function delete_from_playlist(row)
 {
 	var song_id=row.parentNode.parentNode.id;
-  var playlist_name= specific_playlist_url.substr(-1);
+  param = new URLSearchParams(window.location.search);
+  playlist_name = param.get('playlist');
+  // var playlist_name= specific_playlist_url.substr(-1);
   delete_url= getAPIBaseURL() + '/delete_from_playlist'
   const data= {song_id,playlist_name};
   const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};

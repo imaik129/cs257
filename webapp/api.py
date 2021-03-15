@@ -130,6 +130,45 @@ SELECT  song_details.song_name,SubQ1.genre_name,STRING_AGG(artist_details.artist
         print(e)
         exit()
 
+#
+# def get_song_by_genre():
+#     '''
+#     Get a cursor that gets songs by its genre.
+#     Returns:
+#         cursor: the cursor object to iterate over
+#     '''
+#     genre_name = flask.request.args.get('search')
+#     genre_name = '%' +  genre_name + '%'
+#     query = "\
+#         With SubQ1 as (SELECT artist_details.artist_id, genre_details.genre_id,genre_details.genre_name, genre_characteristics.tempo,genre_characteristics.duration,\
+#     genre_characteristics.danceability\
+# 	FROM artist_details, genre_details, genre_characteristics, artist_genre_link\
+# 	WHERE  LOWER(genre_details.genre_name) LIKE LOWER(%s)\
+# 	AND genre_details.genre_id = genre_characteristics.genre_id\
+# 	AND artist_details.artist_id= artist_genre_link.artist_id\
+# 	AND genre_details.genre_id = artist_genre_link.genre_id\
+# 	ORDER BY artist_details.artist_id)\
+# SELECT  song_details.song_name,STRING_AGG(SubQ1.genre_name, ' and ') genre_name,STRING_AGG(artist_details.artist_name, ' and ') artist_name, song_details.release_year, song_details.popularity,\
+#         song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability,song_details.song_id\
+#         FROM song_details,song_characteristics,artist_details,song_artist_link,SubQ1\
+#         WHERE artist_details.artist_id= SubQ1.artist_id\
+#         AND song_details.song_id = song_characteristics.song_id\
+#         AND artist_details.artist_id = song_artist_link.artist_id\
+#         AND song_details.song_id = song_artist_link.song_id\
+# 	GROUP BY song_details.song_id,song_details.song_name,song_details.release_year, song_details.popularity,\
+#         song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability\
+#         ORDER BY song_details.popularity DESC ,song_details.song_id ASC\
+#         LIMIT 300;"
+
+    connection = connection_to_database()
+    try:
+        cursor = connection.cursor()
+        cursor.execute(query, (genre_name,))
+        return cursor
+    except Exception as e:
+        print(e)
+        exit()
+
 def get_song_in_playlist(playlist_name):
     '''
     Get a cursor that contains all the song sort by year
@@ -387,25 +426,30 @@ def delete():
 def retrieve():
     """sends query to retrieve all the song_ids and their playlist names
     returns json list"""
-    query = "SELECT * FROM all_playlists GROUP BY playlist_name;"
+    query = "SELECT * FROM all_playlists;"
     connection = connection_to_database()
     try:
         cursor = connection.cursor()
         cursor.execute(query)
-        songs_list=[]
+        songs_playlist_list_of_dict=[]
+
         for row in cursor:
-            songs_list.append(row[0])
+            song_playlist_dict = {}
+            song_playlist_dict['playlist_name'] = row[0];
+            song_playlist_dict['song_id'] = row[1];
+            songs_playlist_list_of_dict.append(song_playlist_dict);
+
         cursor.close()
     except Exception as e:
         print(e)
         exit()
 
-    return json.dumps(songs_list)
+    return json.dumps(songs_playlist_list_of_dict)
 
 
 @api.route('/playlist_menu')
 def playlist_name_retriever():
-    """sends query to retrieve all the playlist names and
+    """sends query to retrieve all the playlist names and total number of songs
     returns json list"""
     query = "SELECT playlist_name, COUNT(*) FROM all_playlists GROUP BY playlist_name;"
     connection = connection_to_database()

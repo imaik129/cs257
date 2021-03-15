@@ -12,6 +12,14 @@
   background-color: white;
 }
 
+#SubHeader{
+  color: white;
+  background-color: #45A29E;
+}
+#TopHeader{
+  color: #45A29E;
+  text-decoration:underline;
+}
 
 body {
   margin: 40px;
@@ -91,19 +99,6 @@ header .DDM-content{
 header .topnav .playlists a:hover + .DDM-content{
   display:block;
 }
-/* header .DDM-content{
-  display: none;
-  position: absolute;
-}
-
-header .playlistDDM a:hover .DDM-content{
-  display:block;
-}
-
-/* header .topnav a:visited{
-  color:#778899;
-} */
-
 
 
 /* create flex block consisted of search category drop down menu,
@@ -113,18 +108,18 @@ search bar, and search button to position on same plane/row. */
   flex-direction: row;
   flex-wrap: nowrap;
   align-self: center;
-  gap: 12px;
+  gap: 25px;
   /* justify-content: center; */
 
 }
 
 /*
 specify attributes of the search_button */
-#search_button{
+#Start_visualize{
   /* border: 3px solid #grey;
   background-color: #white; */
   height:35px;
-  width: 70px;
+  width: 80px;
   display: block;
   color:white;
   font-size:12pt;
@@ -132,17 +127,11 @@ specify attributes of the search_button */
   border: 2px solid #66FCF1;
   background-color: #1F2A33;
 }
-/* specify attributes of the search bar  */
-#search_string{
-    /* border: 2px solid grey; */
-    font-size:12pt;
-    height:35px;
-    width: 500px;
-    color: black;
-    background-color: #C5C6C7;
-    /* different color */
-    /* border: 1px solid #66FCF1;
-    background-color: #1F2A33; */
+
+#Start_visualize:hover{
+  background-color: #66FCF1;
+  color:black;
+  border: 4px solid:#black;
 }
 
 /* specify attributes of the drob down menu button */
@@ -191,21 +180,7 @@ specify attributes of the search_button */
   display: block;
   background-color:white;
 }
-table.sortable tbody tr:nth-child(2n) td {
-  opacity: 0.8;
-  background: #f8f8ff;
-}
-table.sortable tbody tr:nth-child(2n+1) td {
-  opacity: 0.8;
-  background: #d3d3d3;
-}
-table.sortable thead {
-    opacity: 0.9;
-    background-color:#707070;
-    color: #F5F5F5;
-    font-weight: bold;
-    cursor: default;
-}
+
 .DDContent a:hover {background-color: #ddd;}
 .playlists_table_body td:hover {background-color: #00FFFF;}
 .DropDownMenu:hover .DDContent {display: block;}
