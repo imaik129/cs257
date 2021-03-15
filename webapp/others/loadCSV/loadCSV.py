@@ -2,7 +2,7 @@ import csv
 import ast
 
 
-
+#main class for songs
 class song_row:
     def __init__(self, song_name, artist, release_year, popularity, tempo, duration,danceability):
         self.song_name = song_name
@@ -13,6 +13,7 @@ class song_row:
         self.duration = duration
         self.danceability = danceability
 
+# class which stores all song details
 class song_details:
     def __init__(self, name, artists_name, release_year,popularity):
         self.name = name
@@ -20,6 +21,7 @@ class song_details:
         self.release_year = release_year
         self.popularity= popularity
 
+#creates the song details table we use in the database
 def create_song_details_table(all_rows):
     song_details_table = []
     song_details_dict = {}
@@ -34,14 +36,14 @@ def create_song_details_table(all_rows):
     return song_details_table, song_details_dict
 
 
-
+# class which stores all song characteristics
 class song_characteristics:
 	def __init__(self, tempo, duration, danceability):
 		self.tempo = tempo
 		self.duration = duration
 		self.danceability = danceability
 
-
+#creates the song characteristics table we use in the database
 def create_song_characteristics_table(all_rows):
     song_characteristics_table = []
     song_characteristics_dict = {}
@@ -55,6 +57,7 @@ def create_song_characteristics_table(all_rows):
             index = index + 1
     return song_characteristics_table, song_characteristics_dict
 
+#main artist class
 class artist_row:
     def __init__(self, artist_name, tempo, duration,danceability,genres):
         self.artist_name = artist_name
@@ -63,7 +66,7 @@ class artist_row:
         self.danceability = danceability
         self.genres= genres
 
-
+#class which stores artist details
 class artist_details:
     def __init__(self, name,genres):
         self.name = name
@@ -75,6 +78,7 @@ class artist_details:
     def __eq__(self, other):
         return self.name == other
 
+# creates the artist details table we use in the database
 def create_artist_details_table(all_rows):
     artist_details_table = []
     artist_details_dict = {}
@@ -88,12 +92,14 @@ def create_artist_details_table(all_rows):
             index = index + 1
     return artist_details_table, artist_details_dict
 
+# Class which stores all artist characteristics
 class artist_characteristics:
 	def __init__(self, tempo, duration, danceability):
 		self.tempo = tempo
 		self.duration = duration
 		self.danceability = danceability
 
+#creates the artist characteristics table we use in the database
 def create_artist_characteristics_table(all_rows):
     artist_characteristics_table = []
     artist_characteristics_dict = {}
@@ -107,6 +113,7 @@ def create_artist_characteristics_table(all_rows):
             index = index + 1
     return artist_characteristics_table, artist_characteristics_dict
 
+#creates the song artist linking table we use in the database
 def create_song_artist_link_table(song_details_dict,artist_details_dict):
     link_table=[]
     for item in song_details_dict:
@@ -122,7 +129,7 @@ def create_song_artist_link_table(song_details_dict,artist_details_dict):
     return link_table
 
 #---------------------------------------------------------------------
-
+#main genre class
 class genre_row:
     def __init__(self, genre_name, tempo, duration,danceability):
         self.genre_name = genre_name
@@ -130,6 +137,7 @@ class genre_row:
         self.duration = duration
         self.danceability = danceability
 
+#class to store genre details
 class genre_details:
     def __init__(self, name):
         self.name = name
@@ -140,6 +148,7 @@ class genre_details:
     def __eq__(self, other):
         return self.name == other
 
+#Creates the genre details table we use in the database
 def create_genre_details_table(all_rows):
     genre_details_table = []
     genre_details_dict = {}
@@ -153,12 +162,14 @@ def create_genre_details_table(all_rows):
             index = index + 1
     return genre_details_table, genre_details_dict
 
+#class to store genre characteristics
 class genre_characteristics:
 	def __init__(self, tempo, duration, danceability):
 		self.tempo = tempo
 		self.duration = duration
 		self.danceability = danceability
 
+#Creates the genre characteristics table we use in the database
 def create_genre_characteristics_table(all_rows):
     genre_characteristics_table = []
     genre_characteristics_dict = {}
@@ -172,7 +183,7 @@ def create_genre_characteristics_table(all_rows):
             index = index + 1
     return genre_characteristics_table, genre_characteristics_dict
 
-
+#Creates the artist genre linking table we use in the database
 def create_artist_genre_link_table(artist_details_dict,genre_details_dict):
     link_table=[]
     for item in artist_details_dict:
@@ -189,6 +200,7 @@ def create_artist_genre_link_table(artist_details_dict,genre_details_dict):
 
 
 #---------------------------------------------------------
+#Makes the CSV rows that we'll be using
 def make_csv_row(this_row):
 	if len(this_row) < 1:
 		print("yooo! your row aint right!")
@@ -218,6 +230,7 @@ def print_table(table_list, file_name, header_list):
 		outfile.write(make_csv_row(row))
 	outfile.close()
 
+# main function that makes all the csv files used to upload into the database
 def main():
     #----------------------------------------------------------------------------
     song_rows = []
