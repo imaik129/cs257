@@ -39,6 +39,7 @@ def shared_header_catchall(path):
         return flask.render_template('allPlaylists.html')
 
     elif path == 'api/specific_playlist_page':
+        # playlist= flask.request.args.get('playlist')
         return flask.render_template('YourPlaylist.html')
 
     elif path == 'api/data_visualizer':

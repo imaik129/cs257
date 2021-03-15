@@ -228,12 +228,16 @@ def main():
     song_rows = []
     for song_roww in song_rows:
         print(song_roww)
-    with open('TestSearch.csv') as file:
+    with open('data.csv') as file:
         read_in_file = list((csv.reader(file, skipinitialspace=True)))
 
     for row in read_in_file[1:]:
         if len(row) > 1:
-            this_row = song_row(row[12], row[1], row[18], row[13], row[16], row[3], row[2])
+            tempo=float(row[16])
+            danceability=float(row[2])
+            tempo=round(tempo,2)
+            danceability=round(danceability,2)
+            this_row = song_row(row[12], row[1], row[18], row[13], tempo, row[3], danceability)
             song_rows.append(this_row)
 
 
@@ -252,7 +256,11 @@ def main():
 
     for row in read_in_file[1:]:
         if len(row) > 1:
-            this_row = artist_row(row[0], row[9], row[3], row[2],row[15])
+            tempo= float(row[9])
+            danceability=float(row[2])
+            tempo= round(tempo,2)
+            danceability=round(danceability,2)
+            this_row = artist_row(row[0], tempo, row[3], danceability,row[15])
             artist_rows.append(this_row)
 
     artist_details_table, artist_details_dict = create_artist_details_table(artist_rows)
@@ -270,7 +278,11 @@ def main():
 
     for row in read_in_file[1:]:
         if len(row) > 1:
-            this_row = genre_row(row[0], row[9], row[3], row[2])
+            tempo=float(row[9])
+            danceability=float(row[2])
+            tempo=round(tempo,2)
+            danceability=round(danceability,2)
+            this_row = genre_row(row[0], tempo, row[3], danceability)
             genre_rows.append(this_row)
 
 

@@ -12,6 +12,11 @@
   background-color: white;
 }
 
+body h4{
+  font-size: 40px;
+  color: white;
+}
+
 
 body {
   margin: 40px;
@@ -46,6 +51,9 @@ header .playlists .DDM-content{
   background-color: black;
 }
 
+header #create_playlist:hover{
+  background-color:#66FCF1;
+}
 /* specify attributes of the top panel object located in the top of the web page */
 header .TopPanel{
   display:fixed;
@@ -173,6 +181,7 @@ specify attributes of the search_button */
 }
 
 /* specify attributes of the Drop Down Menu content */
+
 .DDContent {
   display: none;
   position: absolute;
@@ -186,10 +195,27 @@ specify attributes of the search_button */
   !important;
   color: black;
   padding: 12px 16px;
-  font-size: 30px;
+  font-size: 60px;
   text-decoration: none;
   display: block;
   background-color:white;
+}
+#playlist_table{
+  width:100px;
+}
+
+thead th{
+  width:500px;
+  height:60px;
+  font-size:20px;
+  /* font-family:Georgia; */
+}
+tbody td{
+  font-size: 30px;
+  width:500px;
+  height:50px;
+  text-align:center;
+  /* font-family:Georgia; */
 }
 table.sortable tbody tr:nth-child(2n) td {
   opacity: 0.8;
@@ -205,6 +231,21 @@ table.sortable thead {
     color: #F5F5F5;
     font-weight: bold;
     cursor: default;
+}
+table.sortable tbody:hover{
+  background-color: #white;
+}
+
+body .playlists_table_body tr .button{
+  background-color:#red;
+}
+/* table.sortable tbody td:hover{
+  background-color: #red;
+} */
+#playlists_table_body td:hover{
+  color:#00FFFF;
+  text-decoration: underline;
+  font-size:32px;
 }
 .DDContent a:hover {background-color: #ddd;}
 .playlists_table_body td:hover {background-color: #00FFFF;}

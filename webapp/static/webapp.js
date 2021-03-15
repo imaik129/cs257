@@ -117,28 +117,43 @@ async function returnPlaylistnames(){
   .then((response) => response.json())
   .then(function(results){
     globalPlaylistNames=results;
-    console.log(results)
+    // console.log(results)
   })
   }
 }
 
 
 function addPlaylistToDDM(playlist_names, row){
+  var i = 0;
+  var listofOptions = [];
   for (let item of playlist_names){
     var song_id=row.parentNode.parentNode.id;
     var distinctID = "a," + song_id;
-    console.log(distinctID);
     var AddPlaylistDDM = document.getElementById(distinctID);
-    var newOption = document.createElement("option");
-    newOption.text = newOption.value = item;
-    AddPlaylistDDM.appendChild(newOption);
+    // var OptionValues = AddPlaylistDDM.options();
+    var values = Array.from(AddPlaylistDDM.options);
+    console.log("Values = " + values.length);
+    for (i = 0; i < values.length; i++){
+      var options = AddPlaylistDDM.options[i].text;
+      console.log("option = " + options);
+      listofOptions.push(options);
+    }
+    if(!listofOptions.includes(item.playlist_name)){
+      console.log("in if case");
+      var newOption = document.createElement("option");
+      newOption.text = newOption.value = item.playlist_name;
+      AddPlaylistDDM.appendChild(newOption);
+    }
+
   }
+
 }
 
 async function combinedAddPlaylistsToDDM(row){
   await returnPlaylistnames()
   addPlaylistToDDM(globalPlaylistNames, row)
 }
+
 
 
 
@@ -152,6 +167,7 @@ function insertIntoSelectedPlaylist(row){
   const data= {playlist_name, song_id};
   const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
   fetch(insert_url,options);
+
 }
 
 
@@ -167,15 +183,14 @@ function load_results_into_table_song(results){
     datahtml+= `<tr id=${item.song_id}>
     <td style="width:20%">${item.song_name}</td>
     <td style="width:15%">${item.artist_name}</td>
-    <td style="width:5%">${item.release_year}</td>
-    <td style="width:10%">${item.popularity}</td>
-    <td style="width:10%">${item.tempo}</td>
-    <td style="width:10%">${item.duration}</td>
-    <td style="width:10%">${item.danceability}</td>
-    <td><select id= ${exact_category} onclick="combinedAddPlaylistsToDDM(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td>
-    <td><button onclick = "insertIntoSelectedPlaylist(this)" style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
+    <td style="width:8%">${item.release_year}</td>
+    <td style="width:8%">${item.popularity}</td>
+    <td style="width:8%">${item.tempo}</td>
+    <td style="width:8%">${item.duration}</td>
+    <td tyle="width:8%">${item.danceability}</td>
+    <td style="width:15%"><select id= ${exact_category} onclick="combinedAddPlaylistsToDDM(this)" align='center' style= 'display:inline' style="width:20%" >Choose Playlist <option id = "default" value = "default"> Choose Playlist</option></select></td>
+    <td style="width:10%"><button onclick = "insertIntoSelectedPlaylist(this)" style= 'display:inline' style="width:20%" >Choose Playlist</button></td></tr>`;
     // <td><select id= ${exact_category} onload = "combinedAddPlaylistsToDDM()" onchange= "insert_into_playlist(this)" align='center' style= 'display:inline' style="width:20%" >Add to Playlist <option id = "default" value = "default"> Add to Playlist</option></select></td></tr>`;
-
     // <td><button onclick="insert_into_playlist(this)" align='center' id= ${exact_button} style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
 //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
     // if(playlist_songs.indexOf(item.song_id) >= 0){
@@ -225,9 +240,9 @@ function load_results_into_table_artist(results){
     <td><button onclick = "insertIntoSelectedPlaylist(this)" style= 'display:inline' style="width:20%" >Add to Playlist</button></td></tr>`;
 
     //checks if a song in the result is a song in the user's playlist.If true, it adds the song id to a list to remove the "add to playlist" button at the end
-    if(playlist_songs.indexOf(item.song_id) >= 0){
-      addbuttons_to_remove.push(exact_button);
-    }
+    // if(playlist_songs.indexOf(item.song_id) >= 0){
+    //   addbuttons_to_remove.push(exact_button);
+    // }
   }
   results_body_artist.innerHTML= datahtml;
   results_table_artist.style.display = "inline";
@@ -325,7 +340,7 @@ function load_results_into_table_playlists(playlist_results){
 //Deletes a song from the user's playlist via a JSON POST request
 function delete_from_playlist(row)
 {
-	var song_id=row.parentNode.parentNode.id;
+var song_id=row.parentNode.parentNode.id;
   var type = "delete"
   delete_url= getAPIBaseURL() + '/delete_from_playlist'
   const data= {song_id, type};
@@ -340,7 +355,7 @@ function delete_from_playlist(row)
 //Adds a song into the user's playlist via a JSON POST request.
 function insert_into_playlist(row)
 {
-	var song_id=row.parentNode.parentNode.id;
+var song_id=row.parentNode.parentNode.id;
   var type = "insert"
   insert_url= getAPIBaseURL() + '/insert_into_playlist'
   const data= {song_id, type};

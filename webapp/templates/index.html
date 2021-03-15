@@ -17,7 +17,6 @@
       <div class = "DropDownMenu" id = "DropDownMenu">
         <select class="DDButton" id = "DDButton">
         <div class = "DDContent" id = "DDContent">
-          <option value = "default"> Choose a Category </option>
           <option id = "DDSong" value = 'song' >Song Name </option>
           <option id = "DDArtist" value = 'artist' >Artist Name </option>
           <option id = "DDGenre" value = 'genre' >Genre Name </option>
@@ -29,13 +28,12 @@
         <p><input id="search_string" type="search" placeholder="Please Choose Category first" />
     </div>
     <div>
-        <p><button type="submit" id="search_button">Search</button></p>
+        <p><button type="submit" id="search_button" >Search</button></p>
     </div>
   </div>
 
 
   <nav class="topnav">
-    <!-- <a class="active">Home</a> -->
     <a>Home</a>
     <div class = "playlists">
       <!-- <a onclick="go_to_playlists_page()">Your Playlists</a> -->
@@ -61,14 +59,15 @@
     <table class="sortable" id="search_results_table_song" style="display:none">
       <thead id="header_song" >
         <tr>
-       <th style="width:20%">Song Name</th>
-       <th style="width:15%">Artist</th>
-       <th style="width:5%">Release Year</th>
-       <th style="width:10%">Popularity</th>
-       <th style="width:10%">Tempo</th>
-       <th style="width:10%">Duration</th>
-       <th style="width:10%">Danceability</th>
-       <th class="sorttable_nosort" style="width:20%">Add to Playlist</th>
+       <th >Song Name</th>
+       <th >Artist</th>
+       <th >Release Year</th>
+       <th>Popularity</th>
+       <th >Tempo</th>
+       <th >Duration</th>
+       <th>Danceability</th>
+       <th class="sorttable_nosort" >Choose Playlist</th>
+       <th class="sorttable_nosort" >Add</th>
       </tr>
    </thead>
  <tbody id="search_results_body_song"></tbody>
@@ -89,7 +88,8 @@
     <th>Artist Tempo (avg.)</th>
     <th>Artist Duration (avg.)</th>
     <th>Artist Danceability (avg.)</th>
-    <th class="sorttable_nosort">Add to Playlist</th>
+    <th class="sorttable_nosort" >Choose Playlist</th>
+    <th class="sorttable_nosort" >Add</th>
    </tr>
 </thead>
 <tbody id="search_results_body_artist"></tbody>
@@ -110,32 +110,14 @@
    <th>Genre Tempo(avg)</th>
    <th>Genre Duration(avg)</th>
    <th>Genre Danceability(avg)</th>
-   <th class="sorttable_nosort" >Add to Playlist</th>
+   <th class="sorttable_nosort" >Choose Playlist</th>
+   <th class="sorttable_nosort" >Add</th>
   </tr>
 </thead>
 <tbody id="search_results_body_genre"></tbody>
 
 </table>
 
-</div>
-
-<div id = "divider_for_playlists">
-<table class="sortable" id="playlist_table" style="display:none" >
-  <thead id="header_playlist" >
-    <tr>
-   <th>Song Name</th>
-   <th>Artist</th>
-   <th>Release Year</th>
-   <th>Popularity</th>
-   <th>Tempo</th>
-   <th>Duration</th>
-   <th>Danceability</th>
-   <th class="sorttable_nosort">Delete from Playlist</th>
-  </tr>
-</thead>
-<tbody id="playlist_body"></tbody>
-
-</table>
 </div>
 
 </body>

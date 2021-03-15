@@ -11,21 +11,21 @@
 </head>
 <header>
  <div class="TopPanel">
- <h3 class = "title" id="top_header">Spotify Music <br/>  Advanced Search  <br/> Your Playlists</h3>
+ <h3 class = "title" id="top_header">Spotify Music <br/>  Advanced Search  <br/> Home Page</h3>
  <div class="flex-container">
    <div>
        <p><input id="input_playlist_name" type="text" placeholder="Create a new playlist here" />
    </div>
    <div>
-       <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create</button></p>
+       <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create Playlist</button></p>
    </div>
  </div>
 
  <nav class="topnav">
    <a class="active" href="/">Home</a>
-
-  <a>Your Playlists</a>
-
+   <div class = "playlists">
+     <a>Your Playlists</a>
+   </div>
    <a href="/api/data_visualizer">Data Visualizer</a>
    <a href="/api/help">Help</a>
 

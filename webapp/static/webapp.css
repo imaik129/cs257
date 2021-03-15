@@ -126,6 +126,11 @@ specify attributes of the search_button */
   border: 2px solid #66FCF1;
   background-color: #1F2A33;
 }
+header #search_button:hover{
+  background-color: #66FCF1 !important;
+  color:black;
+  border: 4px solid:#black;
+}
 /* specify attributes of the search bar  */
 #search_string{
     /* border: 2px solid grey; */
@@ -191,21 +196,21 @@ specify attributes of the search_button */
 
 
 /* table stucture specifying color of columns, rows and hard coding in a index counter */
-/* table.sortable tbody {
+table.sortable tbody {
     counter-reset: sortabletablescope;
 }
 
 table.sortable thead tr::before {
     content: "";
     display: table-cell;
-    content: "ID#";
+    content: "No.";
     font-size: 12px;
-    display: block;
-} */
+    text-align: center;
+}
 
 table.sortable tbody tr::before {
-    /* content: counter(sortabletablescope);
-    counter-increment: sortabletablescope; */
+    content: counter(sortabletablescope);
+    counter-increment: sortabletablescope;
     display: table-cell;
     background-color: #f8f8ff;
 }
@@ -217,11 +222,13 @@ table.sortable th:not(.sorttable_sorted):not(.sorttable_sorted_reverse):not(.sor
 
 table.sortable thead {
     opacity: 0.9;
-    display:block;
+    display:table;
     background-color:#707070;
     color: #F5F5F5;
     font-weight: bold;
     cursor: default;
+    width:100%;
+
 }
 
 tbody {
@@ -245,6 +252,7 @@ tbody td{
 table.sortable tbody tr:nth-child(2n) td {
   opacity: 0.8;
   background: #f8f8ff;
+  
 }
 table.sortable tbody tr:nth-child(2n+1) td {
   opacity: 0.8;

@@ -118,7 +118,8 @@ SELECT  song_details.song_name,SubQ1.genre_name,STRING_AGG(artist_details.artist
         AND song_details.song_id = song_artist_link.song_id\
 	GROUP BY song_details.song_id,song_details.song_name,song_details.release_year, song_details.popularity,\
         song_characteristics.tempo, song_characteristics.duration,song_characteristics.danceability,SubQ1.tempo,SubQ1.duration,SubQ1.danceability,SubQ1.genre_name\
-        ORDER BY song_details.popularity DESC ,song_details.song_id ASC;"
+        ORDER BY song_details.popularity DESC ,song_details.song_id ASC\
+        LIMIT 300;"
 
     connection = connection_to_database()
     try:
@@ -135,7 +136,6 @@ def get_song_in_playlist(playlist_name):
     Returns:
         cursor: the cursor object to iterate over
     '''
-    playlist_name= '%' + playlist_name +'%'
     query="\
         With SubQ1 as (SELECT song_id FROM all_playlists WHERE playlist_name = %s ORDER BY song_id DESC OFFSET 1)\
         SELECT song_details.song_name,STRING_AGG(artist_details.artist_name, ' and ') artist_name,song_details.release_year, song_details.popularity,\
@@ -299,6 +299,7 @@ def create():
         cursor.execute(query, (playlist_name,))
         connection.commit()
         cursor.close()
+        return 'True'
     except Exception as e:
         print(e)
         exit()
@@ -316,6 +317,7 @@ def delete_playlist():
         a=cursor.execute(query, (playlist_name,))
         connection.commit()
         cursor.close()
+        return 'True'
     except Exception as e:
         print(e)
         exit()
@@ -335,6 +337,7 @@ def insert():
         # cursor.execute(query, (id,))
         connection.commit()
         cursor.close()
+        return 'True'
     except Exception as e:
         print(e)
         exit()
@@ -355,6 +358,7 @@ def delete():
         cursor.execute(query, (playlist_name,id))
         connection.commit()
         cursor.close()
+        return 'True'
     except Exception as e:
         print(e)
         exit()

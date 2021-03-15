@@ -1,6 +1,7 @@
 
-var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info";
+var specific_playlist_url= getAPIBaseURL()+ "/specific_playlist_info"+ window.location.search;
 var globalPlaylistinfo= undefined;
+var delbutton= "d,";
 
 function getAPIBaseURL() {
     var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api';
@@ -11,8 +12,9 @@ async function returnPlaylistdata(){
   {await fetch(specific_playlist_url, {method: 'get'})
   .then((response) => response.json())
   .then(function(results){
-    globalPlaylistinfo=results;
-    console.log(results)
+    // globalPlaylistinfo=results;
+    // console.log(results)
+    load_results_into_table_playlists(results)
   })
   }
 }
@@ -51,12 +53,24 @@ function load_results_into_table_playlists(globalPlaylistinfo){
 
 }
 
+function delete_from_playlist(row)
+{
+	var song_id=row.parentNode.parentNode.id;
+  var playlist_name= specific_playlist_url.substr(-1);
+  delete_url= getAPIBaseURL() + '/delete_from_playlist'
+  const data= {song_id,playlist_name};
+  const options = {method: 'post', headers: {'Content-type': 'application/json' },body: JSON.stringify(data)};
+  fetch(delete_url,options);
 
+  button=document.getElementById("d,"+ song_id);
+  button.style.display= 'none';
+}
 
 
 async function initialize(){
-  await returnPlaylistdata();
-  load_results_into_table_playlists(globalPlaylistinfo)
+  // await returnPlaylistdata();
+  // load_results_into_table_playlists(globalPlaylistinfo)
+  returnPlaylistdata()
 }
 
 
