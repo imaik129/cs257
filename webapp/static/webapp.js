@@ -24,9 +24,6 @@ function changePlaceHolder(){
   else if (chosenCategory.value == 'genre'){
     document.getElementById('search_string').placeholder = 'Search by genre name here (e.g Rock)';
   }
-  else if (chosenCategory.value == 'default'){
-    document.getElementById('search_string').placeholder = 'Please pick a Category first';
-  }
 
 }
 

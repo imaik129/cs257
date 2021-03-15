@@ -10,16 +10,48 @@
    <title>CS 257: Software Design</title>
 </head>
 <header>
+
  <div class="TopPanel">
  <h3 class = "title" id="top_header"><a id = "TopHeader" href = "/"> Spotify Music <br/>  Advanced Search </a>  <br/> <div id="SubHeader">Your Playlists</div></h3>
- <div class="flex-container">
+
+
+ <div id="createPlaylistBar" class="overlay" >
+   <span class="closebtn" onclick="closeSearch()" title="Close Overlay">x</span>
+   <div class="overlay-content">
+     <div class="flex-container">
+     <form action="/api/playlist_menu_page">
+       <div>
+           <p><input id="input_playlist_name" type="text" placeholder="Set Playlist Name" />
+       </div>
+       <div>
+           <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create Playlist</button></p>
+       </div>
+     </form>
+      </div>
+   </div>
+ </div>
+ <button class="addPlaylistButton" onclick="openSearch()">Add Playlist</button>
+
+
+ <!-- <div id="myOverlay" class="overlay">
+   <span class="closebtn" onclick="closeSearch()" title="Close Overlay">x</span>
+   <div class="overlay-content">
+     <form action="action_page.php">
+       <p><input id="input_playlist_name" type="text" placeholder="Set Playlist Name" />
+       <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create Playlist</button></p>
+     </form>
+   </div>
+ </div> -->
+
+
+ <!-- <div class="flex-container">
    <div>
        <p><input id="input_playlist_name" type="text" placeholder="Set Playlist Name" />
    </div>
    <div>
        <p><button type="submit" id="create_playlist" onclick= "create_new_playlist()">Create Playlist</button></p>
    </div>
- </div>
+ </div> -->
 
  <nav class="topnav">
    <a class="active" href="/">Home</a>
@@ -33,7 +65,8 @@
 </header>
 
 <body>
-  <h4 class= "pageHeader"> List Of All Playlists </h4>
+  <h4 class= "pageHeader">Manage Your Playlists</h4>
+
   <div class="flex-container">
   </div>
 

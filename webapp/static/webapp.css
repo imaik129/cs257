@@ -32,7 +32,7 @@ body .quote{
 
   color: white;
   /* font-family:Geneva; */
-  font-family:Impact;
+  /* font-family:Impact; */
 }
 
 header .playlists .DDM-content{
@@ -129,6 +129,7 @@ specify attributes of the search_button */
 
 #SubHeader{
   color: #45A29E;
+  margin-top: 25px;
   /* color: white;
   background-color: #45A29E; */
   /* color:#1F2833; */
@@ -139,6 +140,32 @@ specify attributes of the search_button */
   color: #45A29E;
   text-decoration:underline;
 }
+#TopHeader2{
+  color: #45A29E;
+  text-decoration:underline;
+}
+#addToPLaylist{
+  display: incline-block;
+  top: 20px;
+  position:relative;
+  color: #66FCF1;
+  font-size: 25px;
+  text-align:left;
+  top:100%;
+  text-align:center;
+  background-color: #45A29E;
+  opacity:0.7;
+}
+
+#addToPLaylist a{
+  color: #F0F8FF;
+}
+#addToPLaylist a:hover{
+  color:#B22222;
+  opacity:1.0;
+}
+
+
 
 header #search_button:hover{
   background-color: #66FCF1 !important;

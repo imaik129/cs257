@@ -101,6 +101,14 @@ function create_new_playlist(){
   }
 }
 
+function openSearch() {
+  document.getElementById("createPlaylistBar").style.display = "block";
+}
+
+function closeSearch() {
+  document.getElementById("createPlaylistBar").style.display = "none";
+}
+
 
 function initialize(){
   returnPlaylistnames()

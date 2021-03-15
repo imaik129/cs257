@@ -12,9 +12,10 @@
   background-color: white;
 }
 
-#SubHeader{
+header #SubHeader{
   color: white;
   background-color: #45A29E;
+  margin-top: 25px;
 }
 #TopHeader{
   color: #45A29E;
